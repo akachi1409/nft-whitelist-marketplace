@@ -1,0 +1,39 @@
+.mynft-layout{
+    background-color: transparent;
+    text-align: center;
+    padding-top: 2em;
+    padding-bottom: 2em;
+}
+.mynft-layout .mynft-title-layout{
+    display: flex;
+    flex-direction: column;
+}
+.mynft-layout .mynft-title{
+    font-size: 24px;
+    line-height: 32px;
+    color: white;
+    text-align: left;
+}
+
+.mynft-layout .mynft-text{
+    font-family: 'Lexend Deca';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 22px;
+    text-align: left;
+    color: rgba(255, 255, 255, 0.52);
+    padding-top: 1em;
+}
+
+.mynft-layout .mynft-empty{
+    font-size: 22px;
+    line-height: 32px;
+    color: red;
+}
+
+.mynft-layout .mynft-loading{
+    text-align: center;
+    margin: auto;
+    width: fit-content
+}

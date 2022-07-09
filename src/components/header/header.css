@@ -1,0 +1,37 @@
+.itemHeader-contanier{
+    background-color: transparent;
+    /* height: 300px; */
+    position: relative;
+}
+
+.itemHeader-contanier .itemHeader-layout{
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    text-align: left;
+    height: 100%;
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+.itemHeader-contanier .itemHeader-layout .itemHeader-title{
+    font-family: 'Lexend Deca';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 35px;
+    line-height: 44px;
+    /* identical to box height */
+
+
+    color: #FFFFFF;
+}
+.itemHeader-contanier .itemHeader-layout .itemHeader-text{
+    font-family: 'Lexend Deca';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 25px;
+    /* identical to box height */
+
+
+    color: #6BC562;
+}

@@ -1,0 +1,53 @@
+.App {
+  max-width: 1280px;
+  margin: auto;
+  background-color: transparent;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  /* background-color: #282c34; */
+  background-color: transparent;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+.row{
+  --bs-gutter-x: none!important;
+}
+
+.bottomBar{
+  /* position: absolute; */
+  width: 97px;
+  height: 0px;
+  left: 206px;
+  top: 359px;
+
+  border: 2px solid #68AE51;
+  text-align: center;
+}
+
+body{
+    background-image: url("./assets/bg.png")!important;
+    background-repeat: no-repeat;
+    background-size: cover;
+}

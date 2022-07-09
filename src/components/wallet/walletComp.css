@@ -1,0 +1,23 @@
+.walletComp-layout{
+    background-color: transparent;
+    text-align: center;
+    padding-top: 2em;
+    padding-bottom: 2em;
+}
+.walletComp-layout .walletComp-title-layout{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+}
+.walletComp-layout .walletComp-title{
+    font-size: 36px;
+    line-height:44px;
+    font-weight: bold;
+    color: white;
+}
+
+.walletComp-layout .walletComp-text{
+    font-size: 18px;
+    line-height: 28px;
+    color: #EBEBEB;
+}
