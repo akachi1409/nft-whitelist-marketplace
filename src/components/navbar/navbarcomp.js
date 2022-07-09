@@ -3,32 +3,32 @@ import { Nav, Navbar, NavDropdown, Container } from "react-bootstrap";
 
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { connect } from "../../redux/blockchain/blockchainActions"
 // import Web3 from "web3";
 // import Web3Modal from "web3modal";
 
-import getWeb3 from "../../util/getWeb3";
 import "./navbarcomp.css";
 
 function NavbarComp() {
   const blockchain = useSelector((state) => state.blockchain);
 
   let navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const onNav = (url) =>{
     navigate(url)
   }
 
   const onConnect = async() =>{
     try{
-      console.log("-------------", getWeb3())
-      const web3 = await getWeb3()
-      console.log("-------------", web3)
+      dispatch(connect());
       // Get network provider and web3 instance.
 
       // const web3 = await getWeb3();
 
       // Use web3 to get the user's accounts.
-      const accounts = await web3.eth.getAccounts();
-      console.log(accounts)
+      
       // Get the contract instance.
       // const instance = new web3.eth.Contract(
       //   abi,
