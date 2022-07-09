@@ -71,14 +71,14 @@ class Footer extends Component {
             </div>
             <Row>
               <p className="footer-sectiion1-text">
-                <span className="footer-sectiion1-span">NFTEE</span> is a connection from the past to the present to the future
+                <span className="footer-sectiion1-span">Robos</span> is a connection from the past to the present to the future
               </p>
             </Row>
           </section>
           <section className="footer-copyright">
             <Row>
               <p className="footer-copyright-text">
-              Copyright 2022 NFTEE. All Rights Reserved.
+              Copyright 2022 Robos. All Rights Reserved.
               </p>
             </Row>
           </section>

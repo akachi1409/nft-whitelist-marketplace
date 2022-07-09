@@ -119,11 +119,11 @@ function LiveAuctoion() {
                 Discorver, find,
               </h1>
               <h1 className="liveAuction-layout-title-violet">
-                My NFTEE
+                My Robos
               </h1>
-              <h1 className="liveAuction-layout-title-white">Monster NFTs</h1>
+              <h1 className="liveAuction-layout-title-white">Robos NFTs</h1>
               <p className="liveAuction-layout-text">
-                How to get NFTEE.
+                How to get Robos.
               </p>
               {/* <button
                 className="liveAuction-button1-layout"
