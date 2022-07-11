@@ -5,7 +5,7 @@ import { Container, Row, Col } from "react-bootstrap";
 
 import "./liveAuction.css";
 
-// import { useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 // import { useNavigate } from "react-router-dom";
 // import axios from "axios";
 // import ReactLoading from "react-loading";
@@ -20,7 +20,7 @@ function LiveAuctoion() {
   //   navigate("/explore");
   // };
 
-  // const blockchain = useSelector((state) => state.blockchain);
+  const blockchain = useSelector((state) => state.blockchain);
   // const data = useSelector((state) => state.data);
 
   // const [firstLoad, setFirstLoad] = useState(true);
@@ -115,6 +115,7 @@ function LiveAuctoion() {
         <Container className="liveAuction-layout-container">
           <Row>
             <Col lg="8">
+             
               <h1 className="liveAuction-layout-title-white">
                 Discorver, find,
               </h1>
@@ -122,9 +123,14 @@ function LiveAuctoion() {
                 My Robos
               </h1>
               <h1 className="liveAuction-layout-title-white">Robos NFTs</h1>
-              <p className="liveAuction-layout-text">
-                How to get Robos.
-              </p>
+              
+              {
+                blockchain.account !== null && (
+                  <p className="liveAuction-layout-text">
+                    {blockchain.account}
+                  </p>
+                )
+              }
               {/* <button
                 className="liveAuction-button1-layout"
                 onClick={() => onExplore()}

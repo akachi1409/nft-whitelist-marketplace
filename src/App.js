@@ -9,18 +9,12 @@ import Home from "./page/home/home";
 
 // import CreateItem from "./page/item/createItem";
 
-import ConnectWallet from "./page/wallet/connetWallet";
 function App() {
   return (
     <div>
       <Router>
         <Routes>
           {/* <Route exact path="/create_item" element={<CreateItem />}></Route> */}
-          <Route
-            exact
-            path="/connect_wallet"
-            element={<ConnectWallet />}
-          ></Route>
           <Route path="/*" element={<Home />}></Route>
         </Routes>
       </Router>

@@ -1,10 +1,7 @@
-// constants
-// import Web3EthContract from "web3-eth-contract";
-// import Web3 from "web3";
 import { fetchData } from "../data/dataActions";
-import getWeb3 from '../../util/getWeb3'
 
-require('dotenv').config()
+require("dotenv").config();
+
 const connectRequest = () => {
   return {
     type: "CONNECTION_REQUEST",
@@ -18,6 +15,20 @@ const connectSuccess = (payload) => {
   };
 };
 
+const disconnectRequest = () => {
+  return {
+    type: "DISCONNECTION_REQUEST",
+  };
+};
+
+const disconnectSuccess = (payload) => {
+  return {
+    type: "DISCONNECTION_SUCCESS",
+    payload: payload,
+  };
+};
+
+
 const connectFailed = (payload) => {
   return {
     type: "CONNECTION_FAILED",
@@ -25,41 +36,38 @@ const connectFailed = (payload) => {
   };
 };
 
-// const updateAccountRequest = (payload) => {
-//   return {
-//     type: "UPDATE_ACCOUNT",
-//     payload: payload,
-//   };
-// };
-
-export const connect = () => {
+export const connect = (address) => {
   return async (dispatch) => {
     dispatch(connectRequest());
     try {
-      const web3 = await getWeb3()
-      const accounts = await web3.eth.getAccounts();
-      console.log("-web3----", web3);
       dispatch(
         connectSuccess({
-          account: accounts[0],
-          // smartContract: SmartContractObj,
-          web3: web3,
+          account: address,
+          // injectedProvider: injectedProvider
         })
       );
-      // Add listeners start
-      // ethereum.on("accountsChanged", (accounts) => {
-      //   dispatch(updateAccount(accounts[0]));
-      // });
-      // ethereum.on("chainChanged", () => {
-      //   window.location.reload();
-      // });
-        // Add listeners end
-     
     } catch (err) {
-      dispatch(connectFailed("Something went wrong."));
+      dispatch(connectFailed("Something went wrong.", err));
     }
   };
 };
+
+export const disconnect = () =>{
+  return async(dispatch)=>{
+    dispatch(disconnectRequest());
+    try{
+      dispatch(disconnectSuccess())
+      // await web3Modal.clearCachedProvider();
+      // const provider = await web3Modal.connect();
+      // const injectedProvider = new ethers.providers.Web3Provider(provider)
+      // if (injectedProvider && injectedProvider.provider && typeof injectedProvider.provider.disconnect == "function") {
+      //   await injectedProvider.provider.disconnect();
+      // }
+    }catch(err){
+
+    }
+  }
+}
 
 export const updateAccount = (account) => {
   return async (dispatch) => {

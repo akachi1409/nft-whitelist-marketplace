@@ -1,10 +1,7 @@
 const initialState = {
   loading: false,
   account: null,
-  wallet:"",
-  smartContract: null,
-  akachiNFT: null,
-  web3: null,
+  injectedProvider: null,
   errorMsg: "",
 };
 
@@ -20,11 +17,20 @@ const blockchainReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         account: action.payload.account,
-        wallet: "Metamask",
-        smartContract: action.payload.smartContract,
-        akachiNFT: action.payload.akachiNFT,
-        web3: action.payload.web3,
+        injectedProvider: action.payload.injectedProvider
       };
+      case "DISCONNECTION_REQUEST":
+        return {
+          ...initialState,
+          loading: true,
+        };
+      case "DISCONNECTION_SUCCESS":
+        return {
+          ...state,
+          loading: false,
+          account: null,
+          injectedProvider: null
+        };
     case "CONNECTION_FAILED":
       return {
         ...initialState,
