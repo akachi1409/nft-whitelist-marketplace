@@ -6,7 +6,7 @@ export const INFURA_ID = "4e017fab80b44cfb8dd009a152149fb4";
 // BLOCKNATIVE ID FOR Notify.js:
 export const BLOCKNATIVE_DAPPID = process.env.REACT_APP_BLOCKNATIVE_DAPP;
 export const ALCHEMY_KEY = process.env.REACT_APP_ALCHEMY_KEY;
-
+export const CONTRACT_ADDRESS = "0x436f6a8e71F0c26b1690360166f6270021343AAA"
 export const NETWORKS = {
   mainnet: {
     name: "mainnet",

@@ -3,6 +3,7 @@ const initialState = {
   account: null,
   injectedProvider: null,
   errorMsg: "",
+  robosContract: null
 };
 
 const blockchainReducer = (state = initialState, action) => {
@@ -17,7 +18,7 @@ const blockchainReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         account: action.payload.account,
-        injectedProvider: action.payload.injectedProvider
+        robosContract: action.payload.robosContract
       };
       case "DISCONNECTION_REQUEST":
         return {
@@ -29,7 +30,7 @@ const blockchainReducer = (state = initialState, action) => {
           ...state,
           loading: false,
           account: null,
-          injectedProvider: null
+          robosContract: action.payload.robosContract
         };
     case "CONNECTION_FAILED":
       return {

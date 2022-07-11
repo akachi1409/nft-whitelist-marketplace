@@ -5,11 +5,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useUserProviderAndSigner } from "eth-hooks";
 import { connect, disconnect } from "../../redux/blockchain/blockchainActions"
+// import { fetchData } from "../../redux/data/dataActions"
 import "./navbarcomp.css";
 
 import { Web3ModalSetup } from "../../helpers";
 import { useStaticJsonRPC } from "../../hooks";
 import { NETWORKS, ALCHEMY_KEY } from "../../constants";
+import RobosNFT from "../../contracts/RobosNFT.json"
+import {CONTRACT_ADDRESS} from "../../constants"
+
 const { ethers } = require("ethers");
 
 const initialNetwork = NETWORKS.mainnet;
@@ -25,10 +29,12 @@ const providers = [
 ];
 
 
+
 function NavbarComp() {
   const networkOptions = [initialNetwork.name, "mainnet"];
 
   const [injectedProvider, setInjectedProvider] = useState();
+  // eslint-disable-next-line
   const [address, setAddress] = useState();
   // eslint-disable-next-line
   const [selectedNetwork, setSelectedNetwork] = useState(networkOptions[0]);
@@ -91,10 +97,11 @@ function NavbarComp() {
       console.log("---come")
       if (userSigner) {
         const newAddress = await userSigner.getAddress();
-        
+        const contract = new ethers.Contract(CONTRACT_ADDRESS, RobosNFT, injectedProvider);
+
         console.log(newAddress)
         setAddress(newAddress);
-        dispatch(connect(address));
+        dispatch(connect(newAddress, contract));
       }
     }
     getAddress();
@@ -127,6 +134,17 @@ function NavbarComp() {
   useEffect(()=>{
     console.log("blockchain", blockchain)
   }, [blockchain])
+
+  // eslint-disable-next-line
+  useEffect( async()=>{
+    if (blockchain.account !== null){
+      // dispatch(fetchData(blockchain.account))
+      console.log("blockchain", blockchain.robosContract)
+      let balance = await blockchain.robosContract.balanceOf(blockchain.account);
+      console.log("balance", balance)
+    }
+    // eslint-disable-next-line
+  },[blockchain.account])
   return (
     <>
       <Navbar bg="transparent" variant="light" className="navbar-layout">
@@ -136,9 +154,6 @@ function NavbarComp() {
           </Navbar.Brand>
             
           <Nav>
-            {/* <Nav.Link onClick = {()=> onNav("/")}>Home</Nav.Link> */}
-            {/* <Nav.Link onClick = {()=> onNav("/create_item")}>Create Item</Nav.Link> */}
-            {/* <Nav.Link href="/blog">Blog</Nav.Link> */}
           </Nav>
           <Nav>
           {blockchain.account === null  ? (

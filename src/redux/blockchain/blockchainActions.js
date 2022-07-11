@@ -1,5 +1,6 @@
 import { fetchData } from "../data/dataActions";
 
+// import Web3EthContract from "web3-eth-contract";
 require("dotenv").config();
 
 const connectRequest = () => {
@@ -36,13 +37,15 @@ const connectFailed = (payload) => {
   };
 };
 
-export const connect = (address) => {
+export const connect = (address, SmartContractObj) => {
   return async (dispatch) => {
     dispatch(connectRequest());
     try {
+      console.log("--", address, "--", SmartContractObj)
       dispatch(
         connectSuccess({
           account: address,
+          robosContract: SmartContractObj
           // injectedProvider: injectedProvider
         })
       );

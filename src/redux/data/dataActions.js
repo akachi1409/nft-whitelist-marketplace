@@ -1,5 +1,5 @@
 // log
-// import store from "../store";
+import store from "../store";
 
 const fetchDataRequest = () => {
   return {
@@ -25,12 +25,11 @@ export const fetchData = (account) => {
   return async (dispatch) => {
     dispatch(fetchDataRequest());
     try {
-      // const auctionAddress = []
-      // const auctionId = []
-      // let length = await store
-      //   .getState()
-      //   .blockchain.smartContract.methods.liveAuctionCount()
-      //   .call();
+      let balance = await store
+        .getState()
+        .blockchain.robosContract.methods.balanceOf(account)
+        .call();
+      console.log("balance: ", balance);
       // for (let index = 0 ; index<length ; index++) {
       //   let add = await getAddress(index);
       //   let id = await getId(index);
@@ -41,8 +40,7 @@ export const fetchData = (account) => {
 
       dispatch(
         fetchDataSuccess({
-          // auctionAddress:auctionAddress,
-          // auctionId:auctionId
+          balance: balance
         })
       );
     } catch (err) {
