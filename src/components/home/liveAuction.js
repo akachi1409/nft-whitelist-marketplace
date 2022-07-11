@@ -11,7 +11,7 @@ import { useSelector } from "react-redux";
 // import ReactLoading from "react-loading";
 // import { Modal, Button } from "react-bootstrap"
 // import RocketImg from "../../assets/header/arrow1.png";
-import ItemImg from "../../assets/item.png";
+import ItemImg from "../../assets/robocop.gif";
 
 function LiveAuctoion() {
   // const navigate = useNavigate();
