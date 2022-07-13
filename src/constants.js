@@ -7,6 +7,8 @@ export const INFURA_ID = "4e017fab80b44cfb8dd009a152149fb4";
 export const BLOCKNATIVE_DAPPID = process.env.REACT_APP_BLOCKNATIVE_DAPP;
 export const ALCHEMY_KEY = process.env.REACT_APP_ALCHEMY_KEY;
 export const CONTRACT_ADDRESS = "0x436f6a8e71F0c26b1690360166f6270021343AAA"
+export const ETHER_ADDRESS = "0x58B1D6C7279e20faCcD9b6Fb705d7ABC762843d1";
+export const CLANK_ADDRESS = "0x501a676687368905E74e1C1E30ae3D6AC5Ca2bBE"
 export const NETWORKS = {
   mainnet: {
     name: "mainnet",

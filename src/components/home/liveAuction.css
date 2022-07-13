@@ -14,7 +14,19 @@
     padding-bottom: 2em;
     border-bottom: 1px solid #4D7153;
 }
+.liveAuction-layout .liveAuction-layout-header .liveAuction-layout-container .liveAuction-layout-title-submit{
+    font-family: 'Lexend Deca';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 45px;
+    line-height: 61px;
 
+    background: linear-gradient(174.93deg, #6BC663 49.43%, #0A382E 95.93%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+}
 .liveAuction-layout .liveAuction-title-container{
     margin-top: 2em;
 }
@@ -23,6 +35,8 @@
     border-radius: 25.5px;
     width: fit-content;
     padding-left: 1em;
+    padding-right: 1em;
+    margin-right: 1em;
 }
 .liveAuction-layout .liveAuction-layout-header .button2-layout{
     border-radius: 30px;
@@ -118,4 +132,33 @@
 .liveAuction-layout .liveAuction-title-container .liveAuction-bar-layout{
     display: flex;
     flex-direction: column;
+}
+
+.nav-wallet{
+    border-radius: 10px;
+    border-color: #212529;
+    float: right;
+    padding : 0.8em;
+    background: linear-gradient(180deg, #79C652 0%, #325F50 100%);
+    color: white!important;
+    border-radius: 25.5px
+}
+
+.navbar-light .navbar-nav .nav-link{
+    color: white!important;
+}
+
+.navbar-light .navbar-nav .nav-link:hover{
+    color: blue!important;
+}
+
+.navbar-layout .navbar-home{
+    font-family: 'Lexend Deca';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 35px;
+    line-height: 44px;
+    /* identical to box height */
+    color: #FFFFFF;
+    cursor: pointer;
 }

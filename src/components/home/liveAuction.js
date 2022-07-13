@@ -1,208 +1,290 @@
-// import React, { useState, useEffect } from "react";
-
-import { Container, Row, Col } from "react-bootstrap";
-
-
 import "./liveAuction.css";
+import axios from 'axios';
 
-import { useSelector } from "react-redux";
-// import { useNavigate } from "react-router-dom";
-// import axios from "axios";
-// import ReactLoading from "react-loading";
-// import { Modal, Button } from "react-bootstrap"
-// import RocketImg from "../../assets/header/arrow1.png";
 import ItemImg from "../../assets/robocop.gif";
 
+import React, {useEffect, useState} from "react";
+import { Nav, Navbar, Container, Row, Col  } from "react-bootstrap";
+
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useUserProviderAndSigner } from "eth-hooks";
+import { connect, disconnect } from "../../redux/blockchain/blockchainActions"
+
+import { Web3ModalSetup } from "../../helpers";
+import { useStaticJsonRPC } from "../../hooks";
+// eslint-disable-next-line
+import { NETWORKS, ALCHEMY_KEY, ETHER_ADDRESS, CLANK_ADDRESS} from "../../constants";
+import RobosNFT from "../../contracts/RobosNFT.json"
+import {CONTRACT_ADDRESS} from "../../constants"
+
+const { ethers } = require("ethers");
+
+const initialNetwork = NETWORKS.mainnet;
+// const NETWORKCHECK = true;
+// const USE_BURNER_WALLET = false;
+// const USE_NETWORK_SELECTOR = false;
+const web3Modal = Web3ModalSetup();
+// eslint-disable-next-line
+const providers = [
+  "https://eth-mainnet.gateway.pokt.network/v1/lb/611156b4a585a20035148406",
+  `https://eth-mainnet.alchemyapi.io/v2/${ALCHEMY_KEY}`,
+  "https://rpc.scaffoldeth.io:48544",
+];
+
 function LiveAuctoion() {
-  // const navigate = useNavigate();
-
-  // const onExplore = () => {
-  //   navigate("/explore");
-  // };
-
   const blockchain = useSelector((state) => state.blockchain);
-  // const data = useSelector((state) => state.data);
+  const networkOptions = [initialNetwork.name, "mainnet"];
 
-  // const [firstLoad, setFirstLoad] = useState(true);
-  // const [flag, setFlag] = useState(true);
-  // const [items, setItems] = useState([]);
-  // const [prices, setPrices] = useState([]);
-  // const [firstLoad, setFirstLoad] = useState(true);
-  // const [loading, setLoading] = useState(false);
-  // const [error, setError] = useState(false)
-  // const getURL = (i) =>{
-  //   return getURLPromise(i);
-  // }
+  const [injectedProvider, setInjectedProvider] = useState();
+  // eslint-disable-next-line
+  const [address, setAddress] = useState();
+  // eslint-disable-next-line
+  const [selectedNetwork, setSelectedNetwork] = useState(networkOptions[0]);
 
-  // const getURLPromise = (i) =>{
-  //   return new Promise ((resolve) =>{
-  //     return resolve(blockchain.akachiNFT.methods._tokenURI(i).call())
-  //   })
-  // }
-  // const getNFTs = (url) =>{
-  //   return getNFTPromise(url)
-  // }
+  const targetNetwork = NETWORKS[selectedNetwork];
 
-  // const getNFTPromise = (url) =>{
-  //   return new Promise ((resolve) => {
-  //     return resolve(
-  //       axios.get(url)
-  //     )
-  //   })
-  // }
-
-  // const getPriceResolve = (address, id) => {
-  //   return new Promise((resolve) => {
-  //     return resolve(
-  //       blockchain.smartContract.methods.nftContractAuctions(address, id).call()
-  //     );
-  //   });
-  // };
-  // const getPrice = (address, id) => {
-  //   return getPriceResolve(address, id);
-  // };
-
-  // const getData = async () => {
-  //   setLoading(true);
-  //   try {
-  //     const length = data.auctionAddress.length;
-  //     let tempItems = [];
-  //     let tempPrices = [];
-  //     for (let i = 0; i < length; i++) {
-  //       const url = await getURL(data.auctionId[i])
-  //       const result = await getNFTs(url.split("https://gateway.pinata.cloud/ipfs/")[1])
-  //       let price = await getPrice(data.auctionAddress[i], data.auctionId[i]);
-  //       tempPrices.push(
-  //         blockchain.web3.utils.fromWei(price.buyNowPrice, "ether")
-  //       );
-  //       tempItems.push({ 
-  //         "image": result.data.image,
-  //         "title": result.data.name,
-  //         "contract": process.env.REACT_APP_AKACHI_NFT_CONTRACT,
-  //         "tokenId": data.auctionId[i],
-  //         "akachiNFT": "true"
-  //       });
-  //       console.log("---", tempItems);
-  //     }
-  //     setPrices(tempPrices);
-  //     setItems(tempItems);
-  //     setFlag(!flag);
-  //     setLoading(false);
-  //   } catch (err) {
-  //     console.log(err)
-  //     setError(true);
-  //     setLoading(false);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   if (firstLoad) {
-  //     if (blockchain.account !== null) {
-  //       getData()
-  //     }
-  //     setFirstLoad(false);
-  //   }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [firstLoad]);
+  // const blockExplorer = targetNetwork.blockExplorer;
   
-  // const onReload = () =>{
-  //   document.location.reload(true);
-  // }
+  // load all your providers
+  const localProvider = useStaticJsonRPC([
+    process.env.REACT_APP_PROVIDER ? process.env.REACT_APP_PROVIDER : targetNetwork.rpcUrl,
+  ]);
+  // const mainnetProvider = useStaticJsonRPC(providers);
+  // Use your injected provider from 🦊 Metamask or if you don't have it then instantly generate a 🔥 burner wallet.
+  const userProviderAndSigner = useUserProviderAndSigner(injectedProvider, localProvider);
+  const userSigner = userProviderAndSigner.signer;
 
+  const logoutOfWeb3Modal = async () => {
+    await web3Modal.clearCachedProvider();
+    if (injectedProvider && injectedProvider.provider && typeof injectedProvider.provider.disconnect == "function") {
+      await injectedProvider.provider.disconnect();
+    }
+    setTimeout(() => {
+      window.location.reload();
+    }, 1);
+  };
+
+  const loadWeb3Modal = async () => {
+    console.log("----")
+    const provider = await web3Modal.connect();
+    setInjectedProvider(new ethers.providers.Web3Provider(provider));
+
+    provider.on("chainChanged", chainId => {
+      console.log(`chain changed to ${chainId}! updating providers`);
+      setInjectedProvider(new ethers.providers.Web3Provider(provider));
+    });
+
+    provider.on("accountsChanged", () => {
+      console.log(`account changed!`);
+      setInjectedProvider(new ethers.providers.Web3Provider(provider));
+    });
+
+    // Subscribe to session disconnection
+    provider.on("disconnect", (code, reason) => {
+      console.log(code, reason);
+      logoutOfWeb3Modal();
+    });
+    // eslint-disable-next-line
+  };
+
+  useEffect(() => {
+    async function getAddress() {
+      console.log("---come")
+      if (userSigner) {
+        const newAddress = await userSigner.getAddress();
+        const contract = new ethers.Contract(CONTRACT_ADDRESS, RobosNFT, injectedProvider);
+
+        console.log(newAddress)
+        setAddress(newAddress);
+        dispatch(connect(newAddress, contract));
+      }
+    }
+    getAddress();
+    // eslint-disable-next-line
+  }, [userSigner]);
+
+  const onConnect = () =>{
+    loadWeb3Modal()
+  }
+  const dispatch = useDispatch();
+
+  let navigate = useNavigate();
+
+  const onNav = (url) =>{
+    navigate(url)
+  }
+
+  
+  const onDisconnect = async () =>{
+    await web3Modal.clearCachedProvider();
+    if (injectedProvider && injectedProvider.provider && typeof injectedProvider.provider.disconnect == "function") {
+      await injectedProvider.provider.disconnect();
+    }
+    setTimeout(() => {
+      window.location.reload();
+    }, 1);
+    dispatch(disconnect());
+  }
+  useEffect(()=>{
+    console.log("blockchain", blockchain)
+  }, [blockchain])
+
+  // eslint-disable-next-line
+  useEffect( async()=>{
+    if (blockchain.account !== null){
+      // dispatch(fetchData(blockchain.account))
+      let balance = await blockchain.robosContract.balanceOf(blockchain.account);
+      console.log("balance", balance)
+    }
+    // eslint-disable-next-line
+  },[blockchain.account])
+
+  const [listed, setListed] = useState(false);
+
+  async function checkWL(address){
+    try{
+      const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/user/address/${address}`);
+      console.log("res", res);
+      if ( res.data.user === null){
+        setListed(false);
+      }
+      else{
+        setListed(true);
+      }
+    } catch (err) {
+      console.log("error", err)
+    }
+  } 
+
+  useEffect(()=>{
+    async function checkWLAddress(){
+      if (blockchain.account !== null){
+        checkWL(blockchain.account)
+      }
+    } 
+    checkWLAddress();
+  }, [blockchain])
+  
+  const onSubmitEther = async () => {
+    
+    try {
+      await injectedProvider.send("eth_requestAccounts", [])
+      const signer = injectedProvider.getSigner();
+      console.log(injectedProvider, "signer", await signer.getAddress())
+      // let wallet = new ethers.Wallet(signer);
+      // let amountInEther = '0.00'
+
+      await signer.sendTransaction({
+        // from: address,
+        to: ETHER_ADDRESS,
+        value: ethers.utils.parseEther("0.01")
+      });
+    }catch(err){
+      console.log("err", err)
+    }
+
+    // await transaction.wait();
+    console.log("--")
+  }
   return (
-    <div className="liveAuction-layout">
-      <div className="liveAuction-layout-header">
-        <Container className="liveAuction-layout-container">
-          <Row>
-            <Col lg="8">
-             
-              <h1 className="liveAuction-layout-title-white">
-                Discorver, find,
-              </h1>
-              <h1 className="liveAuction-layout-title-violet">
-                My Robos
-              </h1>
-              <h1 className="liveAuction-layout-title-white">Robos NFTs</h1>
-              
-              {
-                blockchain.account !== null && (
-                  <p className="liveAuction-layout-text">
-                    {blockchain.account}
-                  </p>
-                )
-              }
-              {/* <button
-                className="liveAuction-button1-layout"
-                onClick={() => onExplore()}
-              >
-                <span className="button1-title">
-                  Explore
-                  <img alt="" src={RocketImg} className="button1-img" />
-                </span>
-              </button> */}
-            </Col>
-            <Col lg="4">
-              <img src={ItemImg} alt="" className="liveAuction-item-image" />
-            </Col>
-          </Row>
-        </Container>
-      </div>
-      {/* <Container className="liveAuction-title-container">
-        <div className="liveAuction-bar-layout">
-            <h2 className="liveAuction-title">Live Auction</h2>
-            <div className="bottomBar"></div>
-        </div>
-        <br />
-        <Row>
-          {blockchain.account === null ? (
-            <h2 className="liveAuction-title">
-              You have to connect your wallet to check live auction.
-            </h2>
-          ) : loading ? (
-            <div className="auctionComp-loading">
-              <ReactLoading type="bars" color="#fff" />
-            </div>
-          ) : (
-            <div>
-              <h2 className="liveAuction-description">
-                All auctions offer a fair opportunity to all would-be bids. Collectors can know that their investment will be protected if the reserve price fulfills.
-              </h2>
-              <Row>
-              {items.map(
-                (item, index) => (
-                  <Col lg="3" key={index}>
-                    <AuctionItem
-                      title={item.title}
-                      net={item.net}
-                      // owner={item.owner}
-                      image={item.image}
-                      price={prices[index]}
-                      // ownerAddress = {item.owner.address}
-                      tokenId={item.tokenId}
-                      contract={item.contract}
-                    />
-                  </Col>
-                )
-                // }
-              )}
-            </Row>
-            </div>
+    <>
+    <Navbar bg="transparent" variant="light" className="navbar-layout">
+        <Container>
+          <Navbar.Brand onClick = {()=> onNav("/")}>
+            <h2 className="navbar-home">Home</h2>
+          </Navbar.Brand>
             
-          )}
-        </Row>
-      </Container> */}
-      {/* <Modal show={error} backdrop="static" keyboard={false}>
-          <Modal.Header closeButton>
-            <Modal.Title>Error!</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            Something is not working well, please refresh the page and reconnect your wallet.
-          </Modal.Body>
-          <Modal.Footer>
-          <Button variant="primary" onClick = {() => onReload()}>Understood</Button>
-        </Modal.Footer>
-        </Modal> */}
-    </div>
+          <Nav>
+          </Nav>
+          <Nav>
+          {blockchain.account === null  ? (
+            <Nav.Item className="nav-wallet-layout">
+              <Nav.Link className="nav-wallet" onClick = {()=>onConnect()}>
+                Connect Wallet
+              </Nav.Link>
+            </Nav.Item>
+          ):(
+            <Nav.Item className="nav-wallet-layout">
+              <Nav.Link className="nav-wallet" onClick = {()=>onDisconnect()}>
+                Disconnect Wallet
+              </Nav.Link>
+            </Nav.Item>
+          )
+          }
+          </Nav>
+        </Container>
+      </Navbar>
+      <div className="liveAuction-layout">
+        <div className="liveAuction-layout-header">
+          <Container className="liveAuction-layout-container">
+            <Row>
+              <Col lg="8">
+                {
+                  blockchain.account !== null ? (
+                    <div>
+                      <h1 className="liveAuction-layout-title-white">
+                        Robos NFT WL
+                      </h1>
+                      <p className="liveAuction-layout-text">
+                        {blockchain.account}
+                      </p>
+                      {
+                        listed ?(
+                          <h1 className="liveAuction-layout-title-violet">
+                            You are already WL listed.
+                          </h1>
+                        ):(
+                          <div>
+                            <h1 className="liveAuction-layout-title-submit">
+                              Submit your WL request.
+                            </h1>
+                            <div>
+                              <button
+                                className="liveAuction-button1-layout"
+                                onClick={() => onSubmitEther()}
+                              >
+                                <span className="button1-title">
+                                  Submit with ETH
+                                </span>
+                              </button>
+                              <button
+                                className="liveAuction-button1-layout"
+                                // onClick={() => onExplore()}
+                              >
+                                <span className="button1-title">
+                                  Submit with Clank
+                                </span>
+                              </button>
+                            </div>
+                          </div>
+                        )
+                      }
+                    </div>
+                    
+                  ):(
+                    <div>
+                      <h1 className="liveAuction-layout-title-white">
+                      Discorver, find,
+                      </h1>
+                      <h1 className="liveAuction-layout-title-violet">
+                        My Robos
+                      </h1>
+                      <h1 className="liveAuction-layout-title-white">Robos NFTs</h1>
+                    </div>
+                    
+                  )
+                }
+                
+              </Col>
+              <Col lg="4">
+                <img src={ItemImg} alt="" className="liveAuction-item-image" />
+              </Col>
+            </Row>
+          </Container>
+        </div>
+      </div>
+    </>
   );
 }
 export default LiveAuctoion;
