@@ -1,4 +1,4 @@
-import "./liveAuction.css";
+import "./homePage.css";
 import axios from 'axios';
 
 import ItemImg from "../../assets/robocop.gif";
@@ -36,7 +36,7 @@ const providers = [
 
 
 
-function LiveAuctoion() {
+function HomePage() {
   const blockchain = useSelector((state) => state.blockchain);
   const networkOptions = [initialNetwork.name, "mainnet"];
 
@@ -147,14 +147,14 @@ function LiveAuctoion() {
  
 
   // eslint-disable-next-line
-  useEffect( async()=>{
-    if (blockchain.account !== null){
+  // useEffect( async()=>{
+    // if (blockchain.account !== null){
       // dispatch(fetchData(blockchain.account))
-      let balance = await blockchain.robosContract.balanceOf(blockchain.account);
+      // let balance = await blockchain.robosContract.balanceOf(blockchain.account);
       // console.log("balance", balance)
-    }
+    // }
     // eslint-disable-next-line
-  },[blockchain.account])
+  // },[blockchain.account])
 
   const [listed, setListed] = useState(false);
 
@@ -198,6 +198,10 @@ function LiveAuctoion() {
   }, [blockchain])
   
   const onSubmitEther = async () => {
+    if (wlNum === limit){
+      notify("No more WL spot for this project.");
+      return;
+    }
     try {
       await injectedProvider.send("eth_requestAccounts", [])
       const signer = injectedProvider.getSigner();
@@ -225,6 +229,10 @@ function LiveAuctoion() {
   }
 
   const onSubmitClank = async () =>{
+    if (wlNum === limit){
+      notify("No more WL spot for this project.");
+      return;
+    }
     try{
       const contract = new ethers.Contract(CLANK_CONTRACT_ADDRESS, ClankToken, injectedProvider);
       const signer = injectedProvider.getSigner(0);
@@ -348,4 +356,4 @@ function LiveAuctoion() {
     </>
   );
 }
-export default LiveAuctoion;
+export default HomePage;

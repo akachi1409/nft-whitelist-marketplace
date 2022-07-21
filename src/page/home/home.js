@@ -1,12 +1,12 @@
 import React from "react";
 
-import LiveAuction from "../../components/home/liveAuction"
+import HomePage from "../../components/home/homePage"
 import Footer from "../../components/footer/footer";
 
 function Home() {
     return (
         <div>
-            <LiveAuction/>
+            <HomePage/>
             <Footer/>
         </div>
     )
