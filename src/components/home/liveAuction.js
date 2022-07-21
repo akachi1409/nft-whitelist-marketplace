@@ -5,7 +5,7 @@ import ItemImg from "../../assets/robocop.gif";
 
 import React, {useEffect, useState} from "react";
 import { Nav, Navbar, Container, Row, Col  } from "react-bootstrap";
-
+import delay from "delay";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useUserProviderAndSigner } from "eth-hooks";
@@ -14,10 +14,12 @@ import { connect, disconnect } from "../../redux/blockchain/blockchainActions"
 import { Web3ModalSetup } from "../../helpers";
 import { useStaticJsonRPC } from "../../hooks";
 // eslint-disable-next-line
-import { NETWORKS, ALCHEMY_KEY, ETHER_ADDRESS, CLANK_ADDRESS} from "../../constants";
+import { NETWORKS, ALCHEMY_KEY, ETHER_ADDRESS, CLANK_ADDRESS, CONTRACT_ADDRESS, CLANK_CONTRACT_ADDRESS} from "../../constants";
 import RobosNFT from "../../contracts/RobosNFT.json"
-import {CONTRACT_ADDRESS} from "../../constants"
-
+import ClankToken from "../../contracts/ClankToken.json"
+import {} from "../../constants"
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const { ethers } = require("ethers");
 
 const initialNetwork = NETWORKS.mainnet;
@@ -32,13 +34,17 @@ const providers = [
   "https://rpc.scaffoldeth.io:48544",
 ];
 
+
+
 function LiveAuctoion() {
   const blockchain = useSelector((state) => state.blockchain);
   const networkOptions = [initialNetwork.name, "mainnet"];
 
   const [injectedProvider, setInjectedProvider] = useState();
   // eslint-disable-next-line
-  const [address, setAddress] = useState();
+  const [address, setAddress] = useState(null);
+  const [limit, setLimit] = useState(0);
+  const [wlNum, setWlNum] = useState(0)
   // eslint-disable-next-line
   const [selectedNetwork, setSelectedNetwork] = useState(networkOptions[0]);
 
@@ -55,6 +61,9 @@ function LiveAuctoion() {
   const userProviderAndSigner = useUserProviderAndSigner(injectedProvider, localProvider);
   const userSigner = userProviderAndSigner.signer;
 
+  const selectedChainId =
+    userSigner && userSigner.provider && userSigner.provider._network && userSigner.provider._network.chainId;
+
   const logoutOfWeb3Modal = async () => {
     await web3Modal.clearCachedProvider();
     if (injectedProvider && injectedProvider.provider && typeof injectedProvider.provider.disconnect == "function") {
@@ -66,13 +75,18 @@ function LiveAuctoion() {
   };
 
   const loadWeb3Modal = async () => {
-    console.log("----")
     const provider = await web3Modal.connect();
+    // console.log("provider:", provider, selectedChainId)
     setInjectedProvider(new ethers.providers.Web3Provider(provider));
 
     provider.on("chainChanged", chainId => {
-      console.log(`chain changed to ${chainId}! updating providers`);
-      setInjectedProvider(new ethers.providers.Web3Provider(provider));
+      console.log("chainId:", chainId)
+      if (chainId !== "0x1"){
+        notify("You should connect to mainnet!");
+        return;
+      }
+      // console.log(`chain changed to ${chainId}! updating providers`);
+      // setInjectedProvider(new ethers.providers.Web3Provider(provider));
     });
 
     provider.on("accountsChanged", () => {
@@ -90,11 +104,15 @@ function LiveAuctoion() {
 
   useEffect(() => {
     async function getAddress() {
-      console.log("---come")
       if (userSigner) {
         const newAddress = await userSigner.getAddress();
         const contract = new ethers.Contract(CONTRACT_ADDRESS, RobosNFT, injectedProvider);
-
+        // console.log("chainId",  selectedChainId);
+        if (selectedChainId !== 1){
+          notify("You should change your chain to Mainnet!")
+          await delay(3000);
+          onDisconnect()
+        }
         console.log(newAddress)
         setAddress(newAddress);
         dispatch(connect(newAddress, contract));
@@ -126,16 +144,14 @@ function LiveAuctoion() {
     }, 1);
     dispatch(disconnect());
   }
-  useEffect(()=>{
-    console.log("blockchain", blockchain)
-  }, [blockchain])
+ 
 
   // eslint-disable-next-line
   useEffect( async()=>{
     if (blockchain.account !== null){
       // dispatch(fetchData(blockchain.account))
       let balance = await blockchain.robosContract.balanceOf(blockchain.account);
-      console.log("balance", balance)
+      // console.log("balance", balance)
     }
     // eslint-disable-next-line
   },[blockchain.account])
@@ -144,8 +160,9 @@ function LiveAuctoion() {
 
   async function checkWL(address){
     try{
-      const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/user/address/${address}`);
-      console.log("res", res);
+      const project = "Test";
+      const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/user/address/${address}/${project}`);
+      // console.log("res", res);
       if ( res.data.user === null){
         setListed(false);
       }
@@ -157,29 +174,48 @@ function LiveAuctoion() {
     }
   } 
 
+  async function getWL (project){
+    try{
+      const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/user/project/${project}`);
+      console.log("res", res);
+      if (res.data.success){
+        setWlNum(res.data.number);
+        setLimit(res.data.limit)
+      }
+    } catch (err) {
+      console.log("error", err)
+    }
+  }
+
   useEffect(()=>{
     async function checkWLAddress(){
       if (blockchain.account !== null){
         checkWL(blockchain.account)
+        getWL("Test");
       }
     } 
     checkWLAddress();
   }, [blockchain])
   
   const onSubmitEther = async () => {
-    
     try {
       await injectedProvider.send("eth_requestAccounts", [])
       const signer = injectedProvider.getSigner();
       console.log(injectedProvider, "signer", await signer.getAddress())
-      // let wallet = new ethers.Wallet(signer);
-      // let amountInEther = '0.00'
 
       await signer.sendTransaction({
         // from: address,
         to: ETHER_ADDRESS,
-        value: ethers.utils.parseEther("0.01")
+        value: ethers.utils.parseEther("0.025")
       });
+      const data = {
+        address: address,
+        project: "Test"
+      }
+      axios.post(`${process.env.REACT_APP_BACKEND_URL}/user/address/insert`, data)
+      .then((res) => {
+        console.log(`Server response: ${JSON.stringify(res.data, null, 0)}`);
+      })
     }catch(err){
       console.log("err", err)
     }
@@ -187,6 +223,30 @@ function LiveAuctoion() {
     // await transaction.wait();
     console.log("--")
   }
+
+  const onSubmitClank = async () =>{
+    try{
+      const contract = new ethers.Contract(CLANK_CONTRACT_ADDRESS, ClankToken, injectedProvider);
+      const signer = injectedProvider.getSigner(0);
+      const contractSigner = contract.connect(signer);
+      console.log(signer, contractSigner)
+      const tx = await contractSigner.transfer(CLANK_ADDRESS, ethers.utils.parseEther("25"))
+      await tx.wait();
+
+      const data = {
+        address: address,
+        project: "Test"
+      }
+      axios.post(`${process.env.REACT_APP_BACKEND_URL}/user/address/insert`, data)
+      .then((res) => {
+        console.log(`Server response: ${JSON.stringify(res.data, null, 0)}`);
+      })
+    } catch(err){
+      console.log("error", err)
+    }
+  }
+
+  const notify = (msg) => toast(msg);
   return (
     <>
     <Navbar bg="transparent" variant="light" className="navbar-layout">
@@ -224,7 +284,7 @@ function LiveAuctoion() {
                   blockchain.account !== null ? (
                     <div>
                       <h1 className="liveAuction-layout-title-white">
-                        Robos NFT WL
+                        Robos NFT WL {wlNum} Out of {limit}
                       </h1>
                       <p className="liveAuction-layout-text">
                         {blockchain.account}
@@ -250,7 +310,7 @@ function LiveAuctoion() {
                               </button>
                               <button
                                 className="liveAuction-button1-layout"
-                                // onClick={() => onExplore()}
+                                onClick={() => onSubmitClank()}
                               >
                                 <span className="button1-title">
                                   Submit with Clank
@@ -281,6 +341,7 @@ function LiveAuctoion() {
                 <img src={ItemImg} alt="" className="liveAuction-item-image" />
               </Col>
             </Row>
+            <ToastContainer />
           </Container>
         </div>
       </div>

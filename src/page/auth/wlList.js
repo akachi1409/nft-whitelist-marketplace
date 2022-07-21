@@ -3,16 +3,14 @@ import React from "react";
 
 import Footer from "../../components/footer/footer";
 import Header from "../../components/header/header";
-import NavbarComp from "../../components/navbar/navbarcomp"
-import Mynft from "../../components/auth/profile/mynft"
-function MyNFT () {
+import WlListComponent from "../../components/auth/profile/wlListComponent"
+function WlList () {
     return(
         <div>
-            <NavbarComp/>
             <Header title="My NFT" text="Home / Profile / MyNFT"/>
-            <Mynft/>
+            <WlListComponent/>
             <Footer/>
         </div>
     )
 }
-export default MyNFT;
+export default WlList;

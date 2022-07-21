@@ -6,7 +6,8 @@ import React from "react";
 
 
 import Home from "./page/home/home";
-
+import WlList from "./page/auth/wlList"
+import CreateProject from "./page/auth/createProject"
 // import CreateItem from "./page/item/createItem";
 
 function App() {
@@ -14,7 +15,8 @@ function App() {
     <div>
       <Router>
         <Routes>
-          {/* <Route exact path="/create_item" element={<CreateItem />}></Route> */}
+          <Route path="/wllist" element={<WlList/>}></Route>
+          <Route path="/create_project" element={<CreateProject/>}></Route>
           <Route path="/*" element={<Home />}></Route>
         </Routes>
       </Router>

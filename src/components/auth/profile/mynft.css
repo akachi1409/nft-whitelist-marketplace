@@ -37,3 +37,17 @@
     margin: auto;
     width: fit-content
 }
+
+.mynft-table{
+    margin-top: 1em!important;
+    color: white!important;
+}
+
+.white-color{
+    color: white!important;
+}
+
+.align-left{
+    text-align: left;
+    margin-top: 1em!important;
+}

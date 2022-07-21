@@ -1,0 +1,34 @@
+.login-layout{
+    background-color: transparent ;
+    text-align: center;
+    padding-top: 2em;
+    padding-bottom: 2em;
+}
+.login-layout .login-title{
+    color: #FFFFFF;
+    font-family: Urbanist, Sans-serif;
+    font-size: 36px;
+    line-height: 44px;
+}
+
+.login-layout .login-input{
+    background: rgba(255, 255, 255, 0.03);
+    border: 0.2px solid rgba(255, 255, 255, 0.55);
+    border-radius: 6px;
+    padding: 1em;
+    caret-color: white;
+    color: white;
+}
+
+.login-layout .login-submit{
+    background: #59D667;
+    color: black;
+    width: fit-content;
+    margin: auto;
+    padding: 1em;
+    border-radius: 10px;
+}
+.login-layout h6.login-title{
+    font-size: 12px;
+    cursor: pointer;
+}
