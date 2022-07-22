@@ -37,15 +37,15 @@ const connectFailed = (payload) => {
   };
 };
 
-export const connect = (address, SmartContractObj) => {
+export const connect = (address) => {
   return async (dispatch) => {
     dispatch(connectRequest());
     try {
-      console.log("--", address, "--", SmartContractObj)
+      console.log("--", address)
       dispatch(
         connectSuccess({
           account: address,
-          robosContract: SmartContractObj
+          // robosContract: SmartContractObj
           // injectedProvider: injectedProvider
         })
       );

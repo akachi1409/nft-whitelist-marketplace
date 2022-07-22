@@ -115,7 +115,7 @@ function HomePage() {
         }
         console.log(newAddress)
         setAddress(newAddress);
-        dispatch(connect(newAddress, contract));
+        dispatch(connect(newAddress));
       }
     }
     getAddress();
@@ -126,13 +126,11 @@ function HomePage() {
     loadWeb3Modal()
   }
   const dispatch = useDispatch();
-
   let navigate = useNavigate();
 
   const onNav = (url) =>{
     navigate(url)
   }
-
   
   const onDisconnect = async () =>{
     await web3Modal.clearCachedProvider();

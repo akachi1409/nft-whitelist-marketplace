@@ -1,34 +1,164 @@
-.login-layout{
+.createPageComp-layout{
     background-color: transparent ;
     text-align: center;
     padding-top: 2em;
     padding-bottom: 2em;
 }
-.login-layout .login-title{
+.createPageComp-layout .createPageComp-title{
     color: #FFFFFF;
     font-family: Urbanist, Sans-serif;
     font-size: 36px;
     line-height: 44px;
 }
 
-.login-layout .login-input{
+.createPageComp-layout .createPageComp-input{
     background: rgba(255, 255, 255, 0.03);
     border: 0.2px solid rgba(255, 255, 255, 0.55);
     border-radius: 6px;
     padding: 1em;
     caret-color: white;
     color: white;
+    margin: 1em;
 }
 
-.login-layout .login-submit{
+.createPageComp-layout .createPageComp-submit{
     background: #59D667;
     color: black;
     width: fit-content;
     margin: auto;
     padding: 1em;
     border-radius: 10px;
+    color: #FFFFFF;
 }
-.login-layout h6.login-title{
+.createPageComp-layout h6.createPageComp-title{
     font-size: 12px;
     cursor: pointer;
+}
+
+
+.createPageComp-layout .createPageComp-title-layout{
+    display: flex;
+    flex-direction: column;
+    flex: 4;
+    align-items: flex-start;
+    padding-left: 3em;
+    padding-top: 1em;
+}
+
+.createPageComp-layout .createPageComp-title{
+    font-size: 1.5em;
+    line-height: 26px;
+    color: white;
+    text-align: left;
+    margin-left: 20px;
+    margin-top: 1em;
+    
+}
+
+.preview-image-box {
+    width: 270px;
+    height: 270px;
+    margin-top: 3em;
+    border-style: dashed;
+    border-width: 1px;
+    border-color: white;
+    display: flex;
+    justify-content:center;
+    align-items: center;
+
+}
+.preview-title {
+    font-size: 1.5em;
+    line-height: 26px;
+    color: white;
+    text-align: left;
+}
+
+
+.createPageComp-layout  .createPageComp-file-layout{
+    width: 100%;
+    position: relative;
+    margin: 1em;
+}
+
+.createPageComp-layout  .createPageComp-file-layout .createPageComp-file-input{
+    appearance: none;
+    cursor: pointer;
+    width: 100%;
+    right: 0px;
+    left: 0px;
+    position: absolute;
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+    opacity: 0;
+    height: 100%;
+    caret-color: red;
+}
+
+.createPageComp-layout  .createPageComp-file-layout .createPageComp-file-div{
+    justify-content:center;
+    height: 100%;
+    display: flex;
+    border-width: 2px;
+    background: transparent;
+    border: 0.2px solid rgba(255, 255, 255, 0.41);
+    box-shadow: 0px 21px 20px rgba(0, 0, 0, 0.23);
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.createPageComp-layout  .createPageComp-file-layout .createPageComp-file-div .createPageComp-svg-div{
+    justify-content:center;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2em;
+}
+
+.createPageComp-layout  .createPageComp-file-layout .createPageComp-file-div .createPageComp-svg-div .createPageComp-svg-title{
+    font-family: 'Lexend Deca';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 25px;
+    /* identical to box height */
+    color: #FFFFFF;
+}
+
+.createPageComp-layout  .createPageComp-file-layout .createPageComp-file-div .createPageComp-svg-div .createPageComp-svg-text{
+    font-family: 'Lexend Deca';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 19px;
+    /* identical to box height */
+
+
+    color: rgba(255, 255, 255, 0.21);
+}
+.createPageComp-layout  .createPageComp-file-layout .createPageComp-file-div .createPageComp-file-btn{
+    cursor: pointer;
+    text-transform: none;
+    font-weight: 500;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    padding-left:2rem;
+    padding-right: 2rem;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    padding-bottom: 0.5rem!important;
+    padding-top: 0.5rem!important;
+    margin: auto;
+    background: transparent;
+    color: #6FF67E;
+    border-color: #6FF67E;
+    border-width: 1px;
+    margin-bottom: 1em;
+}
+
+.createPageComp-layout .createPageComp-image{
+    border-radius: 10px;
+    width: 260px;
+    height: 260px;
+    margin-top: 3em;
 }

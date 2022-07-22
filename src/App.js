@@ -8,6 +8,7 @@ import React from "react";
 import Home from "./page/home/home";
 import WlList from "./page/auth/wlList"
 import CreateProject from "./page/auth/createProject"
+import ProjectList from "./page/project/projectList"
 // import CreateItem from "./page/item/createItem";
 
 function App() {
@@ -17,7 +18,7 @@ function App() {
         <Routes>
           <Route path="/wllist" element={<WlList/>}></Route>
           <Route path="/create_project" element={<CreateProject/>}></Route>
-          <Route path="/*" element={<Home />}></Route>
+          <Route path="/" element={<ProjectList/>}></Route>
         </Routes>
       </Router>
     </div>

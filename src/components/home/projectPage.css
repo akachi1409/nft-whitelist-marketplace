@@ -1,0 +1,72 @@
+.projectPage-layout{
+    background-color: transparent;
+    text-align: center;
+    padding-top: 2em;
+    padding-bottom: 2em;
+}
+
+.projectPage-layout .projectList-layout{
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.projectPage-layout .projectList-layout .projectBtn-layout{
+    display:flex;
+    margin-bottom: 15px;
+}
+.projectPage-layout .projectList-layout .projectBtn-layout .projectCreate-Btn{
+    background: #6FF67E;
+    padding : 0.4em 1em;
+    margin-top: 15px;
+    color: black;
+    font-weight: 600;
+    width: fit-content;
+}
+
+.projectPage-layout .projectList-layout .projectBtn-layout .projectCreate-Btn:hover{
+    cursor: pointer;
+    color: white;
+    background: linear-gradient(-90deg, #000000, #146902, #28e23d);
+    transition: all 1s cubic-bezier(0.000, 0.000, 0.230, 1);
+    animation: gradient 2s ease infinite;
+}
+.projectPage-layout .projectList-layout .projectTable-layout{
+    text-align: center;
+}   
+
+.projectPage-layout .projectList-layout .projectTable-layout .projectTable-row{
+    background: rgba(255, 255, 255, 0.07);
+    border: 0.2px solid rgba(255, 255, 255, 0.41);
+    box-shadow: 0px 21px 20px rgba(0, 0, 0, 0.23);
+    border-radius: 10px;
+}
+
+.projectPage-layout .projectList-layout .projectTable-layout .projectTable-row .projectTable-th{
+    background: rgba(255, 255, 255, 0.07);
+    border: 0.2px solid rgba(255, 255, 255, 0.41);
+    box-shadow: 0px 21px 20px rgba(0, 0, 0, 0.23);
+    border-radius: 10px;
+    color: #6FF67E;
+    padding: 1em 2em;
+    font-family: 'Lexend Deca';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 25px;
+}
+
+.projectPage-layout .projectList-layout .projectTable-layout .projectTable-row .projectTable-td{
+    background: rgba(255, 255, 255, 0.07);
+    border: 0.2px solid rgba(255, 255, 255, 0.41);
+    box-shadow: 0px 21px 20px rgba(0, 0, 0, 0.23);
+    border-radius: 10px;
+    font-family: 'Lexend Deca';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 19px;
+    padding: 0.5em 1em;
+    color: rgba(255, 255, 255, 0.52);
+}
