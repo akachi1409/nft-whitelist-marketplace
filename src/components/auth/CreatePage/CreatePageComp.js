@@ -1,15 +1,34 @@
 import "./CreatePageComp.css";
 import { Container, Row, Col } from "react-bootstrap";
-import React, { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useSelector } from "react-redux";
+import { useNavigate} from 'react-router-dom';
 
 function CreatePageComp() {
+  const [files, setFiles] = useState(new FormData());
   const [image, setImage] = useState(null);
   const [name, setName] = useState("");
   const [limit, setLimit] = useState(0);
   const [flag, setFlag] = useState(true);
   const [etherPrice, setEtherPrice] = useState(0);
   const [clankPrice, setClankPrice] = useState(0);
+  const [firstLoad, setFirstLoad] = useState(true);
+  const [fileName, setFileName] = useState("");
+
+  const blockchain = useSelector((state) => state.blockchain);
+  let navigate = useNavigate();
+  const notify = (msg) => toast(msg);
+
+  useEffect(() => {
+    if (blockchain.account === null) {
+      navigate("/");
+    }
+    setFirstLoad(false);
+    /* eslint-disable */
+  }, [firstLoad])
 
   const handleFile = (e) => {
     console.log("e", e);
@@ -23,20 +42,49 @@ function CreatePageComp() {
       setImage(reader.result);
       setFlag(!flag);
     };
+    var filesTemp = files;
+    filesTemp.append(e.target.files[0].name, e.target.files[0]);
+    setFiles(filesTemp);
+    setFileName(e.target.files[0].name);
   };
 
   const onSubmit = async () => {
+    console.log('---')
+    if (name ===""){
+      notify("You should input the name of project.")
+      return;
+    }
+    if (image ===null){
+      notify("You should input the image for the project.")
+      return;
+    }
+    if (limit ===0){
+      notify("You should input the whitelist limit amount.")
+      return;
+    }
+    if (etherPrice ===0){
+      notify("You should input the price of Ether to submit the WL request.")
+      return;
+    }
+    if (clankPrice ===0){
+      notify("You should input the price of Clank to submit the WL request.")
+      return;
+    }
     try {
-      const data = {
-        name: name,
-        limit: limit,
-        address: "0xe8c125A440c049D08969d20657F46f87C8e659a5",
-      };
-      axios
-        .post(`${process.env.REACT_APP_BACKEND_URL}/project/insert`, data)
-        .then((res) => {
-          console.log(`Server response: ${JSON.stringify(res, null, 0)}`);
-        });
+      var filesTemp = files;
+      filesTemp.append("fileName", fileName);
+      filesTemp.append("name", name);
+      filesTemp.append("limit", limit);
+      filesTemp.append("etherPrice", etherPrice);
+      filesTemp.append("clankPrice", clankPrice);
+      filesTemp.append("address", "0xe8c125A440c049D08969d20657F46f87C8e659a5")
+      // console.log("files:", filesTemp);
+      // filesTemp.append("", );
+      const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/project/insert`, filesTemp)
+      console.log("res", res);
+      if (res.status === 200 && res.data.success===true){
+        navigate("/")
+      }
     } catch (err) {
       console.log("err", err);
     }
@@ -159,6 +207,17 @@ function CreatePageComp() {
         </Row>
 
         <br />
+        <ToastContainer
+        position="bottom-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       </Container>
     </div>
   );

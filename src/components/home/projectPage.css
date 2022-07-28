@@ -70,3 +70,9 @@
     padding: 0.5em 1em;
     color: rgba(255, 255, 255, 0.52);
 }
+
+.projectPage-layout .projectList-layout .projectTable-layout .projectTable-row .projectTable-td .projectTable-img{
+    border-radius: 10px;
+    width: 120px;
+    height: 120px;
+}

@@ -211,7 +211,9 @@ const ProjectPage = () => {
                                     <td className="projectTable-td">{item.adminAddress}</td>
                                     <td className="projectTable-td">{item.listedWl}</td>
                                     <td className="projectTable-td">{item.wlLimit}</td>
-                                    <td className="projectTable-td">{index}</td>
+                                    <td className="projectTable-td">
+                                        <img className="projectTable-img"
+                                        src = {`${process.env.REACT_APP_BACKEND_URL}/uploads/` + item.imageName}/></td>
                                 </tr>
                             ))
                         }
