@@ -36,7 +36,7 @@ const providers = [
 
 
 
-function HomePage() {
+function HomePage(props) {
   const blockchain = useSelector((state) => state.blockchain);
   const networkOptions = [initialNetwork.name, "mainnet"];
 
@@ -158,7 +158,7 @@ function HomePage() {
 
   async function checkWL(address){
     try{
-      const project = "Test";
+      const project = props.projectName;
       const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/user/address/${address}/${project}`);
       // console.log("res", res);
       if ( res.data.user === null){
@@ -174,6 +174,7 @@ function HomePage() {
 
   async function getWL (project){
     try{
+      console.log("projectName", project);
       const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/user/project/${project}`);
       console.log("res", res);
       if (res.data.success){
@@ -189,7 +190,7 @@ function HomePage() {
     async function checkWLAddress(){
       if (blockchain.account !== null){
         checkWL(blockchain.account)
-        getWL("Test");
+        getWL(props.projectName);
       }
     } 
     checkWLAddress();
@@ -258,7 +259,7 @@ function HomePage() {
     <Navbar bg="transparent" variant="light" className="navbar-layout">
         <Container>
           <Navbar.Brand onClick = {()=> onNav("/")}>
-            <h2 className="navbar-home">Home</h2>
+            <h2 className="navbar-home">{props.projectName}</h2>
           </Navbar.Brand>
             
           <Nav>

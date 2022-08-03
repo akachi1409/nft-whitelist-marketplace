@@ -16,6 +16,7 @@ function App() {
     <div>
       <Router>
         <Routes>
+          <Route path="/project/:projectName" element={<Home/>}></Route>
           <Route path="/wllist" element={<WlList/>}></Route>
           <Route path="/create_project" element={<CreateProject/>}></Route>
           <Route path="/" element={<ProjectList/>}></Route>

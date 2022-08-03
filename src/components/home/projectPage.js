@@ -207,7 +207,7 @@ const ProjectPage = () => {
                             projects.map((item, index)=>(
                                 <tr className="projectTable-row" key={index}>
                                     <td className="projectTable-td">{index}</td>
-                                    <td className="projectTable-td">{item.projectName}</td>
+                                    <td className="projectTable-td link" onClick={()=> onNav('/project/'+ item.projectName)}>{item.projectName}</td>
                                     <td className="projectTable-td">{item.adminAddress}</td>
                                     <td className="projectTable-td">{item.listedWl}</td>
                                     <td className="projectTable-td">{item.wlLimit}</td>

@@ -51,3 +51,8 @@ body{
     background-repeat: no-repeat;
     background-size: cover;
 }
+
+.link{
+  color: yellow!important;
+  cursor: pointer;
+}
