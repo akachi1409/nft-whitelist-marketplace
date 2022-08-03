@@ -22,6 +22,9 @@ function CreatePageComp() {
   let navigate = useNavigate();
   const notify = (msg) => toast(msg);
 
+  const onNav = (url) =>{
+    navigate(url)
+  }
   useEffect(() => {
     if (blockchain.account === null) {
       navigate("/");
@@ -200,6 +203,12 @@ function CreatePageComp() {
                 onClick={() => onSubmit()}
               >
                 Create Project
+              </button>
+              <button
+                className="createPageComp-submit"
+                onClick={() => onNav("/")}
+              >
+                Back Home
               </button>
               {/* <Button2 title="Login"></Button2> */}
             </Row>
