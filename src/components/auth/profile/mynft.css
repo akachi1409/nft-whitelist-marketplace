@@ -50,4 +50,11 @@
 .align-left{
     text-align: left;
     margin-top: 1em!important;
+    flex: 1;
+}
+
+.align-right{
+    text-align: right;
+    margin-top: 1em!important;
+    flex: 1;
 }

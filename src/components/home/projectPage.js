@@ -200,6 +200,8 @@ const ProjectPage = () => {
                             <th className="projectTable-th">Whitelisted Users</th>
                             <th className="projectTable-th">Total Whitelists</th>
                             <th className="projectTable-th">Project Image</th>
+
+                            <th className="projectTable-th">WL List</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -214,6 +216,7 @@ const ProjectPage = () => {
                                     <td className="projectTable-td">
                                         <img className="projectTable-img"
                                         src = {`${process.env.REACT_APP_BACKEND_URL}/uploads/` + item.imageName}/></td>
+                                    <td className="projectTable-td link" onClick = {()=> onNav('/wllist/' + item.projectName)}>Download WL list</td>
                                 </tr>
                             ))
                         }

@@ -2,25 +2,31 @@ import React, { useState, useEffect } from "react";
 import { Container, Row } from "react-bootstrap";
 import Table from "react-bootstrap/Table";
 import Button from 'react-bootstrap/Button';
-
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import "./mynft.css";
-function WlListComponent() {
+function WlListComponent(props) {
   const [firstLoad, setFirstLoad] = useState(true);
   const [data, setData] = useState([]);
+  let navigate = useNavigate();
+  const onNav = (url) => {
+    navigate(url);
+  };
+
   useEffect(() => {
-    async function fetchData() {
+    async function fetchData(project) {
       if (firstLoad) {
+        console.log("project", project);
         const res = await axios.get(
-          `${process.env.REACT_APP_BACKEND_URL}/user/address/list`
+          `${process.env.REACT_APP_BACKEND_URL}/user/address/list/${project}`
         );
         console.log("res", res);
         setData(res.data.users);
       }
       setFirstLoad(true);
     }
-    fetchData();
+    fetchData(props.projectName);
   }, [firstLoad]);
 
   const downloadText = () => {
@@ -39,15 +45,20 @@ function WlListComponent() {
           <h2 className="mynft-title">Project: Test</h2>
           <div className="bottomBar"></div>
         </div>
-        {
-          data.length>0 &&(
+        
             <Row>
+            {
+            data.length>0 &&(
               <div className="align-left">
                 <Button variant="primary" onClick={()=>downloadText()}>Download</Button>
               </div>
+              )
+            }
+              <div className="align-right">
+                <Button variant="primary" onClick={()=>onNav("/")}>Home</Button>
+              </div>
             </Row>
-          )
-        }
+          
         <Row>
           <Table striped bordered hover className="mynft-table">
             <thead>
