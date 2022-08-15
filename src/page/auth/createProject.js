@@ -9,7 +9,7 @@ function CreatePage () {
         <div>
             <Header title="Create Project" text="Home / Create Project"/>
             <CreatePageComp/>
-            <Footer/>
+            {/* <Footer/> */}
         </div>
     )
 }

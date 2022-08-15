@@ -8,7 +8,7 @@ function Home() {
     return (
         <div>
             <HomePage projectName={projectName}/>
-            <Footer/>
+            {/* <Footer/> */}
         </div>
     )
 }

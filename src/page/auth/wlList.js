@@ -12,7 +12,7 @@ function WlList () {
         <div>
             <Header title="My NFT" text="Home / Profile / MyNFT"/>
             <WlListComponent projectName = {projectName}/>
-            <Footer/>
+            {/* <Footer/> */}
         </div>
     )
 }

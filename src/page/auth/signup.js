@@ -9,7 +9,7 @@ function Signup(){
         <div>
             <Header title="Signup" text="Home / Pages / Signup"/>
             <SignupComp/>
-            <Footer/>
+            {/* <Footer/> */}
         </div>
     )
 }

@@ -12,7 +12,7 @@ function MyNFTItem () {
             <NavbarComp/>
             <Header title="My NFT" text="Home / Profile / MyNFT"/>
             <CreateAuction contract={contract} id={id}/>
-            <Footer/>
+            {/* <Footer/> */}
         </div>
     )
 }

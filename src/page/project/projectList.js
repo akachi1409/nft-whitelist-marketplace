@@ -6,7 +6,7 @@ const ProjectList = () =>{
     return (
         <>
             <ProjectPage/>
-            <Footer/>
+            {/* <Footer/> */}
         </>
     )
 }

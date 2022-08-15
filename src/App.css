@@ -47,9 +47,10 @@
 }
 
 body{
-    background-image: url("./assets/bg.jpg")!important;
+    background-image: url("./assets/bg.gif")!important;
     background-repeat: no-repeat;
     background-size: cover;
+    height: 100vh;
 }
 
 .link{
