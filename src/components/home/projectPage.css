@@ -3,15 +3,237 @@
     text-align: center;
     padding-top: 2em;
     padding-bottom: 2em;
+    flex: 10;
+    display: flex;
+    color: white
 }
 
+.navbar-layout{
+    font-family: 'Mine';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 35px;
+    line-height: 44px;
+    /* identical to box height */
+    color: #FFFFFF;
+    
+    cursor: pointer;
+    flex: 1;
+    /* display: flex; */
+}
+.navbar-layout .nav-wallet{
+    background-image : url("../../assets/project.jpg");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    border-radius: 0px;
+}
 .projectPage-layout .projectList-layout{
     justify-content: center;
     align-items: center;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    /* margin: auto */
+    /* display: flex;
+    flex-direction: column; */
+}
+.projectPage-layout .projectList-layout .genesis-modal{
+    background-image : url("../../assets/project.jpg");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    width: 80%;
+    height: 70%;
+    padding: 2em;
     display: flex;
     flex-direction: column;
 }
 
+.projectPage-layout .projectList-layout .genesis-modal .genesis-modal-exit-layer{
+    display: flex;
+    flex-direction:row;
+}
+.projectPage-layout .projectList-layout .genesis-modal .genesis-modal-exit-layer .genesis-modal-title{
+    flex: 15;
+    color: white;
+    white-space: nowrap;
+    cursor: pointer;
+    font-family: 'Mine';
+    text-align: center;
+}
+.projectPage-layout .projectList-layout .genesis-modal .genesis-modal-exit-layer .close-btn{
+    flex:1;
+    color: white
+}
+.projectPage-layout .projectList-layout .genesis-modal .genesis-modal-content-layer .genesis-modal-content-row{
+    display: flex;
+    background: rgba(255, 255, 255, 0.07);
+    border: 0.2px solid rgba(255, 255, 255, 0.41);
+    box-shadow: 0px 21px 20px rgba(0, 0, 0, 0.23);
+    /* border-radius: 10px; */
+    font-family: 'Mine';
+}
+.projectPage-layout .projectList-layout .genesis-modal .genesis-modal-content-layer .genesis-modal-content-row .genesis-img{
+    border-radius: 10px;
+    width: 120px;
+    height: 120px;
+    flex: 1;
+    border:  rgba(255, 255, 255, 0.41) 0.2px solid
+}
+
+.projectPage-layout .projectList-layout .genesis-modal .genesis-modal-content-layer .genesis-modal-content-row .genesis-modal-details{
+    display: flex;
+    flex-direction: column;
+    /* padding-left: 2em; */
+    flex: 3;
+    border-left:  rgba(255, 255, 255, 0.41) 0.2px solid
+}
+
+.projectPage-layout .projectList-layout .genesis-modal .genesis-modal-content-layer .genesis-modal-content-row .genesis-modal-detail-title{
+    color: white;
+    border-bottom: 0.2px solid #6FF67E;
+}
+
+.projectPage-layout .projectList-layout .genesis-modal .genesis-modal-content-layer .genesis-modal-content-row .genesis-modal-description .genesis-modal-detail-price{
+    color: white;
+    font-weight: normal;
+    font-size: 18px;
+    flex: 1;
+}
+
+.projectPage-layout .projectList-layout .genesis-modal .genesis-modal-content-layer .genesis-modal-content-row .genesis-modal-description .holding-bar{
+    flex: 1;
+}
+.projectPage-layout .projectList-layout .genesis-modal .genesis-modal-content-layer .genesis-modal-content-row .genesis-modal-description{
+    flex: 1;
+    border-left:  rgba(255, 255, 255, 0.41) 0.2px solid
+}
+
+.projectPage-layout .projectList-layout .genesis-modal .genesis-modal-content-layer .genesis-modal-content-row .genesis-modal-description .genesis-modal-col{
+    display: flex;
+    flex-direction: column;
+}
+.projectPage-layout .projectList-layout .genesis-modal .genesis-modal-content-layer .genesis-modal-content-row .genesis-modal-button{
+    flex: 1;
+    border-left:  rgba(255, 255, 255, 0.41) 0.2px solid;
+    display: flex;
+    flex-direction: column;
+}
+.projectPage-layout .projectList-layout .genesis-modal .genesis-modal-button{
+    display: flex;
+}
+.projectPage-layout .projectList-layout .genesis-modal .genesis-modal-button .genesis-modal-wallet{
+    background-image : url("../../assets/project.jpg");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    border-radius: 0px;
+    color: white;
+    flex: 1;
+    cursor: pointer;
+    margin:0.5em;
+    padding: 0.1em;
+}
+.close-btn {
+    font-size: 20px;
+    font-weight: bold;
+    color: #000;
+    flex: 1;
+  }
+
+  .holding-bar{
+    border: 0.2px solid #6FF67E;
+    margin: 0.1em;
+  }
+  .projectPage-layout .projectList-layout .project-buy-layout{
+    background-image : url("../../assets/project.jpg");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    width: 80%;
+    height: 100%;
+    padding: 2em;
+    display: flex;
+    flex-direction: column;
+  }
+.projectPage-layout .projectList-layout .project-layout{
+    margin: auto;
+    background-image : url("../../assets/project.jpg");
+    width: 777px;
+    height: 245px;
+    padding: 10px;
+
+    display: grid;
+    grid-template-columns: auto auto;
+}
+
+.projectPage-layout .projectList-layout .project-layout .project-item{
+    border:white 1px solid;
+    height: 75px;
+    width: 360px;
+    cursor: pointer;
+}
+
+.projectPage-layout .projectList-layout .project-buy-layout .project-buy-exit-layer{
+    display: flex;
+    flex-direction:row;
+}
+.projectPage-layout .projectList-layout .project-buy-layout .project-buy-exit-layer .project-buy-title{
+    flex: 1;
+    color: white;
+    white-space: nowrap;
+    cursor: pointer;
+}
+.projectPage-layout .projectList-layout .project-buy-layout .project-buy-title{
+    color: white;
+    font-family: 'Mine';
+}
+.projectPage-layout .projectList-layout .project-buy-layout .project-buy-content{
+    display: flex;
+    flex-direction:column;
+}
+
+.projectPage-layout .projectList-layout .project-buy-layout .project-buy-content .project-buy-row{
+    display: flex;
+    margin-bottom: 1em;
+}
+
+.projectPage-layout .projectList-layout .project-buy-layout .project-buy-content .project-buy-row .project-buy-img{
+    border-radius: 10px;
+    width: 240px;
+    height: 240px;
+    flex: 2;
+    border:  rgba(255, 255, 255, 0.41) 0.2px solid
+}
+
+.projectPage-layout .projectList-layout .project-buy-layout .project-buy-content .project-buy-row .project-buy-description{
+    flex: 3
+}
+
+.projectPage-layout .projectList-layout .project-buy-layout .project-buy-content .project-buy-row .project-buy-price{
+    color: white;
+    font-family: 'Mine';
+    font-size: 18px;
+    font-weight: normal;
+}
+
+.projectPage-layout .projectList-layout .project-buy-layout .project-buy-content .project-buy-row .project-buy-sign{
+    color: white;
+    font-family: 'Mine';
+    font-size:22px;
+    font-weight: normal;
+    margin-left: 1em;
+    margin-right: 1em;
+    cursor: pointer;
+}
+
+.projectPage-layout .projectList-layout .project-buy-layout .project-buy-content .project-buy-row .project-buy-btn{
+    background-image : url("../../assets/project.jpg");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    border-radius: 0px;
+    margin-top: 1em;
+    color: white;
+    flex: 1;
+    cursor: pointer;
+}
 .projectPage-layout .projectList-layout .projectBtn-layout{
     display:flex;
     margin-bottom: 15px;
@@ -34,6 +256,7 @@
 }
 .projectPage-layout .projectList-layout .projectTable-layout{
     text-align: center;
+    
 }   
 
 .projectPage-layout .projectList-layout .projectTable-layout .projectTable-row{
@@ -50,7 +273,7 @@
     border-radius: 10px;
     color: #6FF67E;
     padding: 1em 2em;
-    font-family: 'Lexend Deca';
+    font-family: 'Mine';
     font-style: normal;
     font-weight: 400;
     font-size: 18px;
@@ -62,7 +285,7 @@
     border: 0.2px solid rgba(255, 255, 255, 0.41);
     box-shadow: 0px 21px 20px rgba(0, 0, 0, 0.23);
     border-radius: 10px;
-    font-family: 'Lexend Deca';
+    font-family: 'Mine';
     font-style: normal;
     font-weight: 400;
     font-size: 15px;

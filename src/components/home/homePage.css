@@ -161,4 +161,5 @@
     /* identical to box height */
     color: #FFFFFF;
     cursor: pointer;
+    flex: 2;
 }

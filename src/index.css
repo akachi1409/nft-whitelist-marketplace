@@ -16,3 +16,10 @@ body {
   html{
     background-color: #070A12;
   }
+
+  @font-face {
+    font-family: 'Mine';
+    src: url(./assets/VCR_OSD_MONO.ttf);
+    /* other formats include: 'woff2', 'truetype, 'opentype',
+                              'embedded-opentype', and 'svg' */
+  }
