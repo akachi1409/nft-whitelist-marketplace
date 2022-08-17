@@ -91,26 +91,28 @@
 .projectPage-layout .projectList-layout .genesis-modal .genesis-modal-content-layer .genesis-modal-content-row .genesis-modal-detail-title{
     color: white;
     border-bottom: 0.2px solid #6FF67E;
+    margin-bottom: 0px!important;
+    height: 28%;
 }
 
 .projectPage-layout .projectList-layout .genesis-modal .genesis-modal-content-layer .genesis-modal-content-row .genesis-modal-description .genesis-modal-detail-price{
     color: white;
     font-weight: normal;
     font-size: 18px;
-    flex: 1;
+    /* flex: 1; */
+    margin: auto
 }
 
-.projectPage-layout .projectList-layout .genesis-modal .genesis-modal-content-layer .genesis-modal-content-row .genesis-modal-description .holding-bar{
-    flex: 1;
-}
 .projectPage-layout .projectList-layout .genesis-modal .genesis-modal-content-layer .genesis-modal-content-row .genesis-modal-description{
     flex: 1;
-    border-left:  rgba(255, 255, 255, 0.41) 0.2px solid
+    border-left:  rgba(255, 255, 255, 0.41) 0.2px solid;
+    
 }
 
 .projectPage-layout .projectList-layout .genesis-modal .genesis-modal-content-layer .genesis-modal-content-row .genesis-modal-description .genesis-modal-col{
     display: flex;
     flex-direction: column;
+    height: 72%;
 }
 .projectPage-layout .projectList-layout .genesis-modal .genesis-modal-content-layer .genesis-modal-content-row .genesis-modal-button{
     flex: 1;
