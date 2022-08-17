@@ -23,11 +23,11 @@ import {
 } from "../../constants";
 
 import GenesisImage from "../../assets/genesis.png";
-import WLImage from "../../assets/wl.jpg";
+import WLImage from "../../assets/wl.png";
 import RobosImage from "../../assets/robos.png";
-import ClankImage from "../../assets/clank.jpg";
+import ClankImage from "../../assets/clank.png";
 import MerchImage from "../../assets/merch.png";
-import OtherImage from "../../assets/other.jpg";
+import OtherImage from "../../assets/other.png";
 const { ethers } = require("ethers");
 const initialNetwork = NETWORKS.mainnet;
 // const NETWORKCHECK = true;
@@ -50,6 +50,10 @@ const ProjectPage = () => {
   const [mode, setMode] = useState(0);
   const [selectedProject, setSelectedProject] = useState("");
   const [amounts, setAmounts] = useState(0);
+  const [totalEther, setTotalEther] = useState(0);
+  const [totalClank, setTotalClank] = useState(0);
+  const [buyMethod, setBuyMethod] = useState(0);
+
   const targetNetwork = NETWORKS[selectedNetwork];
 
   // const blockExplorer = targetNetwork.blockExplorer;
@@ -152,9 +156,9 @@ const ProjectPage = () => {
     }
   }
 
-  async function onBuy(project){
-    setSelectedProject(project)
-    setMode(7)
+  async function onBuy(project) {
+    setSelectedProject(project);
+    setMode(7);
   }
 
   useEffect(() => {
@@ -183,6 +187,28 @@ const ProjectPage = () => {
     getAddress();
     // eslint-disable-next-line
   }, [userSigner]);
+
+  const onPlus = () => {
+    const newEther = totalEther + selectedProject.etherPrice;
+    const newClank = totalClank + selectedProject.clankPrice;
+    setAmounts(amounts + 1);
+    setTotalEther(Number(newEther.toFixed(2)));
+    setTotalClank(newClank);
+  };
+  const onMinus = () => {
+    if (amounts < 1) return;
+    console.log("-----------", totalEther, selectedProject.etherPrice);
+    const newEther = totalEther - selectedProject.etherPrice;
+    const newClank = totalClank - selectedProject.clankPrice;
+    setAmounts(amounts - 1);
+    setTotalEther(Number(newEther.toFixed(2)));
+    setTotalClank(newClank);
+  };
+
+  const onBuyEther = () => {
+    setBuyMethod(0);
+    setMode(10);
+  };
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
       <Navbar bg="transparent" variant="light" className="navbar-layout">
@@ -232,10 +258,17 @@ const ProjectPage = () => {
               <div className="genesis-modal-content-layer">
                 {projects.map((item, index) => (
                   <div className="genesis-modal-content-row">
-                    <img className="genesis-img"
-                    src = {`${process.env.REACT_APP_BACKEND_URL}/uploads/` + item.imageName}/>
+                    <img
+                      className="genesis-img"
+                      src={
+                        `${process.env.REACT_APP_BACKEND_URL}/uploads/` +
+                        item.imageName
+                      }
+                    />
                     <div className="genesis-modal-details">
-                      <h3 className="genesis-modal-detail-title">{item.projectName}</h3>
+                      <h3 className="genesis-modal-detail-title">
+                        {item.projectName}
+                      </h3>
                       {/* <div className="holding-bar"/> */}
                       <p>{item.description}</p>
                     </div>
@@ -244,14 +277,25 @@ const ProjectPage = () => {
                       {/* <div className="holding-bar"/> */}
                       {/* <h4>{item.listedWl}/{item.wlLimit}</h4> */}
                       <div className="genesis-modal-col">
-                        <h4 className="genesis-modal-detail-price">{item.etherPrice+" "}Ether</h4>
-                        <div className="holding-bar"/>
-                        <h4 className="genesis-modal-detail-price">{item.clankPrice+ " "}Clank</h4>
+                        <h4 className="genesis-modal-detail-price">
+                          {item.etherPrice + " "}Ether
+                        </h4>
+                        <div className="holding-bar" />
+                        <h4 className="genesis-modal-detail-price">
+                          {item.clankPrice + " "}Clank
+                        </h4>
                       </div>
                     </div>
                     <div className="genesis-modal-button">
-                      <div className="genesis-modal-wallet" onClick= {()=> onBuy(item)}><h5 className="genesis-btn">Buy Now</h5></div>
-                      <div className="genesis-modal-wallet"><h5 className="genesis-btn">Add To Cart</h5></div>
+                      <div
+                        className="genesis-modal-wallet"
+                        onClick={() => onBuy(item)}
+                      >
+                        <h5 className="genesis-btn">Buy Now</h5>
+                      </div>
+                      <div className="genesis-modal-wallet">
+                        <h5 className="genesis-btn">Add To Cart</h5>
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -310,84 +354,132 @@ const ProjectPage = () => {
               />
             </div>
           )}
-          {
-            mode === 7 && (
-              <div className="project-buy-layout">
-                <div className="project-buy-exit-layer">
-                  <h3 className="project-buy-title">Buy WL</h3>
-                  <span className="close-btn" onClick={() => setMode(0)}>
-                    &times;
-                  </span>
-                </div>
-                <div className="project-buy-content">
-                  <h3 className="project-buy-title">{selectedProject.projectName}</h3>
-                  <div className="project-buy-row">
-                    <img className="project-buy-img"
-                    src = {`${process.env.REACT_APP_BACKEND_URL}/uploads/` + selectedProject.imageName}/>
-                    <div className="project-buy-description">{selectedProject.description}</div>
-                  </div>
-                  <div className="project-buy-row">
-                    <h5 className="project-buy-price">Ether: </h5>
-                    <h5 className="project-buy-price">{selectedProject.etherPrice}</h5>
-                  </div>
-                  <div className="project-buy-row">
-                    <h5 className="project-buy-price">Clank: </h5>
-                    <h5 className="project-buy-price">{selectedProject.clankPrice}</h5>
-                  </div>
-                  <div className="project-buy-row">
-                    <h5 className="project-buy-price">Quantity: </h5>
-                    <h5 className="project-buy-sign" onClick={()=> setAmounts(amounts+ 1)}>+</h5>
-                    <h5 className="project-buy-price">{amounts}</h5>
-                    <h5 className="project-buy-sign" onClick={()=> setAmounts(amounts- 1)}>-</h5>
-                  </div>
-                  <div className="project-buy-row">
-                    <div className="project-buy-btn">Buy Now</div>
-                  </div>
+          {mode === 7 && (
+            <div className="project-buy-layout">
+              <div className="project-buy-exit-layer">
+                <h3 className="project-buy-title">Check Out</h3>
+                <span className="close-btn" onClick={() => setMode(0)}>
+                  &times;
+                </span>
+              </div>
+              <div className="project-buy-content">
+                <div className="project-buy-row">
+                  <table className="project-buy-table">
+                    <tr>
+                      <td>
+                        <img
+                          className="project-buy-img"
+                          src={
+                            `${process.env.REACT_APP_BACKEND_URL}/uploads/` +
+                            selectedProject.imageName
+                          }
+                        />
+                      </td>
+                    </tr>
+                    <tr>
+                      <table>
+                        <tr>
+                          <td rowspan="2" className="project-buy-price">
+                            Price
+                          </td>
+                          <td className="project-buy-price">Ether:</td>
+                          <td className="project-buy-price">
+                            {selectedProject.etherPrice}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td className="project-buy-price">Clank:</td>
+                          <td className="project-buy-price">
+                            {selectedProject.clankPrice}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td className="project-buy-price">Quantity</td>
+                          <td className="project-buy-price" colspan="2">
+                            <div className="project-buy-row">
+                              <h5
+                                className="project-buy-sign"
+                                onClick={() => onMinus()}
+                              >
+                                -
+                              </h5>
+                              <h5 className="project-buy-price">{amounts}</h5>
+                              <h5
+                                className="project-buy-sign"
+                                onClick={() => onPlus()}
+                              >
+                                +
+                              </h5>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td rowspan="2" className="project-buy-price">
+                            Total
+                          </td>
+                          <td className="project-buy-price">Ether:</td>
+                          <td className="project-buy-price">{totalEther}</td>
+                        </tr>
+                        <tr>
+                          <td className="project-buy-price">Clank:</td>
+                          <td className="project-buy-price">{totalClank}</td>
+                        </tr>
+                      </table>
+                    </tr>
+                    <tr>
+                      <div className="project-buy-btn" onClick={()=>onBuyEther()}>Buy Now (Ether)</div>
+                    </tr>
+                    <tr>
+                      <div className="project-buy-btn">Buy Now (Clank)</div>
+                    </tr>
+                  </table>
+                  <table className="project-buy-table">
+                    <tr
+                      style={{ borderBottom: "1px solid white", height: "10%" }}
+                    >
+                      <td>
+                        <h3 className="project-buy-title">
+                          {selectedProject.projectName}
+                        </h3>
+                      </td>
+                    </tr>
+                    <tr>
+                      <div className="project-buy-description">
+                        {selectedProject.description}
+                      </div>
+                    </tr>
+                  </table>
                 </div>
               </div>
-            )
-          }
-          {/* <div className="projectTable-layout"> */}
-          {/* {
-                blockchain.account === ADMIN_ADDRESS && ( */}
-          {/* <div className="projectBtn-layout">
-                        <div className="projectCreate-Btn" onClick={()=> onNav('/create_project')}>
-                            Create Project
-                        </div>
-                    </div> */}
-          {/* )} */}
-          {/* <table>
-                    <thead>
-                        <tr className="projectTable-row">
-                            <th className="projectTable-th">#</th>
-                            <th className="projectTable-th">Project Name</th>
-                            <th className="projectTable-th">Project Creator</th>
-                            <th className="projectTable-th">Whitelisted Users</th>
-                            <th className="projectTable-th">Total Whitelists</th>
-                            <th className="projectTable-th">Project Image</th>
-
-                            <th className="projectTable-th">WL List</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            projects.map((item, index)=>(
-                                <tr className="projectTable-row" key={index}>
-                                    <td className="projectTable-td">{index}</td>
-                                    <td className="projectTable-td link" onClick={()=> onNav('/project/'+ item.projectName)}>{item.projectName}</td>
-                                    <td className="projectTable-td">{item.adminAddress}</td>
-                                    <td className="projectTable-td">{item.listedWl}</td>
-                                    <td className="projectTable-td">{item.wlLimit}</td>
-                                    <td className="projectTable-td">
-                                        <img className="projectTable-img"
-                                        src = {`${process.env.REACT_APP_BACKEND_URL}/uploads/` + item.imageName}/></td>
-                                    <td className="projectTable-td link" onClick = {()=> onNav('/wllist/' + item.projectName)}>Download WL list</td>
-                                </tr>
-                            ))
-                        }
-                    </tbody>
-                </table> */}
-          {/* </div> */}
+            </div>
+          )}
+          {mode === 10 && (
+            <div className="project-buy-layout">
+              <div className="project-buy-exit-layer">
+                {/* <h3 className="project-buy-title">{selectedProject.projectName}</h3> */}
+                {/* <span className="close-btn" onClick={() => setMode(0)}>
+                  &times;
+                </span> */}
+              </div>
+              <div className="project-buy-content">
+                <div className="project-buy-description1">
+                {selectedProject.description}
+                </div>
+                <div className="project-buy-add-layout">
+                  <div className="project-buy-wallet-layout">
+                    <h5 className="project-buy-wallet-title">Wallet Address</h5>
+                    <input className="project-buy-wallet-input"/>
+                  </div>
+                  <div className="project-buy-wallet-layout">
+                    <h5 className="project-buy-wallet-title">Discord I.D.</h5>
+                    <input className="project-buy-wallet-input"/>
+                  </div>
+                </div>
+                <div className="project-buy-btn">Confirm Purchase</div>
+                <div className="project-buy-btn">Cancel</div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
