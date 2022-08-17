@@ -250,8 +250,8 @@ const ProjectPage = () => {
                       </div>
                     </div>
                     <div className="genesis-modal-button">
-                      <div className="genesis-modal-wallet" onClick= {()=> onBuy(item)}>Buy now</div>
-                      <div className="genesis-modal-wallet">Add to cart</div>
+                      <div className="genesis-modal-wallet" onClick= {()=> onBuy(item)}><h5 className="genesis-btn">Buy Now</h5></div>
+                      <div className="genesis-modal-wallet"><h5 className="genesis-btn">Add To Cart</h5></div>
                     </div>
                   </div>
                 ))}

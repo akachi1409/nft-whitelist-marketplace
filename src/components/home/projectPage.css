@@ -134,6 +134,12 @@
     margin:0.5em;
     padding: 0.1em;
 }
+
+.projectPage-layout .projectList-layout .genesis-modal .genesis-modal-button .genesis-modal-wallet .genesis-btn{
+    margin: inherit !important;
+    font-size: 16px;
+    color: white;
+}
 .close-btn {
     font-size: 20px;
     font-weight: bold;
