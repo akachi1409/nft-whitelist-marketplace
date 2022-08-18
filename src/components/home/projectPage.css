@@ -217,6 +217,7 @@
 
  tr, td {
     border: 1px solid white;
+    border-width: 1px!important;
     border-collapse: collapse;
   }
   
@@ -229,7 +230,7 @@
     display: flex;
 }
 
-.projectPage-layout .projectList-layout .project-buy-layout .project-buy-content .project-buy-row  .project-buy-img{
+.projectPage-layout .projectList-layout .project-buy-layout .project-buy-content .project-buy-img{
     border-radius: 10px;
     width: 240px;
     height: 240px;
@@ -336,6 +337,12 @@
     height: 120px;
     flex: 1;
     border:  rgba(255, 255, 255, 0.41) 0.2px solid
+}
+
+.projectPage-layout .projectList-layout .project-buy-layout .project-buy-content .project-cart-table{
+    border: 1px solid white;
+    border-collapse: collapse;
+    margin-bottom: 1em;
 }
 @media only screen and (max-width: 600px) {
     .navbar-layout{

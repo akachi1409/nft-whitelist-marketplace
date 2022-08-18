@@ -53,11 +53,14 @@ const ProjectPage = () => {
   const [totalEther, setTotalEther] = useState(0);
   const [totalClank, setTotalClank] = useState(0);
   const [buyMethod, setBuyMethod] = useState(0);
-  const [targetAddress, setTargetAddress] = useState("")
+  const [targetAddress, setTargetAddress] = useState("");
   const [discordID, setDiscordID] = useState("");
-  const [orderHistory, setOrderHistory] = useState([])
+  const [orderHistory, setOrderHistory] = useState([]);
   const [selectedOrderId, setSelectedOrderId] = useState("");
   const [flag, setFlag] = useState(true);
+  const [cartInfo, setCartInfo] = useState([]);
+  const [cartEther, setCartEther] = useState(0);
+  const [cartClank, setCartClank] = useState(0);
 
   const targetNetwork = NETWORKS[selectedNetwork];
 
@@ -161,11 +164,23 @@ const ProjectPage = () => {
     }
   }
 
+  const onInit = () => {
+    // setQuantity(0);
+    setMode(0);
+    setSelectedProject("");
+    setAmounts(0);
+    setTotalEther(0);
+    setTotalClank(0);
+  };
   async function onBuy(project) {
     setSelectedProject(project);
     setMode(7);
   }
 
+  async function onAdd(project) {
+    setSelectedProject(project);
+    setMode(6);
+  }
   useEffect(() => {
     async function checkProjects() {
       getProjects();
@@ -211,21 +226,46 @@ const ProjectPage = () => {
     setTotalClank(newClank);
   };
 
+  const onAddItem = () => {
+    const newCartInfo = {
+      img: selectedProject.imageName,
+      totalEther: totalEther,
+      totalClank: totalClank,
+      projectName: selectedProject.projectName,
+    };
+    setCartEther(cartEther + totalEther);
+    setCartClank(cartClank + totalClank);
+    cartInfo.push(newCartInfo);
+    setCartInfo(cartInfo);
+    setFlag(!flag);
+    setMode(5);
+  };
   const onBuyEther = () => {
     setBuyMethod(0);
     setMode(10);
   };
 
+  const onBuyClank = () => {
+    setBuyMethod(1);
+    setMode(10);
+  };
+
+  const onPurchase = () => {
+    if (buyMethod === 0) {
+      onSubmitEther();
+    } else if (buyMethod === 1) {
+    }
+  };
   const onSubmitEther = async () => {
     // if (wlNum === limit){
-      // notify("No more WL spot for this project.");
+    // notify("No more WL spot for this project.");
     //   return;
     // }
     try {
-      await injectedProvider.send("eth_requestAccounts", [])
+      await injectedProvider.send("eth_requestAccounts", []);
       const signer = injectedProvider.getSigner();
-      console.log("-------", totalEther, totalEther.toString())
-      
+      console.log("-------", totalEther, totalEther.toString());
+
       // await signer.sendTransaction({
       //   // from: address,
       //   to: ETHER_ADDRESS,
@@ -238,41 +278,43 @@ const ProjectPage = () => {
         quantity: amounts,
         discordID: discordID,
         etherCost: totalEther,
-        clankCost: totalClank
-      }
-      axios.post(`${process.env.REACT_APP_BACKEND_URL}/user/address/insert`, data)
-      .then((res) => {
-        console.log(`Server response: ${JSON.stringify(res.data, null, 0)}`);
-      })
-    }catch(err){
+        clankCost: totalClank,
+      };
+      axios
+        .post(`${process.env.REACT_APP_BACKEND_URL}/user/address/insert`, data)
+        .then((res) => {
+          console.log(`Server response: ${JSON.stringify(res.data, null, 0)}`);
+        });
+    } catch (err) {
       notify("Insufficient funds!");
       // console.log("err", err)
-      
     }
 
     // await transaction.wait();
-  }
+  };
 
-  const onOrder= () =>{
+  const onOrder = () => {
     setMode(8);
-    try{
-      axios.get(`${process.env.REACT_APP_BACKEND_URL}/user/address/orders/${address}`)
-      .then((res) => {
-        console.log(`Server response: ${JSON.stringify(res.data, null, 0)}`);
-        setOrderHistory(res.data.orders)
-        setFlag(!flag)
-      })
-    }catch(err){
+    try {
+      axios
+        .get(
+          `${process.env.REACT_APP_BACKEND_URL}/user/address/orders/${address}`
+        )
+        .then((res) => {
+          console.log(`Server response: ${JSON.stringify(res.data, null, 0)}`);
+          setOrderHistory(res.data.orders);
+          setFlag(!flag);
+        });
+    } catch (err) {
       // notify("Insufficient funds!");
-      console.log("err", err)
-      
+      console.log("err", err);
     }
-  }
+  };
 
-  const onSelectOrder = (orderID) =>{
+  const onSelectOrder = (orderID) => {
     setMode(9);
     setSelectedOrderId(orderID);
-  }
+  };
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
       <Navbar bg="transparent" variant="light" className="navbar-layout">
@@ -282,16 +324,16 @@ const ProjectPage = () => {
           </Navbar.Brand>
 
           <Nav></Nav>
-          
-            {blockchain.account === null ? (
-              <Nav>
-                <Nav.Item className="nav-wallet-layout">
-                  <Nav.Link className="nav-wallet" onClick={() => onConnect()}>
-                    Connect Wallet
-                  </Nav.Link>
-                </Nav.Item>
-              </Nav>
-            ) : (
+
+          {blockchain.account === null ? (
+            <Nav>
+              <Nav.Item className="nav-wallet-layout">
+                <Nav.Link className="nav-wallet" onClick={() => onConnect()}>
+                  Connect Wallet
+                </Nav.Link>
+              </Nav.Item>
+            </Nav>
+          ) : (
             <Nav>
               <Nav.Item className="nav-wallet-layout">
                 <Nav.Link className="nav-wallet" onClick={() => onOrder()}>
@@ -304,9 +346,7 @@ const ProjectPage = () => {
                 </Nav.Link>
               </Nav.Item>
             </Nav>
-              
-            )}
-          
+          )}
         </Container>
       </Navbar>
       <div className="projectPage-layout">
@@ -321,6 +361,7 @@ const ProjectPage = () => {
               </div>
             </div>
           )}
+          {/* Show the project list here */}
           {mode === 2 && (
             <div className="genesis-modal">
               <div className="genesis-modal-exit-layer">
@@ -367,7 +408,10 @@ const ProjectPage = () => {
                       >
                         <h5 className="genesis-btn">Buy Now</h5>
                       </div>
-                      <div className="genesis-modal-wallet">
+                      <div
+                        className="genesis-modal-wallet"
+                        onClick={() => onAdd(item)}
+                      >
                         <h5 className="genesis-btn">Add To Cart</h5>
                       </div>
                     </div>
@@ -426,6 +470,175 @@ const ProjectPage = () => {
                   setMode(1);
                 }}
               />
+            </div>
+          )}
+          {/* Show the selecting the number of wl to add cart */}
+          {mode === 6 && (
+            <div className="project-buy-layout">
+              <div className="project-buy-exit-layer">
+                <h3 className="project-buy-title">Shopping Cart</h3>
+                <span className="close-btn" onClick={() => setMode(0)}>
+                  &times;
+                </span>
+              </div>
+              <div className="project-buy-content">
+                <div className="project-buy-row">
+                  <table className="project-buy-table">
+                    <tr>
+                      <td>
+                        <img
+                          className="project-buy-img"
+                          src={
+                            `${process.env.REACT_APP_BACKEND_URL}/uploads/` +
+                            selectedProject.imageName
+                          }
+                        />
+                      </td>
+                    </tr>
+                    <tr>
+                      <table>
+                        <tr>
+                          <td rowspan="2" className="project-buy-price">
+                            Price
+                          </td>
+                          <td className="project-buy-price">Ether:</td>
+                          <td className="project-buy-price">
+                            {selectedProject.etherPrice}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td className="project-buy-price">Clank:</td>
+                          <td className="project-buy-price">
+                            {selectedProject.clankPrice}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td className="project-buy-price">Quantity</td>
+                          <td className="project-buy-price" colspan="2">
+                            <div className="project-buy-row">
+                              <h5
+                                className="project-buy-sign"
+                                onClick={() => onMinus()}
+                              >
+                                -
+                              </h5>
+                              <h5 className="project-buy-price">{amounts}</h5>
+                              <h5
+                                className="project-buy-sign"
+                                onClick={() => onPlus()}
+                              >
+                                +
+                              </h5>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td rowspan="2" className="project-buy-price">
+                            Total
+                          </td>
+                          <td className="project-buy-price">Ether:</td>
+                          <td className="project-buy-price">{totalEther}</td>
+                        </tr>
+                        <tr>
+                          <td className="project-buy-price">Clank:</td>
+                          <td className="project-buy-price">{totalClank}</td>
+                        </tr>
+                      </table>
+                    </tr>
+                    <tr>
+                      <div
+                        className="project-buy-btn"
+                        onClick={() => onAddItem()}
+                      >
+                        Add To Cart
+                      </div>
+                    </tr>
+                  </table>
+                  <table className="project-buy-table">
+                    <tr
+                      style={{ borderBottom: "1px solid white", height: "10%" }}
+                    >
+                      <td>
+                        <h3 className="project-buy-title">
+                          {selectedProject.projectName}
+                        </h3>
+                      </td>
+                    </tr>
+                    <tr>
+                      <div className="project-buy-description">
+                        {selectedProject.description}
+                      </div>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+          )}
+          {/* Check out for add cart */}
+          {mode === 5 && (
+            <div className="project-buy-layout">
+              <div className="project-buy-exit-layer">
+                <h3 className="project-buy-title">Check Out</h3>
+                <span className="close-btn" onClick={() => setMode(2)}>
+                  &times;
+                </span>
+              </div>
+              <div className="project-buy-content">
+                  {cartInfo.map((item, index) => (
+                    <table className="project-cart-table" key={index}>
+                      <tr>
+                        <td rowSpan="3">
+                          <img
+                            className="project-buy-img"
+                            src={
+                              `${process.env.REACT_APP_BACKEND_URL}/uploads/` +
+                              item.img
+                            }
+                          />
+                        </td>
+                        <td className="project-buy-title">Project Name</td>
+                        <td className="project-buy-title" colSpan="2">Price</td>
+                      </tr>
+                      <tr>
+                        <td rowSpan="2">
+                          <h3>{item.projectName}</h3>
+                        </td>
+                        <td>Ehter</td>
+                        <td>Clank</td>
+                      </tr>
+                      <tr>
+                        <td>{item.totalEther}</td>
+                        <td>{item.totalClank}</td>
+                      </tr>
+                    </table>
+                  ))}
+                  <table className="project-cart-table">
+                    <tr>
+                      <td rowspan="2" className="project-buy-price">
+                        Total
+                      </td>
+                      <td className="project-buy-price">Ether:</td>
+                      <td className="project-buy-price">{cartEther}</td>
+                    </tr>
+                    <tr>
+                      <td className="project-buy-price">Clank:</td>
+                      <td className="project-buy-price">{cartClank}</td>
+                    </tr>
+                  </table>
+                  <div className="project-buy-btn" onClick={() => onPurchase()}>
+                    Confirm Purchase with Ether
+                  </div>
+                  <div className="project-buy-btn" onClick={() => onPurchase()}>
+                    Confirm Purchase with Clank
+                  </div>
+                  <div className="project-buy-btn" onClick={() => setMode(2)}>Cancel</div>
+                  {/* <tr>
+                      <div className="project-buy-btn" onClick={()=>onBuyEther()}>Buy Now (Ether)</div>
+                    </tr>
+                    <tr>
+                      <div className="project-buy-btn" onClick={() =>onBuyClank()}>Buy Now (Clank)</div>
+                    </tr> */}
+              </div>
             </div>
           )}
           {mode === 7 && (
@@ -501,10 +714,20 @@ const ProjectPage = () => {
                       </table>
                     </tr>
                     <tr>
-                      <div className="project-buy-btn" onClick={()=>onBuyEther()}>Buy Now (Ether)</div>
+                      <div
+                        className="project-buy-btn"
+                        onClick={() => onBuyEther()}
+                      >
+                        Buy Now (Ether)
+                      </div>
                     </tr>
                     <tr>
-                      <div className="project-buy-btn">Buy Now (Clank)</div>
+                      <div
+                        className="project-buy-btn"
+                        onClick={() => onBuyClank()}
+                      >
+                        Buy Now (Clank)
+                      </div>
                     </tr>
                   </table>
                   <table className="project-buy-table">
@@ -523,11 +746,13 @@ const ProjectPage = () => {
                       </div>
                     </tr>
                   </table>
+                  
                 </div>
               </div>
             </div>
           )}
-          {mode=== 8 && (
+          {/* Show Order List */}
+          {mode === 8 && (
             <div className="project-buy-layout">
               <div className="project-buy-exit-layer">
                 <h3 className="project-buy-title">My Orders</h3>
@@ -536,8 +761,9 @@ const ProjectPage = () => {
                 </span>
               </div>
               <div className="project-order-layout">
-                { orderHistory.length > 0 && orderHistory && 
-                  orderHistory.map((item, index)=>(
+                {orderHistory.length > 0 &&
+                  orderHistory &&
+                  orderHistory.map((item, index) => (
                     <table key={index} className="project-order-table">
                       <tr>
                         <td className="project-order-td">Order ID</td>
@@ -545,7 +771,11 @@ const ProjectPage = () => {
                       </tr>
                       <tr>
                         <td className="project-order-td">Order Date</td>
-                        <td className="project-order-td">{item.orderDate.split("T")[0] + " " + item.orderDate.split("T")[1].split(".")[0]}</td>
+                        <td className="project-order-td">
+                          {item.orderDate.split("T")[0] +
+                            " " +
+                            item.orderDate.split("T")[1].split(".")[0]}
+                        </td>
                       </tr>
                       <tr>
                         <td className="project-order-td">ClankCost</td>
@@ -557,16 +787,21 @@ const ProjectPage = () => {
                       </tr>
                       <tr>
                         <td colspan="2">
-                          <div className="project-buy-btn" onClick={() => onSelectOrder(item._id)}>View Order</div>
+                          <div
+                            className="project-buy-btn"
+                            onClick={() => onSelectOrder(item._id)}
+                          >
+                            View Order
+                          </div>
                         </td>
                       </tr>
                     </table>
-                  ))
-                }
+                  ))}
               </div>
             </div>
           )}
-          {mode=== 9 && (
+          {/* Show One Order */}
+          {mode === 9 && (
             <div className="project-buy-layout">
               <div className="project-buy-exit-layer">
                 <h3 className="project-buy-title">My Order</h3>
@@ -575,64 +810,75 @@ const ProjectPage = () => {
                 </span>
               </div>
               <div className="project-order-layout">
-                { orderHistory.length > 0 && orderHistory && 
-                  orderHistory.map((item, index)=>{
-                    if ( item._id !== selectedOrderId)return;
-                    return(
+                {orderHistory.length > 0 &&
+                  orderHistory &&
+                  orderHistory.map((item, index) => {
+                    if (item._id !== selectedOrderId) return;
+                    return (
                       <table key={index} className="project-order-table">
                         <tr>
                           <td className="project-order-td">Order ID</td>
-                          <td className="project-order-td" colSpan="2">{item._id}</td>
+                          <td className="project-order-td" colSpan="2">
+                            {item._id}
+                          </td>
                         </tr>
                         <tr>
                           <td className="project-order-td">Wsllet Address</td>
-                          <td className="project-order-td" colSpan="2">{item.walletAddress}</td>
+                          <td className="project-order-td" colSpan="2">
+                            {item.walletAddress}
+                          </td>
                         </tr>
                         <tr>
                           <td className="project-order-td">Discord ID</td>
-                          <td className="project-order-td" colSpan="2">{item.discordID}</td>
+                          <td className="project-order-td" colSpan="2">
+                            {item.discordID}
+                          </td>
                         </tr>
                         <tr>
                           <td className="project-order-td">Order Date</td>
-                          <td className="project-order-td" colSpan="2">{item.orderDate.split("T")[0] + " " + item.orderDate.split("T")[1].split(".")[0]}</td>
+                          <td className="project-order-td" colSpan="2">
+                            {item.orderDate.split("T")[0] +
+                              " " +
+                              item.orderDate.split("T")[1].split(".")[0]}
+                          </td>
                         </tr>
                         <tr>
                           <td className="project-order-td">ClankCost</td>
-                          <td className="project-order-td" colSpan="2">{item.clankCost}</td>
+                          <td className="project-order-td" colSpan="2">
+                            {item.clankCost}
+                          </td>
                         </tr>
                         <tr>
                           <td className="project-order-td">Ether Cost</td>
-                          <td className="project-order-td" colSpan="2">{item.etherCost}</td>
+                          <td className="project-order-td" colSpan="2">
+                            {item.etherCost}
+                          </td>
                         </tr>
-                        {
-                          item.whitelist.map((wl, index) => (
-                            <>
-                              <tr key={index}>
-                                <td rowSpan="2" className="project-order-td">
-                                  <img
-                                    className="project-order-img"
-                                    src={
-                                      `${process.env.REACT_APP_BACKEND_URL}/uploads/` +
-                                      wl.whitelistPicture
-                                    }
-                                  />
-                                </td>
-                                <td className="project-order-td" colSpan="2">
-                                  {wl.whitelistName}
-                                </td>
-                              </tr>
-                              <tr>
-                                <td className="project-order-td">Quantity</td>
-                                <td>{wl.quantity}</td>
-                              </tr>
-                            </>
-                            
-                          ))
-                        }
+                        {item.whitelist.map((wl, index) => (
+                          <>
+                            <tr key={index}>
+                              <td rowSpan="2" className="project-order-td">
+                                <img
+                                  className="project-order-img"
+                                  src={
+                                    `${process.env.REACT_APP_BACKEND_URL}/uploads/` +
+                                    wl.whitelistPicture
+                                  }
+                                />
+                              </td>
+                              <td className="project-order-td" colSpan="2">
+                                {wl.whitelistName}
+                              </td>
+                            </tr>
+                            <tr>
+                              <td className="project-order-td">Quantity</td>
+                              <td>{wl.quantity}</td>
+                            </tr>
+                          </>
+                        ))}
                       </table>
-                    )
-                  })
-                }
+                    );
+                  })}
               </div>
             </div>
           )}
@@ -646,19 +892,29 @@ const ProjectPage = () => {
               </div>
               <div className="project-buy-content">
                 <div className="project-buy-description1">
-                {selectedProject.description}
+                  {selectedProject.description}
                 </div>
                 <div className="project-buy-add-layout">
                   <div className="project-buy-wallet-layout">
                     <h5 className="project-buy-wallet-title">Wallet Address</h5>
-                    <input className="project-buy-wallet-input" value={targetAddress} onChange={(e  ) => setTargetAddress(e.target.value)}/>
+                    <input
+                      className="project-buy-wallet-input"
+                      value={targetAddress}
+                      onChange={(e) => setTargetAddress(e.target.value)}
+                    />
                   </div>
                   <div className="project-buy-wallet-layout">
                     <h5 className="project-buy-wallet-title">Discord I.D.</h5>
-                    <input className="project-buy-wallet-input" value={discordID} onChange={(e) => setDiscordID(e.target.value)}/>
+                    <input
+                      className="project-buy-wallet-input"
+                      value={discordID}
+                      onChange={(e) => setDiscordID(e.target.value)}
+                    />
                   </div>
                 </div>
-                <div className="project-buy-btn" onClick={()=>onSubmitEther()}>Confirm Purchase</div>
+                <div className="project-buy-btn" onClick={() => onPurchase()}>
+                  Confirm Purchase
+                </div>
                 <div className="project-buy-btn">Cancel</div>
               </div>
             </div>
