@@ -53,6 +53,11 @@ const ProjectPage = () => {
   const [totalEther, setTotalEther] = useState(0);
   const [totalClank, setTotalClank] = useState(0);
   const [buyMethod, setBuyMethod] = useState(0);
+  const [targetAddress, setTargetAddress] = useState("")
+  const [discordID, setDiscordID] = useState("");
+  const [orderHistory, setOrderHistory] = useState([])
+  const [selectedOrderId, setSelectedOrderId] = useState("");
+  const [flag, setFlag] = useState(true);
 
   const targetNetwork = NETWORKS[selectedNetwork];
 
@@ -181,6 +186,7 @@ const ProjectPage = () => {
         }
         console.log(newAddress);
         setAddress(newAddress);
+        setTargetAddress(newAddress);
         dispatch(connect(newAddress));
       }
     }
@@ -209,6 +215,64 @@ const ProjectPage = () => {
     setBuyMethod(0);
     setMode(10);
   };
+
+  const onSubmitEther = async () => {
+    // if (wlNum === limit){
+      // notify("No more WL spot for this project.");
+    //   return;
+    // }
+    try {
+      await injectedProvider.send("eth_requestAccounts", [])
+      const signer = injectedProvider.getSigner();
+      console.log("-------", totalEther, totalEther.toString())
+      
+      // await signer.sendTransaction({
+      //   // from: address,
+      //   to: ETHER_ADDRESS,
+      //   value: ethers.utils.parseEther(totalEther.toString())
+      // });
+      const data = {
+        address: address,
+        project: "Akachi",
+        image: selectedProject.imageName,
+        quantity: amounts,
+        discordID: discordID,
+        etherCost: totalEther,
+        clankCost: totalClank
+      }
+      axios.post(`${process.env.REACT_APP_BACKEND_URL}/user/address/insert`, data)
+      .then((res) => {
+        console.log(`Server response: ${JSON.stringify(res.data, null, 0)}`);
+      })
+    }catch(err){
+      notify("Insufficient funds!");
+      // console.log("err", err)
+      
+    }
+
+    // await transaction.wait();
+  }
+
+  const onOrder= () =>{
+    setMode(8);
+    try{
+      axios.get(`${process.env.REACT_APP_BACKEND_URL}/user/address/orders/${address}`)
+      .then((res) => {
+        console.log(`Server response: ${JSON.stringify(res.data, null, 0)}`);
+        setOrderHistory(res.data.orders)
+        setFlag(!flag)
+      })
+    }catch(err){
+      // notify("Insufficient funds!");
+      console.log("err", err)
+      
+    }
+  }
+
+  const onSelectOrder = (orderID) =>{
+    setMode(9);
+    setSelectedOrderId(orderID);
+  }
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
       <Navbar bg="transparent" variant="light" className="navbar-layout">
@@ -218,21 +282,31 @@ const ProjectPage = () => {
           </Navbar.Brand>
 
           <Nav></Nav>
-          <Nav>
+          
             {blockchain.account === null ? (
+              <Nav>
+                <Nav.Item className="nav-wallet-layout">
+                  <Nav.Link className="nav-wallet" onClick={() => onConnect()}>
+                    Connect Wallet
+                  </Nav.Link>
+                </Nav.Item>
+              </Nav>
+            ) : (
+            <Nav>
               <Nav.Item className="nav-wallet-layout">
-                <Nav.Link className="nav-wallet" onClick={() => onConnect()}>
-                  Connect Wallet
+                <Nav.Link className="nav-wallet" onClick={() => onOrder()}>
+                  Order History
                 </Nav.Link>
               </Nav.Item>
-            ) : (
               <Nav.Item className="nav-wallet-layout">
                 <Nav.Link className="nav-wallet" onClick={() => onDisconnect()}>
                   Disconnect Wallet
                 </Nav.Link>
               </Nav.Item>
+            </Nav>
+              
             )}
-          </Nav>
+          
         </Container>
       </Navbar>
       <div className="projectPage-layout">
@@ -453,6 +527,115 @@ const ProjectPage = () => {
               </div>
             </div>
           )}
+          {mode=== 8 && (
+            <div className="project-buy-layout">
+              <div className="project-buy-exit-layer">
+                <h3 className="project-buy-title">My Orders</h3>
+                <span className="close-btn" onClick={() => setMode(0)}>
+                  &times;
+                </span>
+              </div>
+              <div className="project-order-layout">
+                { orderHistory.length > 0 && orderHistory && 
+                  orderHistory.map((item, index)=>(
+                    <table key={index} className="project-order-table">
+                      <tr>
+                        <td className="project-order-td">Order ID</td>
+                        <td className="project-order-td">{item._id}</td>
+                      </tr>
+                      <tr>
+                        <td className="project-order-td">Order Date</td>
+                        <td className="project-order-td">{item.orderDate.split("T")[0] + " " + item.orderDate.split("T")[1].split(".")[0]}</td>
+                      </tr>
+                      <tr>
+                        <td className="project-order-td">ClankCost</td>
+                        <td className="project-order-td">{item.clankCost}</td>
+                      </tr>
+                      <tr>
+                        <td className="project-order-td">Ether Cost</td>
+                        <td className="project-order-td">{item.etherCost}</td>
+                      </tr>
+                      <tr>
+                        <td colspan="2">
+                          <div className="project-buy-btn" onClick={() => onSelectOrder(item._id)}>View Order</div>
+                        </td>
+                      </tr>
+                    </table>
+                  ))
+                }
+              </div>
+            </div>
+          )}
+          {mode=== 9 && (
+            <div className="project-buy-layout">
+              <div className="project-buy-exit-layer">
+                <h3 className="project-buy-title">My Order</h3>
+                <span className="close-btn" onClick={() => setMode(0)}>
+                  &times;
+                </span>
+              </div>
+              <div className="project-order-layout">
+                { orderHistory.length > 0 && orderHistory && 
+                  orderHistory.map((item, index)=>{
+                    if ( item._id !== selectedOrderId)return;
+                    return(
+                      <table key={index} className="project-order-table">
+                        <tr>
+                          <td className="project-order-td">Order ID</td>
+                          <td className="project-order-td" colSpan="2">{item._id}</td>
+                        </tr>
+                        <tr>
+                          <td className="project-order-td">Wsllet Address</td>
+                          <td className="project-order-td" colSpan="2">{item.walletAddress}</td>
+                        </tr>
+                        <tr>
+                          <td className="project-order-td">Discord ID</td>
+                          <td className="project-order-td" colSpan="2">{item.discordID}</td>
+                        </tr>
+                        <tr>
+                          <td className="project-order-td">Order Date</td>
+                          <td className="project-order-td" colSpan="2">{item.orderDate.split("T")[0] + " " + item.orderDate.split("T")[1].split(".")[0]}</td>
+                        </tr>
+                        <tr>
+                          <td className="project-order-td">ClankCost</td>
+                          <td className="project-order-td" colSpan="2">{item.clankCost}</td>
+                        </tr>
+                        <tr>
+                          <td className="project-order-td">Ether Cost</td>
+                          <td className="project-order-td" colSpan="2">{item.etherCost}</td>
+                        </tr>
+                        {
+                          item.whitelist.map((wl, index) => (
+                            <>
+                              <tr key={index}>
+                                <td rowSpan="2" className="project-order-td">
+                                  <img
+                                    className="project-order-img"
+                                    src={
+                                      `${process.env.REACT_APP_BACKEND_URL}/uploads/` +
+                                      wl.whitelistPicture
+                                    }
+                                  />
+                                </td>
+                                <td className="project-order-td" colSpan="2">
+                                  {wl.whitelistName}
+                                </td>
+                              </tr>
+                              <tr>
+                                <td className="project-order-td">Quantity</td>
+                                <td>{wl.quantity}</td>
+                              </tr>
+                            </>
+                            
+                          ))
+                        }
+                      </table>
+                    )
+                  })
+                }
+              </div>
+            </div>
+          )}
           {mode === 10 && (
             <div className="project-buy-layout">
               <div className="project-buy-exit-layer">
@@ -468,20 +651,21 @@ const ProjectPage = () => {
                 <div className="project-buy-add-layout">
                   <div className="project-buy-wallet-layout">
                     <h5 className="project-buy-wallet-title">Wallet Address</h5>
-                    <input className="project-buy-wallet-input"/>
+                    <input className="project-buy-wallet-input" value={targetAddress} onChange={(e  ) => setTargetAddress(e.target.value)}/>
                   </div>
                   <div className="project-buy-wallet-layout">
                     <h5 className="project-buy-wallet-title">Discord I.D.</h5>
-                    <input className="project-buy-wallet-input"/>
+                    <input className="project-buy-wallet-input" value={discordID} onChange={(e) => setDiscordID(e.target.value)}/>
                   </div>
                 </div>
-                <div className="project-buy-btn">Confirm Purchase</div>
+                <div className="project-buy-btn" onClick={()=>onSubmitEther()}>Confirm Purchase</div>
                 <div className="project-buy-btn">Cancel</div>
               </div>
             </div>
           )}
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };

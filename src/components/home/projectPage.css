@@ -26,6 +26,7 @@
     background-repeat: no-repeat;
     background-size: 100% 100%;
     border-radius: 0px;
+    margin-left: 1em;
 }
 .projectPage-layout .projectList-layout{
     justify-content: center;
@@ -183,7 +184,7 @@
     box-shadow: inset 2px 2px 5px 0 rgba(#fff, 0.5);
   }
 .projectPage-layout .projectList-layout .project-layout{
-    margin: auto;
+    /* margin: auto; */
     background-image : url("../../assets/project.jpg");
     width: 777px;
     height: 245px;
@@ -191,6 +192,7 @@
 
     display: grid;
     grid-template-columns: auto auto;
+    margin-bottom: 20em;
 }
 
 .projectPage-layout .projectList-layout .project-layout .project-item{
@@ -271,7 +273,7 @@
     flex: 1
 }
 
-.projectPage-layout .projectList-layout .project-buy-layout .project-buy-content  .project-buy-btn{
+.projectPage-layout .projectList-layout .project-buy-layout .project-buy-btn{
     background-image : url("../../assets/project.jpg");
     background-repeat: no-repeat;
     background-size: 100% 100%;
@@ -314,6 +316,26 @@
 .projectPage-layout .projectList-layout .project-buy-layout .project-buy-add-layout .project-buy-wallet-layout .project-buy-wallet-title{
     font-family: "Mine";
     font-size: 22px;
+}
+.projectPage-layout .projectList-layout .project-buy-layout .project-order-layout{
+
+}
+.projectPage-layout .projectList-layout .project-buy-layout .project-order-layout .project-order-table{
+    width: 100%;
+    border: 1px solid white;
+    margin-bottom: 2em;
+}
+.projectPage-layout .projectList-layout .project-buy-layout .project-order-layout .project-order-table .project-order-td{
+    font-family: "Mine";font-size: 18px;
+    border: 1px solid white;
+    border-width: 1px !important;
+}
+.projectPage-layout .projectList-layout .project-buy-layout .project-order-layout .project-order-table .project-order-img{
+    border-radius: 10px;
+    width: 120px;
+    height: 120px;
+    flex: 1;
+    border:  rgba(255, 255, 255, 0.41) 0.2px solid
 }
 @media only screen and (max-width: 600px) {
     .navbar-layout{
@@ -376,11 +398,26 @@
         height: 120px;
         border:  rgba(255, 255, 255, 0.41) 0.2px solid
     }
-    .projectPage-layout .projectList-layout .project-buy-layout .project-buy-content .project-buy-row .project-buy-btn{
+    .projectPage-layout .projectList-layout .project-buy-layout .project-buy-btn{
         font-size: 16px;
     }
     .projectPage-layout .projectList-layout .project-buy-layout .project-buy-content .project-buy-row .project-buy-description{
         font-size: 12px;
+    }
+    .projectPage-layout .projectList-layout .project-layout{
+        margin-bottom: 12em;
+    }
+    .projectPage-layout .projectList-layout .project-buy-layout .project-buy-content .project-buy-description1{
+        font-size: 16px;
+    }
+    .projectPage-layout .projectList-layout .project-buy-layout .project-buy-add-layout .project-buy-wallet-layout .project-buy-wallet-title{
+        font-size: 16px;
+    }
+    .projectPage-layout .projectList-layout .project-buy-layout .project-buy-add-layout{
+        margin-top: 0.5em;
+        display: flex;
+        flex-direction:column;
+        padding: 0.5em;
     }
 }
 
