@@ -451,12 +451,18 @@ const ProjectPage = () => {
                   My Cart
                 </Nav.Link>
               </Nav.Item>
+              <Nav.Item className="nav-wallet-layout">
+                <Nav.Link className="nav-wallet" onClick={() => onNav("/admin")}>
+                  ..
+                </Nav.Link>
+              </Nav.Item>
             </Nav>
           )}
         </Container>
       </Navbar>
       <div className="projectPage-layout">
         <div className="projectList-layout">
+          {/* To be developed */}
           {mode === 1 && (
             <div className="genesis-modal">
               <div className="genesis-modal-exit-layer">
@@ -472,7 +478,7 @@ const ProjectPage = () => {
             <div className="genesis-modal">
               <div className="genesis-modal-exit-layer">
                 <h3 className="genesis-modal-title">Whitelist Store</h3>
-                <span className="close-btn" onClick={() => setMode(0)}>
+                <span className="close-btn" onClick={() => onInit()}>
                   &times;
                 </span>
               </div>
@@ -762,6 +768,7 @@ const ProjectPage = () => {
               </div>
             </div>
           )}
+          {/* Check Out for Buy Now */}
           {mode === 7 && (
             <div className="project-buy-layout">
               <div className="project-buy-exit-layer">

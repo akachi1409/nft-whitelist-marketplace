@@ -1,0 +1,242 @@
+.adminPage-layout {
+  background-color: transparent;
+  text-align: center;
+  padding-top: 2em;
+  padding-bottom: 2em;
+  flex: 10;
+  display: flex;
+  color: white;
+  height: 100vh;
+}
+
+.adminPage-layout .projectList-layout {
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  /* margin: auto */
+  /* display: flex;
+    flex-direction: column; */
+}
+
+.adminPage-layout .projectList-layout .genesis-modal {
+  background-image: url("../../assets/project.jpg");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  width: 80%;
+  height: 70%;
+  padding: 2em;
+  display: flex;
+  flex-direction: column;
+}
+
+.adminPage-layout
+  .projectList-layout
+  .genesis-modal
+  .genesis-modal-exit-layer {
+  display: flex;
+  flex-direction: row;
+}
+.adminPage-layout
+  .projectList-layout
+  .genesis-modal
+  .genesis-modal-exit-layer
+  .genesis-modal-title {
+  flex: 15;
+  color: white;
+  white-space: nowrap;
+  cursor: pointer;
+  font-family: "Mine";
+  text-align: center;
+  font-size: 22px;
+}
+.adminPage-layout
+  .projectList-layout
+  .genesis-modal
+  .genesis-modal-exit-layer
+  .close-btn {
+  flex: 1;
+  color: white;
+  cursor: pointer;
+}
+.adminPage-layout
+  .projectList-layout
+  .genesis-modal
+  .genesis-modal-content-layer
+  .genesis-modal-content-row {
+  display: flex;
+  background: rgba(255, 255, 255, 0.07);
+  border: 0.2px solid rgba(255, 255, 255, 0.41);
+  box-shadow: 0px 21px 20px rgba(0, 0, 0, 0.23);
+  /* border-radius: 10px; */
+  font-family: "Mine";
+}
+.adminPage-layout
+  .projectList-layout
+  .genesis-modal
+  .genesis-modal-content-layer
+  .genesis-modal-content-row
+  .genesis-img {
+  border-radius: 10px;
+  width: 120px;
+  height: 120px;
+  flex: 1;
+  border: rgba(255, 255, 255, 0.41) 0.2px solid;
+}
+
+.adminPage-layout
+  .projectList-layout
+  .genesis-modal
+  .genesis-modal-content-layer
+  .genesis-modal-content-row
+  .genesis-modal-details {
+  display: flex;
+  flex-direction: column;
+  /* padding-left: 2em; */
+  flex: 3;
+  border-left: rgba(255, 255, 255, 0.41) 0.2px solid;
+}
+
+.adminPage-layout
+  .projectList-layout
+  .genesis-modal
+  .genesis-modal-content-layer
+  .genesis-modal-content-row
+  .genesis-modal-detail-title {
+  color: white;
+  border-bottom: 0.2px solid #6ff67e;
+  margin-bottom: 0px !important;
+  height: 28%;
+  font-size: 22px;
+}
+
+.adminPage-layout
+  .projectList-layout
+  .genesis-modal
+  .genesis-modal-content-layer
+  .genesis-modal-content-row
+  .genesis-modal-description
+  .genesis-modal-detail-price {
+  color: white;
+  font-weight: normal;
+  font-size: 18px;
+  /* flex: 1; */
+  margin: auto;
+}
+
+.adminPage-layout
+  .projectList-layout
+  .genesis-modal
+  .genesis-modal-content-layer
+  .genesis-modal-content-row
+  .genesis-modal-description {
+  flex: 1;
+  border-left: rgba(255, 255, 255, 0.41) 1px solid;
+}
+
+.adminPage-layout
+  .projectList-layout
+  .genesis-modal
+  .genesis-modal-content-layer
+  .genesis-modal-content-row
+  .genesis-modal-description
+  .genesis-modal-col {
+  display: flex;
+  flex-direction: column;
+  height: 72%;
+}
+.adminPage-layout
+  .projectList-layout
+  .genesis-modal
+  .genesis-modal-content-layer
+  .genesis-modal-content-row
+  .genesis-modal-button {
+  flex: 1;
+  border-left: rgba(255, 255, 255, 0.41) 0.2px solid;
+  display: flex;
+  flex-direction: column;
+}
+.adminPage-layout .projectList-layout .genesis-modal .genesis-modal-button {
+  display: flex;
+}
+.adminPage-layout
+  .projectList-layout
+  .genesis-modal
+  .genesis-modal-button
+  .genesis-modal-wallet {
+  background-image: url("../../assets/project.jpg");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  border-radius: 0px;
+  color: white;
+  flex: 1;
+  cursor: pointer;
+  margin: 0.5em;
+  padding: 0.1em;
+}
+
+.adminPage-layout
+  .projectList-layout
+  .genesis-modal
+  .genesis-modal-button
+  .genesis-modal-wallet
+  .genesis-btn {
+  margin: inherit !important;
+  font-size: 16px;
+  color: white;
+}
+.close-btn {
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+  flex: 1;
+  float: right;
+}
+
+.adminPage-layout .projectList-layout .project-layout {
+  /* margin: auto; */
+  background-image: url("../../assets/project.jpg");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  width: 530px;
+  height: 140px;
+  padding: 10px;
+
+  display: grid;
+  grid-template-columns: auto auto;
+  margin-bottom: 0em;
+}
+
+.adminPage-layout .projectList-layout .project-layout .project-item {
+  border: white 1px solid;
+  height: 40px;
+  width: 250px;
+  cursor: pointer;
+}
+
+.adminPage-layout
+  .projectList-layout
+  .genesis-modal
+  .genesis-modal-wallet {
+  background-image: url("../../assets/project.jpg");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  border-radius: 0px;
+  color: white;
+  flex: 1;
+  cursor: pointer;
+  margin: 0.5em;
+  padding: 0.1em;
+  width: fit-content;
+}
+.adminPage-layout
+  .projectList-layout
+  .genesis-modal
+  .genesis-modal-wallet
+  .genesis-btn {
+  margin: inherit !important;
+  font-size: 16px;
+  color: white;
+  font-family: "Mine"
+}

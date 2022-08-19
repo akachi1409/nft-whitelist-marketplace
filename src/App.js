@@ -10,7 +10,7 @@ import WlList from "./page/auth/wlList"
 import CreateProject from "./page/auth/createProject"
 import ProjectList from "./page/project/projectList"
 // import CreateItem from "./page/item/createItem";
-
+import Admin from "./page/home/admin"
 function App() {
   return (
     <div>
@@ -20,6 +20,7 @@ function App() {
           <Route path="/wllist/:projectName" element={<WlList/>}></Route>
           <Route path="/create_project" element={<CreateProject/>}></Route>
           <Route path="/" element={<ProjectList/>}></Route>
+          <Route path="/admin" element={<Admin/>}></Route>
         </Routes>
       </Router>
     </div>

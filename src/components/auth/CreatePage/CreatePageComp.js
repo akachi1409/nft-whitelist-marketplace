@@ -17,6 +17,7 @@ function CreatePageComp() {
   const [clankPrice, setClankPrice] = useState(0);
   const [firstLoad, setFirstLoad] = useState(true);
   const [fileName, setFileName] = useState("");
+  const [description, setDescription] = useState("");
 
   const blockchain = useSelector((state) => state.blockchain);
   let navigate = useNavigate();
@@ -80,7 +81,8 @@ function CreatePageComp() {
       filesTemp.append("limit", limit);
       filesTemp.append("etherPrice", etherPrice);
       filesTemp.append("clankPrice", clankPrice);
-      filesTemp.append("address", "0xe8c125A440c049D08969d20657F46f87C8e659a5")
+      // filesTemp.append("address", "0xe8c125A440c049D08969d20657F46f87C8e659a5")
+      filesTemp.append("description", description);
       // console.log("files:", filesTemp);
       // filesTemp.append("", );
       const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/project/insert`, filesTemp)
@@ -195,6 +197,14 @@ function CreatePageComp() {
                 className="createPageComp-input"
                 value={clankPrice}
                 onChange={(e) => setClankPrice(e.target.value)}
+              />
+            </Row>
+            <Row>
+              <input
+                placeholder="Description"
+                className="createPageComp-input"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
               />
             </Row>
             <Row>
