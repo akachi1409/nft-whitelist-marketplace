@@ -20,6 +20,10 @@ function AdminPage() {
   const [firstLoad, setFirstLoad] = useState(true);
   const [projects, setProjects] = useState([]);
   const [wldata, setWldata] = useState();
+  const [page, setPage] = React.useState({
+    skip: 0,
+    take: 3,
+  });
   const blockchain = useSelector((state) => state.blockchain);
   let navigate = useNavigate();
   useEffect(() => {
@@ -62,15 +66,17 @@ function AdminPage() {
       const res = await axios.get(
         `${process.env.REACT_APP_BACKEND_URL}/project/list/project`
       );
-      console.log("res", res)
+      console.log("res", res, projectName)
       const data = []
       res.data.orders.map((order) => {
         order.whitelist.map((wl) =>{
             if (wl.whitelistName === projectName){
                 const temp = {
-                    orderID: order._id,
-                    clankCost: order.clankCost,
-                    etherCost: order.etherCost,
+                    orderNumber: order.orderNumber,
+                    totalEther: order.totalEther,
+                    totalClank: order.totalClank,
+                    clankCost: wl.clankCost,
+                    etherCost: wl.etherCost,
                     discordID: order.discordID,
                     orderDate: order.orderDate.split("T")[0]+ " " + order.orderDate.split("T")[1].split(".")[0],
                     walletAddress: order.walletAddress,
@@ -247,10 +253,12 @@ function AdminPage() {
               <div className="genesis-modal-content-layer">
                 <ExcelExport data={wldata} ref={_export}>
                   <Grid
-                    data={wldata}
-                    // style={{
-                    //   height: "420px",
-                    // }}
+                    data={wldata.slice(page.skip, page.skip + page.take)}
+                    onPageChange={(e) => setPage(e.page)}
+                    total={wldata.length}
+                    skip={page.skip}
+                    pageable={true}
+                    pageSize={page.take}
                   >
                     <GridToolbar>
                       <button
@@ -263,8 +271,11 @@ function AdminPage() {
                     </GridToolbar>
                     <GridColumn field="projectName" title="Project Name"  width="100px"  />
                     <GridColumn field="walletAddress" title="Wallet Address"/>
+                    <GridColumn field="orderNumber" title="Order Number"/>
+                    <GridColumn field="totalEther" title="Total Ether" width="100px" />
+                    <GridColumn field="totalClank" title="Total Clank"  width="100px"  />
                     <GridColumn field="discordID" title="Discord ID"/>
-                    <GridColumn field="clankCost" title="ClankCost" width="100px" />
+                    <GridColumn field="clankCost" title="Clank Cost" width="100px" />
                     <GridColumn field="etherCost" title="Ether Cost"  width="100px"  />
                     <GridColumn field="quantity" title="Quantity" width="100px" />
                     <GridColumn field="orderDate" title="Date"  width="100px" />

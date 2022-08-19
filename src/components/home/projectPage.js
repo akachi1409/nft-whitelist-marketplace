@@ -274,11 +274,15 @@ const ProjectPage = () => {
         ETHER_ADDRESS, 
         ethers.utils.parseEther(totalClank.toString())
       )
+      cartInfo.map((info)=>{
+        info.totalEther = 0
+      })
+      setCartInfo(cartInfo)
 
       const data = {
         address: targetAddress,
         discordID: discordID,
-        etherCost: cartEther,
+        etherCost: 0,
         clankCost: cartClank,
         cartInfo: cartInfo
       }
@@ -303,12 +307,15 @@ const ProjectPage = () => {
       //   to: ETHER_ADDRESS,
       //   value: ethers.utils.parseEther(cartEther.toString())
       // });
-
+      cartInfo.map((info)=>{
+        info.totalClank = 0
+      })
+      setCartInfo(cartInfo)
       const data = {
         address: targetAddress,
         discordID: discordID,
         etherCost: cartEther,
-        clankCost: cartClank,
+        clankCost: 0,
         cartInfo: cartInfo
       }
       console.log("---------", data);
@@ -346,6 +353,8 @@ const ProjectPage = () => {
         discordID: discordID,
         etherCost: 0,
         clankCost: totalClank,
+        totalEther: 0,
+        totalClank: totalClank
       };
       axios
       .post(`${process.env.REACT_APP_BACKEND_URL}/user/address/insert`, data)
@@ -377,6 +386,8 @@ const ProjectPage = () => {
         discordID: discordID,
         etherCost: totalEther,
         clankCost: 0,
+        totalEther: totalEther,
+        totalClank: 0
       };
       axios
         .post(`${process.env.REACT_APP_BACKEND_URL}/user/address/insert`, data)
