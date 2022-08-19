@@ -97,6 +97,36 @@ function AdminPage() {
     }
   };
 
+  const getAllWLProject = async () => {
+    try {
+        const res = await axios.get(
+          `${process.env.REACT_APP_BACKEND_URL}/project/list/project`
+        );
+        const data = []
+        res.data.orders.map((order) => {
+          order.whitelist.map((wl) =>{
+                const temp = {
+                    orderNumber: order.orderNumber,
+                    totalEther: order.totalEther,
+                    totalClank: order.totalClank,
+                    clankCost: wl.clankCost,
+                    etherCost: wl.etherCost,
+                    discordID: order.discordID,
+                    orderDate: order.orderDate.split("T")[0]+ " " + order.orderDate.split("T")[1].split(".")[0],
+                    walletAddress: order.walletAddress,
+                    quantity: wl.quantity,
+                    projectName: wl.whitelistName,
+                };
+                data.push(temp)
+          })
+        })
+        console.log("data", data);
+        setWldata(data);
+        setMode(3);
+      } catch (err) {
+        console.log("error", err);
+      }
+  }
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
       <Navbar bg="transparent" variant="light" className="navbar-layout">
@@ -192,6 +222,12 @@ function AdminPage() {
                   onClick={() => onNav("/create_project")}
                 >
                   <h5 className="genesis-btn">Create Project</h5>
+                </div>
+                <div
+                  className="genesis-modal-wallet"
+                  onClick={() => getAllWLProject()}
+                >
+                  <h5 className="genesis-btn">Download All Order History</h5>
                 </div>
                 {projects.map((item, index) => (
                   <div className="genesis-modal-content-row">
