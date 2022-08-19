@@ -12,7 +12,7 @@
     font-family: 'Mine';
     font-style: normal;
     font-weight: 600;
-    font-size: 35px;
+    font-size: 25px;
     line-height: 44px;
     /* identical to box height */
     color: #FFFFFF;
@@ -65,6 +65,7 @@
 .projectPage-layout .projectList-layout .genesis-modal .genesis-modal-exit-layer .close-btn{
     flex:1;
     color: white;
+    cursor: pointer;
 }
 .projectPage-layout .projectList-layout .genesis-modal .genesis-modal-content-layer .genesis-modal-content-row{
     display: flex;
@@ -186,19 +187,21 @@
 .projectPage-layout .projectList-layout .project-layout{
     /* margin: auto; */
     background-image : url("../../assets/project.jpg");
-    width: 777px;
-    height: 245px;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    width: 530px;
+    height: 140px;
     padding: 10px;
 
     display: grid;
     grid-template-columns: auto auto;
-    margin-bottom: 20em;
+    margin-bottom: 10em;
 }
 
 .projectPage-layout .projectList-layout .project-layout .project-item{
     border:white 1px solid;
-    height: 75px;
-    width: 360px;
+    height: 40px;
+    width: 250px;
     cursor: pointer;
 }
 

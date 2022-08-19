@@ -28,6 +28,7 @@ import RobosImage from "../../assets/robos.png";
 import ClankImage from "../../assets/clank.png";
 import MerchImage from "../../assets/merch.png";
 import OtherImage from "../../assets/other.png";
+import ClankToken from "../../contracts/ClankToken.json"
 const { ethers } = require("ethers");
 const initialNetwork = NETWORKS.mainnet;
 // const NETWORKCHECK = true;
@@ -231,6 +232,7 @@ const ProjectPage = () => {
       img: selectedProject.imageName,
       totalEther: totalEther,
       totalClank: totalClank,
+      quantity: amounts,
       projectName: selectedProject.projectName,
     };
     setCartEther(cartEther + totalEther);
@@ -251,16 +253,112 @@ const ProjectPage = () => {
   };
 
   const onPurchase = () => {
+    console.log(buyMethod)
     if (buyMethod === 0) {
       onSubmitEther();
     } else if (buyMethod === 1) {
+      onSubmitClank()
     }
   };
+
+  const onPurchaseCartClank = async () => {
+    try{
+      await injectedProvider.send("eth_requestAccounts", []);
+      const signer = injectedProvider.getSigner();
+
+      const BOLTS_ADDRESS = "0xbE8f69c0218086923aC35fb311A3dD84baB069E5";
+      const contract = new ethers.Contract(BOLTS_ADDRESS, ClankToken, injectedProvider);
+      const contractSigner = contract.connect(signer);
+
+      const transfer = await contractSigner.transfer(
+        ETHER_ADDRESS, 
+        ethers.utils.parseEther(totalClank.toString())
+      )
+
+      const data = {
+        address: targetAddress,
+        discordID: discordID,
+        etherCost: cartEther,
+        clankCost: cartClank,
+        cartInfo: cartInfo
+      }
+      console.log("---------", data);
+      axios
+      .post(`${process.env.REACT_APP_BACKEND_URL}/user/address/insertCart`, data)
+      .then((res) => {
+        console.log(`Server response: ${JSON.stringify(res.data, null, 0)}`);
+      });
+      setMode(0)
+    }catch (err) {
+      notify("Insufficient funds!");
+      // console.log("err", err)
+    }
+  }
+  const onPurchaseCartEther = async () =>{
+    try{
+      await injectedProvider.send("eth_requestAccounts", []);
+      const signer = injectedProvider.getSigner();
+
+      // await signer.sendTransaction({
+      //   to: ETHER_ADDRESS,
+      //   value: ethers.utils.parseEther(cartEther.toString())
+      // });
+
+      const data = {
+        address: targetAddress,
+        discordID: discordID,
+        etherCost: cartEther,
+        clankCost: cartClank,
+        cartInfo: cartInfo
+      }
+      console.log("---------", data);
+      axios
+      .post(`${process.env.REACT_APP_BACKEND_URL}/user/address/insertCart`, data)
+      .then((res) => {
+        console.log(`Server response: ${JSON.stringify(res.data, null, 0)}`);
+      });
+      setMode(0)
+    }catch (err) {
+      notify("Insufficient funds!");
+      // console.log("err", err)
+    }
+  }
+  const onSubmitClank = async () => {
+    try {
+      await injectedProvider.send("eth_requestAccounts", []);
+      const signer = injectedProvider.getSigner();
+      console.log("-------", totalEther, totalEther.toString());
+
+      const BOLTS_ADDRESS = "0xbE8f69c0218086923aC35fb311A3dD84baB069E5";
+      const contract = new ethers.Contract(BOLTS_ADDRESS, ClankToken, injectedProvider);
+      const contractSigner = contract.connect(signer);
+
+      const transfer = await contractSigner.transfer(
+        ETHER_ADDRESS, 
+        ethers.utils.parseEther(totalClank.toString())
+      )
+      await transfer.wait();
+      const data = {
+        address: targetAddress,
+        project: selectedProject.projectName,
+        image: selectedProject.imageName,
+        quantity: amounts,
+        discordID: discordID,
+        etherCost: 0,
+        clankCost: totalClank,
+      };
+      axios
+      .post(`${process.env.REACT_APP_BACKEND_URL}/user/address/insert`, data)
+      .then((res) => {
+        console.log(`Server response: ${JSON.stringify(res.data, null, 0)}`);
+      });
+      setMode(0)
+    } catch (err) {
+      notify("Insufficient funds!");
+      // console.log("err", err)
+    }
+  }
   const onSubmitEther = async () => {
-    // if (wlNum === limit){
-    // notify("No more WL spot for this project.");
-    //   return;
-    // }
     try {
       await injectedProvider.send("eth_requestAccounts", []);
       const signer = injectedProvider.getSigner();
@@ -272,19 +370,20 @@ const ProjectPage = () => {
       //   value: ethers.utils.parseEther(totalEther.toString())
       // });
       const data = {
-        address: address,
-        project: "Akachi",
+        address: targetAddress,
+        project: selectedProject.projectName,
         image: selectedProject.imageName,
         quantity: amounts,
         discordID: discordID,
         etherCost: totalEther,
-        clankCost: totalClank,
+        clankCost: 0,
       };
       axios
         .post(`${process.env.REACT_APP_BACKEND_URL}/user/address/insert`, data)
         .then((res) => {
           console.log(`Server response: ${JSON.stringify(res.data, null, 0)}`);
         });
+      setMode(0)
     } catch (err) {
       notify("Insufficient funds!");
       // console.log("err", err)
@@ -293,6 +392,9 @@ const ProjectPage = () => {
     // await transaction.wait();
   };
 
+  const onCart = () => {
+    setMode(5);
+  }
   const onOrder = () => {
     setMode(8);
     try {
@@ -306,7 +408,6 @@ const ProjectPage = () => {
           setFlag(!flag);
         });
     } catch (err) {
-      // notify("Insufficient funds!");
       console.log("err", err);
     }
   };
@@ -343,6 +444,11 @@ const ProjectPage = () => {
               <Nav.Item className="nav-wallet-layout">
                 <Nav.Link className="nav-wallet" onClick={() => onDisconnect()}>
                   Disconnect Wallet
+                </Nav.Link>
+              </Nav.Item>
+              <Nav.Item className="nav-wallet-layout">
+                <Nav.Link className="nav-wallet" onClick={() => onCart()}>
+                  My Cart
                 </Nav.Link>
               </Nav.Item>
             </Nav>
@@ -420,6 +526,7 @@ const ProjectPage = () => {
               </div>
             </div>
           )}
+          {/* 6 categories */}
           {mode === 0 && (
             <div className="project-layout">
               <img
@@ -625,19 +732,33 @@ const ProjectPage = () => {
                       <td className="project-buy-price">{cartClank}</td>
                     </tr>
                   </table>
-                  <div className="project-buy-btn" onClick={() => onPurchase()}>
-                    Confirm Purchase with Ether
+                  <div className="project-buy-add-layout">
+                  <div className="project-buy-wallet-layout">
+                    <h5 className="project-buy-wallet-title">Wallet Address</h5>
+                    <input
+                      className="project-buy-wallet-input"
+                      value={targetAddress}
+                      onChange={(e) => setTargetAddress(e.target.value)}
+                    />
                   </div>
-                  <div className="project-buy-btn" onClick={() => onPurchase()}>
-                    Confirm Purchase with Clank
+                  <div className="project-buy-wallet-layout">
+                    <h5 className="project-buy-wallet-title">Discord I.D.</h5>
+                    <input
+                      className="project-buy-wallet-input"
+                      value={discordID}
+                      onChange={(e) => setDiscordID(e.target.value)}
+                    />
                   </div>
-                  <div className="project-buy-btn" onClick={() => setMode(2)}>Cancel</div>
-                  {/* <tr>
-                      <div className="project-buy-btn" onClick={()=>onBuyEther()}>Buy Now (Ether)</div>
-                    </tr>
-                    <tr>
-                      <div className="project-buy-btn" onClick={() =>onBuyClank()}>Buy Now (Clank)</div>
-                    </tr> */}
+                </div>
+                  <div style={{border: "1px solid white", padding: "1em"}}>
+                    <div className="project-buy-btn" onClick={() => onPurchaseCartEther()}>
+                      Confirm Purchase with Ether
+                    </div>
+                    <div className="project-buy-btn" onClick={() => onPurchaseCartClank()}>
+                      Confirm Purchase with Clank
+                    </div>
+                    <div className="project-buy-btn" onClick={() => setMode(2)}>Add More</div>
+                  </div>
               </div>
             </div>
           )}
@@ -882,6 +1003,7 @@ const ProjectPage = () => {
               </div>
             </div>
           )}
+          {/* Buy now */}
           {mode === 10 && (
             <div className="project-buy-layout">
               <div className="project-buy-exit-layer">
