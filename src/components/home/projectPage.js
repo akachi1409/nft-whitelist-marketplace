@@ -763,7 +763,7 @@ const ProjectPage = () => {
                     <div className="project-buy-btn" onClick={() => onPurchaseCartClank()}>
                       Confirm Purchase with Clank
                     </div>
-                    <div className="project-buy-btn" onClick={() => setMode(2)}>Add More</div>
+                    <div className="project-buy-btn" onClick={() => onInit()}>Add More</div>
                   </div>
               </div>
             </div>
@@ -773,7 +773,7 @@ const ProjectPage = () => {
             <div className="project-buy-layout">
               <div className="project-buy-exit-layer">
                 <h3 className="project-buy-title">Check Out</h3>
-                <span className="close-btn" onClick={() => setMode(0)}>
+                <span className="close-btn" onClick={() => onInit()}>
                   &times;
                 </span>
               </div>
@@ -1044,7 +1044,7 @@ const ProjectPage = () => {
                 <div className="project-buy-btn" onClick={() => onPurchase()}>
                   Confirm Purchase
                 </div>
-                <div className="project-buy-btn">Cancel</div>
+                <div className="project-buy-btn" onClick={()=> onInit()}>Cancel</div>
               </div>
             </div>
           )}

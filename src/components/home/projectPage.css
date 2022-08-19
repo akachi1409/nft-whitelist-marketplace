@@ -74,6 +74,7 @@
     box-shadow: 0px 21px 20px rgba(0, 0, 0, 0.23);
     /* border-radius: 10px; */
     font-family: 'Mine';
+    margin-bottom: 1em;
 }
 .projectPage-layout .projectList-layout .genesis-modal .genesis-modal-content-layer .genesis-modal-content-row .genesis-img{
     border-radius: 10px;

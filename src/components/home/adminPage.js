@@ -3,6 +3,9 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Nav, Navbar, Container, Row, Col } from "react-bootstrap";
 import axios from "axios";
+import { Grid, GridColumn, GridToolbar } from "@progress/kendo-react-grid";
+import { ExcelExport } from "@progress/kendo-react-excel-export";
+import '@progress/kendo-theme-default/dist/all.css';
 
 import GenesisImage from "../../assets/genesis.png";
 import WLImage from "../../assets/wl.png";
@@ -16,6 +19,7 @@ function AdminPage() {
   const [mode, setMode] = useState(0);
   const [firstLoad, setFirstLoad] = useState(true);
   const [projects, setProjects] = useState([]);
+  const [wldata, setWldata] = useState();
   const blockchain = useSelector((state) => state.blockchain);
   let navigate = useNavigate();
   useEffect(() => {
@@ -31,12 +35,20 @@ function AdminPage() {
     navigate(url);
   };
 
+  const _export = React.useRef(null);
+
+  const excelExport = () => {
+    if (_export.current !== null) {
+      _export.current.save();
+    }
+  };
+
   async function getProjects() {
     try {
       const res = await axios.get(
         `${process.env.REACT_APP_BACKEND_URL}/project/list`
       );
-      console.log("res", res);
+    //   console.log("res", res);
       if (res.data.success) {
         setProjects(res.data.projects);
       }
@@ -44,6 +56,40 @@ function AdminPage() {
       console.log("error", err);
     }
   }
+
+  const getWLProject = async (projectName) => {
+    try {
+      const res = await axios.get(
+        `${process.env.REACT_APP_BACKEND_URL}/project/list/project`
+      );
+      console.log("res", res)
+      const data = []
+      res.data.orders.map((order) => {
+        order.whitelist.map((wl) =>{
+            if (wl.whitelistName === projectName){
+                const temp = {
+                    orderID: order._id,
+                    clankCost: order.clankCost,
+                    etherCost: order.etherCost,
+                    discordID: order.discordID,
+                    orderDate: order.orderDate.split("T")[0]+ " " + order.orderDate.split("T")[1].split(".")[0],
+                    walletAddress: order.walletAddress,
+                    quantity: wl.quantity,
+                    projectName: wl.whitelistName,
+                };
+                data.push(temp)
+            }
+            
+            
+        })
+      })
+      console.log("data", data);
+      setWldata(data);
+      setMode(3);
+    } catch (err) {
+      console.log("error", err);
+    }
+  };
 
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
@@ -135,8 +181,11 @@ function AdminPage() {
                 </span>
               </div>
               <div className="genesis-modal-content-layer">
-                <div className="genesis-modal-wallet" onClick={()=>onNav("/create_project")}> 
-                    <h5 className="genesis-btn">Create Project</h5>
+                <div
+                  className="genesis-modal-wallet"
+                  onClick={() => onNav("/create_project")}
+                >
+                  <h5 className="genesis-btn">Create Project</h5>
                 </div>
                 {projects.map((item, index) => (
                   <div className="genesis-modal-content-row">
@@ -171,19 +220,56 @@ function AdminPage() {
                     <div className="genesis-modal-button">
                       <div
                         className="genesis-modal-wallet"
-                        onClick={() => onBuy(item)}
+                        onClick={() => getWLProject(item.projectName)}
                       >
-                        <h5 className="genesis-btn">Buy Now</h5>
+                        <h5 className="genesis-btn">Download Orders</h5>
                       </div>
                       <div
                         className="genesis-modal-wallet"
-                        onClick={() => onAdd(item)}
+                        // onClick={() => onAdd(item)}
                       >
                         <h5 className="genesis-btn">Add To Cart</h5>
                       </div>
                     </div>
                   </div>
                 ))}
+              </div>
+            </div>
+          )}
+          {mode === 3 && (
+            <div className="genesis-modal">
+              <div className="genesis-modal-exit-layer">
+                <h3 className="genesis-modal-title">Whitelist Admin</h3>
+                <span className="close-btn" onClick={() => setMode(0)}>
+                  &times;
+                </span>
+              </div>
+              <div className="genesis-modal-content-layer">
+                <ExcelExport data={wldata} ref={_export}>
+                  <Grid
+                    data={wldata}
+                    // style={{
+                    //   height: "420px",
+                    // }}
+                  >
+                    <GridToolbar>
+                      <button
+                        title="Export Excel"
+                        className="k-button k-button-md k-rounded-md k-button-solid k-button-solid-primary"
+                        onClick={excelExport}
+                      >
+                        Export to Excel
+                      </button>
+                    </GridToolbar>
+                    <GridColumn field="projectName" title="Project Name"  width="100px"  />
+                    <GridColumn field="walletAddress" title="Wallet Address"/>
+                    <GridColumn field="discordID" title="Discord ID"/>
+                    <GridColumn field="clankCost" title="ClankCost" width="100px" />
+                    <GridColumn field="etherCost" title="Ether Cost"  width="100px"  />
+                    <GridColumn field="quantity" title="Quantity" width="100px" />
+                    <GridColumn field="orderDate" title="Date"  width="100px" />
+                  </Grid>
+                </ExcelExport>
               </div>
             </div>
           )}
