@@ -325,10 +325,10 @@ const ProjectPage = () => {
       await injectedProvider.send("eth_requestAccounts", []);
       const signer = injectedProvider.getSigner();
 
-      // await signer.sendTransaction({
-      //   to: ETHER_ADDRESS,
-      //   value: ethers.utils.parseEther(cartEther.toString())
-      // });
+      await signer.sendTransaction({
+        to: ETHER_ADDRESS,
+        value: ethers.utils.parseEther(cartEther.toString())
+      });
       cartInfo.map((info) => {
         info.totalClank = 0;
       });
@@ -402,11 +402,11 @@ const ProjectPage = () => {
       const signer = injectedProvider.getSigner();
       console.log("-------", totalEther, totalEther.toString());
 
-      // await signer.sendTransaction({
-      //   // from: address,
-      //   to: ETHER_ADDRESS,
-      //   value: ethers.utils.parseEther(totalEther.toString())
-      // });
+      await signer.sendTransaction({
+        // from: address,
+        to: ETHER_ADDRESS,
+        value: ethers.utils.parseEther(totalEther.toString())
+      });
       const data = {
         address: targetAddress,
         project: selectedProject.projectName,
