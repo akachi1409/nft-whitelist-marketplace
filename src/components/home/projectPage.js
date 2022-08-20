@@ -8,6 +8,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import delay from "delay";
+import moment from "moment";
 import { connect, disconnect } from "../../redux/blockchain/blockchainActions";
 
 import { Web3ModalSetup } from "../../helpers";
@@ -28,7 +29,7 @@ import RobosImage from "../../assets/robos.png";
 import ClankImage from "../../assets/clank.png";
 import MerchImage from "../../assets/merch.png";
 import OtherImage from "../../assets/other.png";
-import ClankToken from "../../contracts/ClankToken.json"
+import ClankToken from "../../contracts/ClankToken.json";
 const { ethers } = require("ethers");
 const initialNetwork = NETWORKS.mainnet;
 // const NETWORKCHECK = true;
@@ -211,6 +212,10 @@ const ProjectPage = () => {
   }, [userSigner]);
 
   const onPlus = () => {
+    if (amounts>= (selectedProject.wlLimit - selectedProject.listedWl)) {
+      notify("There is only " + (selectedProject.wlLimit - selectedProject.listedWl) + " whitelist spot remain.")
+      return;
+    }
     const newEther = totalEther + selectedProject.etherPrice;
     const newClank = totalClank + selectedProject.clankPrice;
     setAmounts(amounts + 1);
@@ -228,6 +233,16 @@ const ProjectPage = () => {
   };
 
   const onAddItem = () => {
+    let remain = selectedProject.wlLimit - selectedProject.listedWl;
+    console.log("cartInfo", cartInfo)
+    cartInfo.map((info)=>{
+      console.log("-----------", info)
+      remain -= info.quantity;
+    })
+    if (amounts === remain){
+      notify("There is only " + (selectedProject.wlLimit - selectedProject.listedWl) + " whitelist spot remain.")
+      return;
+    }
     const newCartInfo = {
       img: selectedProject.imageName,
       totalEther: totalEther,
@@ -253,53 +268,60 @@ const ProjectPage = () => {
   };
 
   const onPurchase = () => {
-    console.log(buyMethod)
+    console.log(buyMethod);
     if (buyMethod === 0) {
       onSubmitEther();
     } else if (buyMethod === 1) {
-      onSubmitClank()
+      onSubmitClank();
     }
   };
 
   const onPurchaseCartClank = async () => {
-    try{
+    try {
       await injectedProvider.send("eth_requestAccounts", []);
       const signer = injectedProvider.getSigner();
 
       const BOLTS_ADDRESS = "0xbE8f69c0218086923aC35fb311A3dD84baB069E5";
-      const contract = new ethers.Contract(BOLTS_ADDRESS, ClankToken, injectedProvider);
+      const contract = new ethers.Contract(
+        BOLTS_ADDRESS,
+        ClankToken,
+        injectedProvider
+      );
       const contractSigner = contract.connect(signer);
 
       const transfer = await contractSigner.transfer(
-        ETHER_ADDRESS, 
+        ETHER_ADDRESS,
         ethers.utils.parseEther(totalClank.toString())
-      )
-      cartInfo.map((info)=>{
-        info.totalEther = 0
-      })
-      setCartInfo(cartInfo)
+      );
+      cartInfo.map((info) => {
+        info.totalEther = 0;
+      });
+      setCartInfo(cartInfo);
 
       const data = {
         address: targetAddress,
         discordID: discordID,
         etherCost: 0,
         clankCost: cartClank,
-        cartInfo: cartInfo
-      }
+        cartInfo: cartInfo,
+      };
       console.log("---------", data);
       axios
-      .post(`${process.env.REACT_APP_BACKEND_URL}/user/address/insertCart`, data)
-      .then((res) => {
-        console.log(`Server response: ${JSON.stringify(res.data, null, 0)}`);
-      });
-      setMode(0)
-    }catch (err) {
+        .post(
+          `${process.env.REACT_APP_BACKEND_URL}/user/address/insertCart`,
+          data
+        )
+        .then((res) => {
+          console.log(`Server response: ${JSON.stringify(res.data, null, 0)}`);
+        });
+      setMode(0);
+    } catch (err) {
       notify("Insufficient funds!");
       // console.log("err", err)
     }
-  }
-  const onPurchaseCartEther = async () =>{
-    try{
+  };
+  const onPurchaseCartEther = async () => {
+    try {
       await injectedProvider.send("eth_requestAccounts", []);
       const signer = injectedProvider.getSigner();
 
@@ -307,29 +329,32 @@ const ProjectPage = () => {
       //   to: ETHER_ADDRESS,
       //   value: ethers.utils.parseEther(cartEther.toString())
       // });
-      cartInfo.map((info)=>{
-        info.totalClank = 0
-      })
-      setCartInfo(cartInfo)
+      cartInfo.map((info) => {
+        info.totalClank = 0;
+      });
+      setCartInfo(cartInfo);
       const data = {
         address: targetAddress,
         discordID: discordID,
         etherCost: cartEther,
         clankCost: 0,
-        cartInfo: cartInfo
-      }
+        cartInfo: cartInfo,
+      };
       console.log("---------", data);
       axios
-      .post(`${process.env.REACT_APP_BACKEND_URL}/user/address/insertCart`, data)
-      .then((res) => {
-        console.log(`Server response: ${JSON.stringify(res.data, null, 0)}`);
-      });
-      setMode(0)
-    }catch (err) {
+        .post(
+          `${process.env.REACT_APP_BACKEND_URL}/user/address/insertCart`,
+          data
+        )
+        .then((res) => {
+          console.log(`Server response: ${JSON.stringify(res.data, null, 0)}`);
+        });
+      setMode(0);
+    } catch (err) {
       notify("Insufficient funds!");
       // console.log("err", err)
     }
-  }
+  };
   const onSubmitClank = async () => {
     try {
       await injectedProvider.send("eth_requestAccounts", []);
@@ -337,13 +362,17 @@ const ProjectPage = () => {
       console.log("-------", totalEther, totalEther.toString());
 
       const BOLTS_ADDRESS = "0xbE8f69c0218086923aC35fb311A3dD84baB069E5";
-      const contract = new ethers.Contract(BOLTS_ADDRESS, ClankToken, injectedProvider);
+      const contract = new ethers.Contract(
+        BOLTS_ADDRESS,
+        ClankToken,
+        injectedProvider
+      );
       const contractSigner = contract.connect(signer);
 
       const transfer = await contractSigner.transfer(
-        ETHER_ADDRESS, 
+        ETHER_ADDRESS,
         ethers.utils.parseEther(totalClank.toString())
-      )
+      );
       await transfer.wait();
       const data = {
         address: targetAddress,
@@ -354,19 +383,19 @@ const ProjectPage = () => {
         etherCost: 0,
         clankCost: totalClank,
         totalEther: 0,
-        totalClank: totalClank
+        totalClank: totalClank,
       };
       axios
-      .post(`${process.env.REACT_APP_BACKEND_URL}/user/address/insert`, data)
-      .then((res) => {
-        console.log(`Server response: ${JSON.stringify(res.data, null, 0)}`);
-      });
-      setMode(0)
+        .post(`${process.env.REACT_APP_BACKEND_URL}/user/address/insert`, data)
+        .then((res) => {
+          console.log(`Server response: ${JSON.stringify(res.data, null, 0)}`);
+        });
+      setMode(0);
     } catch (err) {
       notify("Insufficient funds!");
       // console.log("err", err)
     }
-  }
+  };
   const onSubmitEther = async () => {
     try {
       await injectedProvider.send("eth_requestAccounts", []);
@@ -387,14 +416,14 @@ const ProjectPage = () => {
         etherCost: totalEther,
         clankCost: 0,
         totalEther: totalEther,
-        totalClank: 0
+        totalClank: 0,
       };
       axios
         .post(`${process.env.REACT_APP_BACKEND_URL}/user/address/insert`, data)
         .then((res) => {
           console.log(`Server response: ${JSON.stringify(res.data, null, 0)}`);
         });
-      setMode(0)
+      setMode(0);
     } catch (err) {
       notify("Insufficient funds!");
       // console.log("err", err)
@@ -405,7 +434,7 @@ const ProjectPage = () => {
 
   const onCart = () => {
     setMode(5);
-  }
+  };
   const onOrder = () => {
     setMode(8);
     try {
@@ -463,7 +492,10 @@ const ProjectPage = () => {
                 </Nav.Link>
               </Nav.Item>
               <Nav.Item className="nav-wallet-layout">
-                <Nav.Link className="nav-wallet" onClick={() => onNav("/admin")}>
+                <Nav.Link
+                  className="nav-wallet"
+                  onClick={() => onNav("/admin")}
+                >
                   ..
                 </Nav.Link>
               </Nav.Item>
@@ -490,11 +522,73 @@ const ProjectPage = () => {
               <div className="genesis-modal-exit-layer">
                 <h3 className="genesis-modal-title">Whitelist Store</h3>
                 <span className="close-btn" onClick={() => onInit()}>
-                  &times;
                 </span>
               </div>
               <div className="genesis-modal-content-layer">
                 {projects.map((item, index) => (
+                  <table className="genesis-table">
+                    <tr>
+                      <td rowSpan="3">
+                        <img
+                          className="genesis-img"
+                          src={
+                            `${process.env.REACT_APP_BACKEND_URL}/uploads/` +
+                            item.imageName
+                          }
+                        />
+                      </td>
+                      <td className="genesis-modal-details">
+                        <h3 className="genesis-modal-detail-title">
+                          {item.projectName}
+                        </h3>
+                      </td>
+                      <td>
+                        <h3 className="genesis-modal-detail-title">Quantity</h3>
+                      </td>
+                      <td>
+                        <h3 className="genesis-modal-detail-title">Price</h3>
+                      </td>
+                      <td rowSpan="3" className="genesis-modal-button">
+                        <div
+                          className="genesis-modal-wallet"
+                          onClick={() => onBuy(item)}
+                        >
+                          <h5 className="genesis-btn">Buy Now</h5>
+                        </div>
+                        <div
+                          className="genesis-modal-wallet"
+                          onClick={() => onAdd(item)}
+                        >
+                          <h5 className="genesis-btn">Add To Cart</h5>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td rowSpan="2" className="wordbreak">
+                        {item.description}
+                      </td>
+                      <td rowSpan="2">
+                        <p>
+                          {item.listedWl}/{item.wlLimit}
+                        </p>
+                      </td>
+                      <td>
+                        <h4 className="genesis-modal-detail-price">
+                          {item.etherPrice + " "}Ether
+                        </h4>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <h4 className="genesis-modal-detail-price">
+                          {item.clankPrice + " "}Clank
+                        </h4>
+                      </td>
+                    </tr>
+                  </table>
+                ))}
+
+                {/* {projects.map((item, index) => (
                   <div className="genesis-modal-content-row">
                     <img
                       className="genesis-img"
@@ -507,13 +601,16 @@ const ProjectPage = () => {
                       <h3 className="genesis-modal-detail-title">
                         {item.projectName}
                       </h3>
-                      {/* <div className="holding-bar"/> */}
                       <p>{item.description}</p>
+                    </div>
+                    <div className="genesis-modal-details">
+                      <h3 className="genesis-modal-detail-title">
+                        Quantity
+                      </h3>
+                      <p>{item.listedWl}/{item.wlLimit}</p>
                     </div>
                     <div className="genesis-modal-description">
                       <h3 className="genesis-modal-detail-title">Price</h3>
-                      {/* <div className="holding-bar"/> */}
-                      {/* <h4>{item.listedWl}/{item.wlLimit}</h4> */}
                       <div className="genesis-modal-col">
                         <h4 className="genesis-modal-detail-price">
                           {item.etherPrice + " "}Ether
@@ -527,19 +624,17 @@ const ProjectPage = () => {
                     <div className="genesis-modal-button">
                       <div
                         className="genesis-modal-wallet"
-                        onClick={() => onBuy(item)}
                       >
                         <h5 className="genesis-btn">Buy Now</h5>
                       </div>
                       <div
                         className="genesis-modal-wallet"
-                        onClick={() => onAdd(item)}
                       >
                         <h5 className="genesis-btn">Add To Cart</h5>
                       </div>
                     </div>
                   </div>
-                ))}
+                ))} */}
               </div>
             </div>
           )}
@@ -602,7 +697,6 @@ const ProjectPage = () => {
               <div className="project-buy-exit-layer">
                 <h3 className="project-buy-title">Shopping Cart</h3>
                 <span className="close-btn" onClick={() => setMode(0)}>
-                  &times;
                 </span>
               </div>
               <div className="project-buy-content">
@@ -704,52 +798,64 @@ const ProjectPage = () => {
               <div className="project-buy-exit-layer">
                 <h3 className="project-buy-title">Check Out</h3>
                 <span className="close-btn" onClick={() => setMode(2)}>
-                  &times;
                 </span>
               </div>
               <div className="project-buy-content">
-                  {cartInfo.map((item, index) => (
-                    <table className="project-cart-table" key={index}>
-                      <tr>
-                        <td rowSpan="3">
-                          <img
-                            className="project-buy-img"
-                            src={
-                              `${process.env.REACT_APP_BACKEND_URL}/uploads/` +
-                              item.img
-                            }
-                          />
-                        </td>
-                        <td className="project-buy-title">Project Name</td>
-                        <td className="project-buy-title" colSpan="2">Price</td>
-                      </tr>
-                      <tr>
-                        <td rowSpan="2">
-                          <h3>{item.projectName}</h3>
-                        </td>
-                        <td>Ehter</td>
-                        <td>Clank</td>
-                      </tr>
-                      <tr>
-                        <td>{item.totalEther}</td>
-                        <td>{item.totalClank}</td>
-                      </tr>
-                    </table>
-                  ))}
-                  <table className="project-cart-table">
+                {cartInfo.map((item, index) => (
+                  <table className="project-cart-table" key={index}>
                     <tr>
-                      <td rowspan="2" className="project-buy-price">
-                        Total
+                      <td rowSpan="3">
+                        <img
+                          className="project-buy-img"
+                          src={
+                            `${process.env.REACT_APP_BACKEND_URL}/uploads/` +
+                            item.img
+                          }
+                        />
                       </td>
-                      <td className="project-buy-price">Ether:</td>
-                      <td className="project-buy-price">{cartEther}</td>
+                      <td className="project-buy-title">Project Name</td>
+                      <td className="project-buy-title" colSpan="2">
+                        Price
+                      </td>
                     </tr>
                     <tr>
-                      <td className="project-buy-price">Clank:</td>
-                      <td className="project-buy-price">{cartClank}</td>
+                      <td rowSpan="2">
+                        <h3>{item.projectName}</h3>
+                      </td>
+                      <td>Ehter</td>
+                      <td>Clank</td>
+                    </tr>
+                    <tr>
+                      <td>{item.totalEther}</td>
+                      <td>{item.totalClank}</td>
                     </tr>
                   </table>
-                  <div className="project-buy-add-layout">
+                ))}
+
+                <table className="project-cart-table">
+                  <tr>
+                    <td rowspan="2" className="project-buy-price">
+                      Total
+                    </td>
+                    <td className="project-buy-price">Ether:</td>
+                    <td className="project-buy-price">{cartEther}</td>
+                  </tr>
+                  <tr>
+                    <td className="project-buy-price">Clank:</td>
+                    <td className="project-buy-price">{cartClank}</td>
+                  </tr>
+                </table>
+                <div className="project-buy-description1">
+                  1. If you wish allocate a different wallet address to the
+                  whitelist allocation, then please update the box below.
+                  <br />
+                  2. Please include your discord I.D as some projects require
+                  this to allocate the Whitelist.
+                  <br />
+                  3. We cannot update or amend the wallet address after
+                  purchase.
+                </div>
+                <div className="project-buy-add-layout">
                   <div className="project-buy-wallet-layout">
                     <h5 className="project-buy-wallet-title">Wallet Address</h5>
                     <input
@@ -767,15 +873,23 @@ const ProjectPage = () => {
                     />
                   </div>
                 </div>
-                  <div style={{border: "1px solid white", padding: "1em"}}>
-                    <div className="project-buy-btn" onClick={() => onPurchaseCartEther()}>
-                      Confirm Purchase with Ether
-                    </div>
-                    <div className="project-buy-btn" onClick={() => onPurchaseCartClank()}>
-                      Confirm Purchase with Clank
-                    </div>
-                    <div className="project-buy-btn" onClick={() => onInit()}>Add More</div>
+                <div style={{ border: "1px solid white", padding: "1em" }}>
+                  <div
+                    className="project-buy-btn"
+                    onClick={() => onPurchaseCartEther()}
+                  >
+                    Confirm Purchase with Ether
                   </div>
+                  <div
+                    className="project-buy-btn"
+                    onClick={() => onPurchaseCartClank()}
+                  >
+                    Confirm Purchase with Clank
+                  </div>
+                  <div className="project-buy-btn" onClick={() => onInit()}>
+                    Add More
+                  </div>
+                </div>
               </div>
             </div>
           )}
@@ -785,7 +899,6 @@ const ProjectPage = () => {
               <div className="project-buy-exit-layer">
                 <h3 className="project-buy-title">Check Out</h3>
                 <span className="close-btn" onClick={() => onInit()}>
-                  &times;
                 </span>
               </div>
               <div className="project-buy-content">
@@ -804,6 +917,29 @@ const ProjectPage = () => {
                     </tr>
                     <tr>
                       <table>
+                        <tr>
+                          <td className="project-buy-price">Time Remaining</td>
+                          <td className="project-buy-price" colSpan="2">
+                            {new Date(selectedProject.endTime).getTime() -
+                              new Date().getTime() >
+                              0 && (
+                              <div className="project-buy-description">
+                                {Math.floor(
+                                  (new Date(selectedProject.endTime).getTime() -
+                                    new Date().getTime()) /
+                                    (1000 * 60 * 60)
+                                ) + " hours"}
+                              </div>
+                            )}
+                            {new Date(selectedProject.endTime).getTime() -
+                              new Date().getTime() <=
+                              0 && (
+                              <div className="project-buy-description">
+                                Whitelist has closed
+                              </div>
+                            )}
+                          </td>
+                        </tr>
                         <tr>
                           <td rowspan="2" className="project-buy-price">
                             Price
@@ -852,22 +988,30 @@ const ProjectPage = () => {
                         </tr>
                       </table>
                     </tr>
-                    <tr>
-                      <div
-                        className="project-buy-btn"
-                        onClick={() => onBuyEther()}
-                      >
-                        Buy Now (Ether)
-                      </div>
-                    </tr>
-                    <tr>
-                      <div
-                        className="project-buy-btn"
-                        onClick={() => onBuyClank()}
-                      >
-                        Buy Now (Clank)
-                      </div>
-                    </tr>
+                    {new Date(selectedProject.endTime).getTime() -
+                      new Date().getTime() >
+                      0 && (
+                      <tr>
+                        <div
+                          className="project-buy-btn"
+                          onClick={() => onBuyEther()}
+                        >
+                          Buy Now (Ether)
+                        </div>
+                      </tr>
+                    )}
+                    {new Date(selectedProject.endTime).getTime() -
+                      new Date().getTime() >
+                      0 && (
+                      <tr>
+                        <div
+                          className="project-buy-btn"
+                          onClick={() => onBuyClank()}
+                        >
+                          Buy Now (Clank)
+                        </div>
+                      </tr>
+                    )}
                   </table>
                   <table className="project-buy-table">
                     <tr
@@ -884,8 +1028,8 @@ const ProjectPage = () => {
                         {selectedProject.description}
                       </div>
                     </tr>
+                    <tr></tr>
                   </table>
-                  
                 </div>
               </div>
             </div>
@@ -896,7 +1040,6 @@ const ProjectPage = () => {
               <div className="project-buy-exit-layer">
                 <h3 className="project-buy-title">My Orders</h3>
                 <span className="close-btn" onClick={() => setMode(0)}>
-                  &times;
                 </span>
               </div>
               <div className="project-order-layout">
@@ -945,7 +1088,6 @@ const ProjectPage = () => {
               <div className="project-buy-exit-layer">
                 <h3 className="project-buy-title">My Order</h3>
                 <span className="close-btn" onClick={() => setMode(0)}>
-                  &times;
                 </span>
               </div>
               <div className="project-order-layout">
@@ -1031,8 +1173,18 @@ const ProjectPage = () => {
                 </span> */}
               </div>
               <div className="project-buy-content">
-                <div className="project-buy-description1">
+                {/* <div className="project-buy-description1">
                   {selectedProject.description}
+                </div> */}
+                <div className="project-buy-description1">
+                  1. If you wish allocate a different wallet address to the
+                  whitelist allocation, then please update the box below.
+                  <br />
+                  2. Please include your discord I.D as some projects require
+                  this to allocate the Whitelist.
+                  <br />
+                  3. We cannot update or amend the wallet address after
+                  purchase.
                 </div>
                 <div className="project-buy-add-layout">
                   <div className="project-buy-wallet-layout">
@@ -1055,7 +1207,9 @@ const ProjectPage = () => {
                 <div className="project-buy-btn" onClick={() => onPurchase()}>
                   Confirm Purchase
                 </div>
-                <div className="project-buy-btn" onClick={()=> onInit()}>Cancel</div>
+                <div className="project-buy-btn" onClick={() => onInit()}>
+                  Cancel
+                </div>
               </div>
             </div>
           )}

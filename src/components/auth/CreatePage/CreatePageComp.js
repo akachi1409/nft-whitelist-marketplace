@@ -4,6 +4,9 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import moment from "moment";
 import { useSelector } from "react-redux";
 import { useNavigate} from 'react-router-dom';
 
@@ -18,6 +21,7 @@ function CreatePageComp() {
   const [firstLoad, setFirstLoad] = useState(true);
   const [fileName, setFileName] = useState("");
   const [description, setDescription] = useState("");
+  const [endTime, setEndTime] = useState(new Date())
 
   const blockchain = useSelector((state) => state.blockchain);
   let navigate = useNavigate();
@@ -81,9 +85,10 @@ function CreatePageComp() {
       filesTemp.append("limit", limit);
       filesTemp.append("etherPrice", etherPrice);
       filesTemp.append("clankPrice", clankPrice);
-      // filesTemp.append("address", "0xe8c125A440c049D08969d20657F46f87C8e659a5")
+      filesTemp.append("endTime",  moment(endTime).format('YYYY-MM-DD HH:MM:SS'))
+      // filesTemp.append("endTime",  endTime)
       filesTemp.append("description", description);
-      // console.log("files:", filesTemp);
+      // console.log("files:", moment(endTime).format('YYYY-MM-DD HH:MM:SS'));
       // filesTemp.append("", );
       const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/project/insert`, filesTemp)
       console.log("res", res);
@@ -113,7 +118,7 @@ function CreatePageComp() {
             )}
           </div>
           <Col lg="8">
-            <h2 className="createPageComp-title">Upload file</h2>
+            <h2 className="createPageComp-title">Upload file (*)</h2>
             <div className="createPageComp-file-layout">
               <input
                 className="createPageComp-file-input"
@@ -163,7 +168,7 @@ function CreatePageComp() {
                 </button>
               </div>
             </div>
-            <h2 className="createPageComp-title">Project Name</h2>
+            <h2 className="createPageComp-title">Project Name (*)</h2>
             <Row>
               <input
                 placeholder="Project Name"
@@ -172,7 +177,7 @@ function CreatePageComp() {
                 onChange={(e) => setName(e.target.value)}
               />
             </Row>
-            <h2 className="createPageComp-title">Total Whitelist Spots</h2>
+            <h2 className="createPageComp-title">Total Whitelist Spots (*)</h2>
             <Row>
               <input
                 placeholder="WL Address Limit"
@@ -181,7 +186,7 @@ function CreatePageComp() {
                 onChange={(e) => setLimit(e.target.value)}
               />
             </Row>
-            <h2 className="createPageComp-title">Ether Price</h2>
+            <h2 className="createPageComp-title">Ether Price (*)</h2>
             <Row>
               <input
                 placeholder="Ether Price"
@@ -190,7 +195,7 @@ function CreatePageComp() {
                 onChange={(e) => setEtherPrice(e.target.value)}
               />
             </Row>
-            <h2 className="createPageComp-title">Clank Price</h2>
+            <h2 className="createPageComp-title">Clank Price (*)</h2>
             <Row>
               <input
                 placeholder="Clank Price"
@@ -199,6 +204,7 @@ function CreatePageComp() {
                 onChange={(e) => setClankPrice(e.target.value)}
               />
             </Row>
+            <h2 className="createPageComp-title">Project Description (*)</h2>
             <Row>
               <input
                 placeholder="Description"
@@ -206,6 +212,13 @@ function CreatePageComp() {
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
               />
+            </Row>
+            <h2 className="createPageComp-title">Project End Date</h2>
+            <Row>
+              <DatePicker 
+              className="createPageComp-input" 
+              selected={endTime} 
+              onChange={(date) => setEndTime(date)} />
             </Row>
             <Row>
               <button
