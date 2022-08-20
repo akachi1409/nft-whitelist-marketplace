@@ -537,13 +537,13 @@ const ProjectPage = () => {
                           }
                         />
                       </td>
-                      <td className="genesis-modal-details">
+                      <td className="genesis-modal-details" style={{width: "50%"}}>
                         <h3 className="genesis-modal-detail-title">
                           {item.projectName}
                         </h3>
                       </td>
                       <td>
-                        <h3 className="genesis-modal-detail-title">Quantity</h3>
+                        <h3 className="genesis-modal-detail-title">Stock</h3>
                       </td>
                       <td>
                         <h3 className="genesis-modal-detail-title">Price</h3>
