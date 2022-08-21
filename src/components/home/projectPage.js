@@ -219,7 +219,7 @@ const ProjectPage = () => {
     const newEther = totalEther + selectedProject.etherPrice;
     const newClank = totalClank + selectedProject.clankPrice;
     setAmounts(amounts + 1);
-    setTotalEther(Number(newEther.toFixed(2)));
+    setTotalEther(Number(newEther.toFixed(5)));
     setTotalClank(newClank);
   };
   const onMinus = () => {
@@ -228,7 +228,7 @@ const ProjectPage = () => {
     const newEther = totalEther - selectedProject.etherPrice;
     const newClank = totalClank - selectedProject.clankPrice;
     setAmounts(amounts - 1);
-    setTotalEther(Number(newEther.toFixed(2)));
+    setTotalEther(Number(newEther.toFixed(5)));
     setTotalClank(newClank);
   };
 
@@ -426,6 +426,7 @@ const ProjectPage = () => {
         totalEther: totalEther,
         totalClank: 0,
       };
+      console.log("data", data);
       axios
         .post(`${process.env.REACT_APP_BACKEND_URL}/user/address/insert`, data)
         .then((res) => {
@@ -465,9 +466,6 @@ const ProjectPage = () => {
     setSelectedOrderId(orderID);
   };
 
-  const onGoBuy = () =>{
-    
-  }
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
       <Navbar bg="transparent" variant="light" className="navbar-layout">
@@ -1189,7 +1187,7 @@ const ProjectPage = () => {
                   {selectedProject.description}
                 </div> */}
                 <div className="project-buy-description1">
-                  1. If you wish allocate a different wallet address to the
+                  1. If you wish to allocate a different wallet address to the
                   whitelist allocation, then please update the box below.
                   <br />
                   2. Please include your discord I.D as some projects require
