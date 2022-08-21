@@ -1099,7 +1099,7 @@ const ProjectPage = () => {
             <div className="project-buy-layout">
               <div className="project-buy-exit-layer">
                 <h3 className="project-buy-title">My Order</h3>
-                <span className="close-btn" onClick={() => setMode(0)}>
+                <span className="close-btn" onClick={() => setMode(8)}>
                 </span>
               </div>
               <div className="project-order-layout">
