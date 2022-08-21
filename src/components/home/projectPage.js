@@ -54,7 +54,7 @@ const ProjectPage = () => {
   const [selectedProject, setSelectedProject] = useState("");
   const [amounts, setAmounts] = useState(0);
   const [totalEther, setTotalEther] = useState(new Decimal (0));
-  const [totalClank, setTotalClank] = useState(0);
+  const [totalClank, setTotalClank] = useState(new Decimal (0));
   const [buyMethod, setBuyMethod] = useState(0);
   const [targetAddress, setTargetAddress] = useState("");
   const [discordID, setDiscordID] = useState("");
@@ -62,8 +62,8 @@ const ProjectPage = () => {
   const [selectedOrderId, setSelectedOrderId] = useState("");
   const [flag, setFlag] = useState(true);
   const [cartInfo, setCartInfo] = useState([]);
-  const [cartEther, setCartEther] = useState(0);
-  const [cartClank, setCartClank] = useState(0);
+  const [cartEther, setCartEther] = useState(new Decimal (0));
+  const [cartClank, setCartClank] = useState(new Decimal (0));
 
   const targetNetwork = NETWORKS[selectedNetwork];
 
@@ -219,20 +219,20 @@ const ProjectPage = () => {
     }
     console.log("-----------", totalEther, selectedProject.etherPrice);
     const newEther = totalEther.plus(selectedProject.etherPrice);
-    // const newClank = new bigDecimal( totalClank + selectedProject.clankPrice);
+    const newClank = totalClank.plus(selectedProject.clankPrice);
     console.log("--------------------", newEther)
     setAmounts(amounts + 1);
     setTotalEther(newEther);
-    // setTotalClank(newClank.getValue());
+    setTotalClank(newClank);
   };
   const onMinus = () => {
     if (amounts < 1) return;
     console.log("-----------", totalEther, selectedProject.etherPrice);
     const newEther = totalEther.minus(selectedProject.etherPrice);
-    // const newClank = new bigDecimal( totalClank - selectedProject.clankPrice);
+    const newClank = totalClank.minus(selectedProject.clankPrice);
     setAmounts(amounts - 1);
     setTotalEther(newEther);
-    // setTotalClank(newClank);
+    setTotalClank(newClank);
   };
 
   const onAddItem = () => {
@@ -253,8 +253,8 @@ const ProjectPage = () => {
       quantity: amounts,
       projectName: selectedProject.projectName,
     };
-    setCartEther(cartEther + totalEther);
-    setCartClank(cartClank + totalClank);
+    setCartEther(cartEther.plus(totalEther));
+    setCartClank(cartClank.plus(totalClank));
     cartInfo.push(newCartInfo);
     setCartInfo(cartInfo);
     setFlag(!flag);
@@ -302,7 +302,7 @@ const ProjectPage = () => {
 
       const transfer = await contractSigner.transfer(
         ETHER_ADDRESS,
-        ethers.utils.parseEther(totalClank.toString())
+        ethers.utils.parseEther(totalClank)
       );
       cartInfo.map((info) => {
         info.totalEther = 0;
@@ -382,7 +382,7 @@ const ProjectPage = () => {
 
       const transfer = await contractSigner.transfer(
         ETHER_ADDRESS,
-        ethers.utils.parseEther(totalClank.toString())
+        ethers.utils.parseEther(totalClank)
       );
       await transfer.wait();
       const data = {
@@ -859,7 +859,7 @@ const ProjectPage = () => {
                   </tr>
                 </table>
                 <div className="project-buy-description1">
-                  1. If you wish allocate a different wallet address to the
+                  1. If you wish to allocate a different wallet address to the
                   whitelist allocation, then please update the box below.
                   <br />
                   2. Please include your discord I.D as some projects require
