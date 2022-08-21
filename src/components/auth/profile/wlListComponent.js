@@ -27,6 +27,7 @@ function WlListComponent(props) {
       setFirstLoad(true);
     }
     fetchData(props.projectName);
+     // eslint-disable-next-line
   }, [firstLoad]);
 
   const downloadText = () => {

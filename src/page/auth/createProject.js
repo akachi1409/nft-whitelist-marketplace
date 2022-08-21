@@ -1,7 +1,6 @@
 import React from "react";
 
 
-import Header from "../../components/header/header";
 import CreatePageComp from "../../components/auth/CreatePage/CreatePageComp";
 function CreatePage () {
     return(

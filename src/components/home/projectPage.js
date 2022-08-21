@@ -1,6 +1,6 @@
 import "./projectPage.css";
 import React, { useState, useEffect } from "react";
-import { Nav, Navbar, Container, Row, Col } from "react-bootstrap";
+import { Nav, Navbar, Container } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useUserProviderAndSigner } from "eth-hooks";
@@ -8,7 +8,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import delay from "delay";
-import moment from "moment";
+// import moment from "moment";
 import {Decimal} from 'decimal.js';
 import { connect, disconnect } from "../../redux/blockchain/blockchainActions";
 
@@ -16,12 +16,12 @@ import { Web3ModalSetup } from "../../helpers";
 import { useStaticJsonRPC } from "../../hooks";
 import {
   NETWORKS,
-  ADMIN_ADDRESS,
-  ALCHEMY_KEY,
+  // ADMIN_ADDRESS,
+  // ALCHEMY_KEY,
   ETHER_ADDRESS,
-  CLANK_ADDRESS,
-  CONTRACT_ADDRESS,
-  CLANK_CONTRACT_ADDRESS,
+  // CLANK_ADDRESS,
+  // CONTRACT_ADDRESS,
+  // CLANK_CONTRACT_ADDRESS,
 } from "../../constants";
 
 import GenesisImage from "../../assets/genesis.png";
@@ -46,6 +46,7 @@ const ProjectPage = () => {
   const blockchain = useSelector((state) => state.blockchain);
   const networkOptions = [initialNetwork.name, "mainnet"];
   const [injectedProvider, setInjectedProvider] = useState();
+   // eslint-disable-next-line
   const [selectedNetwork, setSelectedNetwork] = useState(networkOptions[0]);
 
   const [address, setAddress] = useState(null);
@@ -238,6 +239,7 @@ const ProjectPage = () => {
   const onAddItem = () => {
     let remain = selectedProject.wlLimit - selectedProject.listedWl;
     console.log("cartInfo", cartInfo)
+     // eslint-disable-next-line
     cartInfo.map((info)=>{
       console.log("-----------", info)
       remain -= info.quantity;
@@ -299,11 +301,12 @@ const ProjectPage = () => {
         injectedProvider
       );
       const contractSigner = contract.connect(signer);
-
+         // eslint-disable-next-line
       const transfer = await contractSigner.transfer(
         ETHER_ADDRESS,
         ethers.utils.parseEther(totalClank)
       );
+       // eslint-disable-next-line
       cartInfo.map((info) => {
         info.totalEther = 0;
       });
@@ -340,6 +343,7 @@ const ProjectPage = () => {
         to: ETHER_ADDRESS,
         value: ethers.utils.parseEther(cartEther.toString())
       });
+       // eslint-disable-next-line
       cartInfo.map((info) => {
         info.totalClank = 0;
       });
@@ -544,6 +548,7 @@ const ProjectPage = () => {
                       <td rowSpan="3">
                         <img
                           className="genesis-img"
+                          alt=""
                           src={
                             `${process.env.REACT_APP_BACKEND_URL}/uploads/` +
                             item.imageName
@@ -718,6 +723,7 @@ const ProjectPage = () => {
                     <tr>
                       <td>
                         <img
+                        alt=""
                           className="project-buy-img"
                           src={
                             `${process.env.REACT_APP_BACKEND_URL}/uploads/` +
@@ -819,6 +825,7 @@ const ProjectPage = () => {
                     <tr>
                       <td rowSpan="3">
                         <img
+                        alt=""
                           className="project-buy-img"
                           src={
                             `${process.env.REACT_APP_BACKEND_URL}/uploads/` +
@@ -920,6 +927,7 @@ const ProjectPage = () => {
                     <tr>
                       <td>
                         <img
+                          alt=""
                           className="project-buy-img"
                           src={
                             `${process.env.REACT_APP_BACKEND_URL}/uploads/` +
@@ -1107,6 +1115,7 @@ const ProjectPage = () => {
                 {orderHistory.length > 0 &&
                   orderHistory &&
                   orderHistory.map((item, index) => {
+                     // eslint-disable-next-line
                     if (item._id !== selectedOrderId) return;
                     return (
                       <table key={index} className="project-order-table">
@@ -1153,6 +1162,7 @@ const ProjectPage = () => {
                             <tr key={index}>
                               <td rowSpan="2" className="project-order-td">
                                 <img
+                                  alt=""
                                   className="project-order-img"
                                   src={
                                     `${process.env.REACT_APP_BACKEND_URL}/uploads/` +

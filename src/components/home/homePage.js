@@ -15,7 +15,7 @@ import { Web3ModalSetup } from "../../helpers";
 import { useStaticJsonRPC } from "../../hooks";
 // eslint-disable-next-line
 import { NETWORKS, ALCHEMY_KEY, ETHER_ADDRESS, CLANK_ADDRESS, CONTRACT_ADDRESS, CLANK_CONTRACT_ADDRESS} from "../../constants";
-import RobosNFT from "../../contracts/RobosNFT.json"
+// import RobosNFT from "../../contracts/RobosNFT.json"
 import ClankToken from "../../contracts/ClankToken.json"
 import {} from "../../constants"
 import { ToastContainer, toast } from 'react-toastify';
@@ -106,7 +106,7 @@ function HomePage(props) {
     async function getAddress() {
       if (userSigner) {
         const newAddress = await userSigner.getAddress();
-        const contract = new ethers.Contract(CONTRACT_ADDRESS, RobosNFT, injectedProvider);
+        // const contract = new ethers.Contract(CONTRACT_ADDRESS, RobosNFT, injectedProvider);
         // console.log("chainId",  selectedChainId);
         if (selectedChainId !== 1){
           notify("You should change your chain to Mainnet!")
@@ -194,6 +194,7 @@ function HomePage(props) {
       }
     } 
     checkWLAddress();
+     // eslint-disable-next-line
   }, [blockchain])
   
   const onSubmitEther = async () => {

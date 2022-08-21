@@ -1,7 +1,6 @@
 import React from "react";
 
 
-import Footer from "../../components/footer/footer";
 import Header from "../../components/header/header";
 import WlListComponent from "../../components/auth/profile/wlListComponent"
 import { useParams } from "react-router-dom";
