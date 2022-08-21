@@ -258,11 +258,19 @@ const ProjectPage = () => {
     setMode(5);
   };
   const onBuyEther = () => {
+    if (amounts <1) {
+      notify("You should buy at least 1 item.");
+      return;
+    }
     setBuyMethod(0);
     setMode(10);
   };
 
   const onBuyClank = () => {
+    if (amounts <1) {
+      notify("You should buy at least 1 item.");
+      return;
+    }
     setBuyMethod(1);
     setMode(10);
   };
@@ -456,6 +464,10 @@ const ProjectPage = () => {
     setMode(9);
     setSelectedOrderId(orderID);
   };
+
+  const onGoBuy = () =>{
+    
+  }
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
       <Navbar bg="transparent" variant="light" className="navbar-layout">
