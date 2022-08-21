@@ -9,6 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import delay from "delay";
 import moment from "moment";
+import {Decimal} from 'decimal.js';
 import { connect, disconnect } from "../../redux/blockchain/blockchainActions";
 
 import { Web3ModalSetup } from "../../helpers";
@@ -52,7 +53,7 @@ const ProjectPage = () => {
   const [mode, setMode] = useState(0);
   const [selectedProject, setSelectedProject] = useState("");
   const [amounts, setAmounts] = useState(0);
-  const [totalEther, setTotalEther] = useState(0);
+  const [totalEther, setTotalEther] = useState(new Decimal (0));
   const [totalClank, setTotalClank] = useState(0);
   const [buyMethod, setBuyMethod] = useState(0);
   const [targetAddress, setTargetAddress] = useState("");
@@ -216,20 +217,22 @@ const ProjectPage = () => {
       notify("There is only " + (selectedProject.wlLimit - selectedProject.listedWl) + " whitelist spot remain.")
       return;
     }
-    const newEther = totalEther + selectedProject.etherPrice;
-    const newClank = totalClank + selectedProject.clankPrice;
+    console.log("-----------", totalEther, selectedProject.etherPrice);
+    const newEther = totalEther.plus(selectedProject.etherPrice);
+    // const newClank = new bigDecimal( totalClank + selectedProject.clankPrice);
+    console.log("--------------------", newEther)
     setAmounts(amounts + 1);
-    setTotalEther(Number(newEther.toFixed(5)));
-    setTotalClank(newClank);
+    setTotalEther(newEther);
+    // setTotalClank(newClank.getValue());
   };
   const onMinus = () => {
     if (amounts < 1) return;
     console.log("-----------", totalEther, selectedProject.etherPrice);
-    const newEther = totalEther - selectedProject.etherPrice;
-    const newClank = totalClank - selectedProject.clankPrice;
+    const newEther = totalEther.minus(selectedProject.etherPrice);
+    // const newClank = new bigDecimal( totalClank - selectedProject.clankPrice);
     setAmounts(amounts - 1);
-    setTotalEther(Number(newEther.toFixed(5)));
-    setTotalClank(newClank);
+    setTotalEther(newEther);
+    // setTotalClank(newClank);
   };
 
   const onAddItem = () => {
@@ -413,7 +416,7 @@ const ProjectPage = () => {
       await signer.sendTransaction({
         // from: address,
         to: ETHER_ADDRESS,
-        value: ethers.utils.parseEther(totalEther.toString())
+        value: ethers.utils.parseEther(totalEther)
       });
       const data = {
         address: targetAddress,
@@ -421,7 +424,7 @@ const ProjectPage = () => {
         image: selectedProject.imageName,
         quantity: amounts,
         discordID: discordID,
-        etherCost: totalEther,
+        etherCost: totalEther.toFixed(),
         clankCost: 0,
         totalEther: totalEther,
         totalClank: 0,
@@ -990,7 +993,7 @@ const ProjectPage = () => {
                             Total
                           </td>
                           <td className="project-buy-price">Ether:</td>
-                          <td className="project-buy-price">{totalEther}</td>
+                          <td className="project-buy-price">{totalEther.toFixed()}</td>
                         </tr>
                         <tr>
                           <td className="project-buy-price">Clank:</td>
