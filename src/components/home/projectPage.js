@@ -16,7 +16,7 @@ import { Web3ModalSetup } from "../../helpers";
 import { useStaticJsonRPC } from "../../hooks";
 import {
   NETWORKS,
-  // ADMIN_ADDRESS,
+  ADMIN_ADDRESS,
   // ALCHEMY_KEY,
   ETHER_ADDRESS,
   // CLANK_ADDRESS,
@@ -65,6 +65,7 @@ const ProjectPage = () => {
   const [cartInfo, setCartInfo] = useState([]);
   const [cartEther, setCartEther] = useState(new Decimal (0));
   const [cartClank, setCartClank] = useState(new Decimal (0));
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const targetNetwork = NETWORKS[selectedNetwork];
 
@@ -204,6 +205,10 @@ const ProjectPage = () => {
           onDisconnect();
         }
         console.log(newAddress);
+        for ( var i = 0 ; i<ADMIN_ADDRESS.length; i++){
+          if (newAddress === ADMIN_ADDRESS[i])
+          setIsAdmin(true);
+        }
         setAddress(newAddress);
         setTargetAddress(newAddress);
         dispatch(connect(newAddress));
@@ -508,14 +513,19 @@ const ProjectPage = () => {
                   My Cart
                 </Nav.Link>
               </Nav.Item>
-              <Nav.Item className="nav-wallet-layout">
-                <Nav.Link
-                  className="nav-wallet"
-                  onClick={() => onNav("/admin")}
-                >
-                  ..
-                </Nav.Link>
-              </Nav.Item>
+              {
+                isAdmin && (
+                  <Nav.Item className="nav-wallet-layout">
+                    <Nav.Link
+                      className="nav-wallet"
+                      onClick={() => onNav("/admin")}
+                    >
+                      ..
+                    </Nav.Link>
+                  </Nav.Item>
+                )
+              }
+              
             </Nav>
           )}
         </Container>
