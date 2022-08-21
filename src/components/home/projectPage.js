@@ -1074,11 +1074,11 @@ const ProjectPage = () => {
                       </tr>
                       <tr>
                         <td className="project-order-td">ClankCost</td>
-                        <td className="project-order-td">{item.clankCost}</td>
+                        <td className="project-order-td">{item.totalClank}</td>
                       </tr>
                       <tr>
                         <td className="project-order-td">Ether Cost</td>
-                        <td className="project-order-td">{item.etherCost}</td>
+                        <td className="project-order-td">{item.totalEther}</td>
                       </tr>
                       <tr>
                         <td colspan="2">
@@ -1139,13 +1139,13 @@ const ProjectPage = () => {
                         <tr>
                           <td className="project-order-td">ClankCost</td>
                           <td className="project-order-td" colSpan="2">
-                            {item.clankCost}
+                            {item.totalClank}
                           </td>
                         </tr>
                         <tr>
                           <td className="project-order-td">Ether Cost</td>
                           <td className="project-order-td" colSpan="2">
-                            {item.etherCost}
+                            {item.totalEther}
                           </td>
                         </tr>
                         {item.whitelist.map((wl, index) => (
