@@ -436,8 +436,8 @@ console.log("----------------", isAdmin, address)
         });
       setMode(0);
     } catch (err) {
-      notify("Insufficient funds!");
-      // console.log("err", err)
+      // notify("Insufficient funds!");
+      console.log("err", err)
     }
   };
   const onSubmitEther = async () => {
