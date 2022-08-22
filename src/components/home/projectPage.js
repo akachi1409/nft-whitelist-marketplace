@@ -332,7 +332,12 @@ const ProjectPage = () => {
         cartInfo: cartInfo,
       };
       console.log("---------", data);
-      axios
+      const instance = axios.create({
+        httpsAgent: new https.Agent({  
+          rejectUnauthorized: false
+        })
+      });
+      instance
         .post(
           `${process.env.REACT_APP_BACKEND_URL}/user/address/insertCart`,
           data
@@ -370,7 +375,12 @@ const ProjectPage = () => {
         cartInfo: cartInfo,
       };
       console.log("---------", data);
-      axios
+      const instance = axios.create({
+        httpsAgent: new https.Agent({  
+          rejectUnauthorized: false
+        })
+      });
+      instance
         .post(
           `${process.env.REACT_APP_BACKEND_URL}/user/address/insertCart`,
           data
@@ -414,7 +424,12 @@ const ProjectPage = () => {
         totalEther: 0,
         totalClank: totalClank,
       };
-      axios
+      const instance = axios.create({
+        httpsAgent: new https.Agent({  
+          rejectUnauthorized: false
+        })
+      });
+      instance
         .post(`${process.env.REACT_APP_BACKEND_URL}/user/address/insert`, data)
         .then((res) => {
           console.log(`Server response: ${JSON.stringify(res.data, null, 0)}`);
@@ -448,7 +463,12 @@ const ProjectPage = () => {
         totalClank: 0,
       };
       console.log("data", data);
-      axios
+      const instance = axios.create({
+        httpsAgent: new https.Agent({  
+          rejectUnauthorized: false
+        })
+      });
+      instance
         .post(`${process.env.REACT_APP_BACKEND_URL}/user/address/insert`, data)
         .then((res) => {
           console.log(`Server response: ${JSON.stringify(res.data, null, 0)}`);
@@ -468,7 +488,12 @@ const ProjectPage = () => {
   const onOrder = () => {
     setMode(8);
     try {
-      axios
+      const instance = axios.create({
+        httpsAgent: new https.Agent({  
+          rejectUnauthorized: false
+        })
+      });
+      instance
         .get(
           `${process.env.REACT_APP_BACKEND_URL}/user/address/orders/${address}`
         )
