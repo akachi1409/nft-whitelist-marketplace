@@ -159,7 +159,7 @@ function HomePage(props) {
   async function checkWL(address){
     try{
       const project = props.projectName;
-      const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/user/address/${address}/${project}`);
+      const res = await axios.get(`api/user/address/${address}/${project}`);
       // console.log("res", res);
       if ( res.data.user === null){
         setListed(false);
@@ -175,7 +175,7 @@ function HomePage(props) {
   async function getWL (project){
     try{
       console.log("projectName", project);
-      const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/user/project/${project}`);
+      const res = await axios.get(`api/user/project/${project}`);
       console.log("res", res);
       if (res.data.success){
         setWlNum(res.data.number);
@@ -216,7 +216,7 @@ function HomePage(props) {
         address: address,
         project: "Test"
       }
-      axios.post(`${process.env.REACT_APP_BACKEND_URL}/user/address/insert`, data)
+      axios.post(`api/user/address/insert`, data)
       .then((res) => {
         console.log(`Server response: ${JSON.stringify(res.data, null, 0)}`);
       })
@@ -245,7 +245,7 @@ function HomePage(props) {
         address: address,
         project: "Test"
       }
-      axios.post(`${process.env.REACT_APP_BACKEND_URL}/user/address/insert`, data)
+      axios.post(`api/user/address/insert`, data)
       .then((res) => {
         console.log(`Server response: ${JSON.stringify(res.data, null, 0)}`);
       })

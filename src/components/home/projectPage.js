@@ -158,7 +158,6 @@ const ProjectPage = () => {
 
   async function getProjects() {
     try {
-      notify("trying")
       // // At instance level
       // const instance = axios.create({
       //   httpsAgent: new https.Agent({  
@@ -169,8 +168,6 @@ const ProjectPage = () => {
       const res = await axios.get(
         `/api/project/list`
       );
-      notify("res" + res)
-      console.log("res", res);
       if (res.data.success) {
         setProjects(res.data.projects);
       }
@@ -203,7 +200,7 @@ const ProjectPage = () => {
     }
     checkProjects();
   }, [blockchain]);
-console.log("----------------", isAdmin, address)
+
   useEffect(() => {
     async function getAddress() {
       if (userSigner) {
@@ -336,14 +333,14 @@ console.log("----------------", isAdmin, address)
         cartInfo: cartInfo,
       };
       console.log("---------", data);
-      const instance = axios.create({
-        httpsAgent: new https.Agent({  
-          rejectUnauthorized: false
-        })
-      });
-      instance
+      // const instance = axios.create({
+      //   httpsAgent: new https.Agent({  
+      //     rejectUnauthorized: false
+      //   })
+      // });
+      axios
         .post(
-          `${process.env.REACT_APP_BACKEND_URL}/user/address/insertCart`,
+          `api/user/address/insertCart`,
           data
         )
         .then((res) => {
@@ -379,14 +376,14 @@ console.log("----------------", isAdmin, address)
         cartInfo: cartInfo,
       };
       console.log("---------", data);
-      const instance = axios.create({
-        httpsAgent: new https.Agent({  
-          rejectUnauthorized: false
-        })
-      });
-      instance
+      // const instance = axios.create({
+      //   httpsAgent: new https.Agent({  
+      //     rejectUnauthorized: false
+      //   })
+      // });
+      axios
         .post(
-          `${process.env.REACT_APP_BACKEND_URL}/user/address/insertCart`,
+          `api/user/address/insertCart`,
           data
         )
         .then((res) => {
@@ -427,13 +424,13 @@ console.log("----------------", isAdmin, address)
         totalEther: 0,
         totalClank: totalClank.toFixed(),
       };
-      const instance = axios.create({
-        httpsAgent: new https.Agent({  
-          rejectUnauthorized: false
-        })
-      });
-      instance
-        .post(`${process.env.REACT_APP_BACKEND_URL}/user/address/insert`, data)
+      // const instance = axios.create({
+      //   httpsAgent: new https.Agent({  
+      //     rejectUnauthorized: false
+      //   })
+      // });
+      axios
+        .post(`api/user/address/insert`, data)
         .then((res) => {
           console.log(`Server response: ${JSON.stringify(res.data, null, 0)}`);
         });
@@ -466,13 +463,13 @@ console.log("----------------", isAdmin, address)
         totalClank: 0,
       };
       console.log("data", data);
-      const instance = axios.create({
-        httpsAgent: new https.Agent({  
-          rejectUnauthorized: false
-        })
-      });
-      instance
-        .post(`${process.env.REACT_APP_BACKEND_URL}/user/address/insert`, data)
+      // const instance = axios.create({
+      //   httpsAgent: new https.Agent({  
+      //     rejectUnauthorized: false
+      //   })
+      // });
+      axios
+        .post(`api/user/address/insert`, data)
         .then((res) => {
           console.log(`Server response: ${JSON.stringify(res.data, null, 0)}`);
         });
@@ -491,14 +488,14 @@ console.log("----------------", isAdmin, address)
   const onOrder = () => {
     setMode(8);
     try {
-      const instance = axios.create({
-        httpsAgent: new https.Agent({  
-          rejectUnauthorized: false
-        })
-      });
-      instance
+      // const instance = axios.create({
+      //   httpsAgent: new https.Agent({  
+      //     rejectUnauthorized: false
+      //   })
+      // });
+      axios
         .get(
-          `${process.env.REACT_APP_BACKEND_URL}/user/address/orders/${address}`
+          `api/user/address/orders/${address}`
         )
         .then((res) => {
           console.log(`Server response: ${JSON.stringify(res.data, null, 0)}`);
