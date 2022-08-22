@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Nav, Navbar, Container} from "react-bootstrap";
 import axios from "axios";
+import https from 'https';
 import { Grid, GridColumn, GridToolbar } from "@progress/kendo-react-grid";
 import { ExcelExport } from "@progress/kendo-react-excel-export";
 import '@progress/kendo-theme-default/dist/all.css';
@@ -49,7 +50,12 @@ function AdminPage() {
 
   async function getProjects() {
     try {
-      const res = await axios.get(
+      const instance = axios.create({
+        httpsAgent: new https.Agent({  
+          rejectUnauthorized: false
+        })
+      });
+      const res = await instance.get(
         `${process.env.REACT_APP_BACKEND_URL}/project/list`
       );
     //   console.log("res", res);
@@ -63,7 +69,12 @@ function AdminPage() {
 
   const getWLProject = async (projectName) => {
     try {
-      const res = await axios.get(
+      const instance = axios.create({
+        httpsAgent: new https.Agent({  
+          rejectUnauthorized: false
+        })
+      });
+      const res = await instance.get(
         `${process.env.REACT_APP_BACKEND_URL}/project/list/project`
       );
       console.log("res", res, projectName)
@@ -99,7 +110,12 @@ function AdminPage() {
 
   const getAllWLProject = async () => {
     try {
-        const res = await axios.get(
+      const instance = axios.create({
+        httpsAgent: new https.Agent({  
+          rejectUnauthorized: false
+        })
+      });
+        const res = await instance.get(
           `${process.env.REACT_APP_BACKEND_URL}/project/list/project`
         );
         const data = []
