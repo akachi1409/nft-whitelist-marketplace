@@ -157,7 +157,13 @@ const ProjectPage = () => {
 
   async function getProjects() {
     try {
-      const res = await axios.get(
+      // At instance level
+      const instance = axios.create({
+        httpsAgent: new https.Agent({  
+          rejectUnauthorized: false
+        })
+      });
+      const res = await instance.get(
         `${process.env.REACT_APP_BACKEND_URL}/project/list`
       );
       console.log("res", res);
@@ -174,8 +180,8 @@ const ProjectPage = () => {
     setMode(0);
     setSelectedProject("");
     setAmounts(0);
-    setTotalEther(0);
-    setTotalClank(0);
+    setTotalEther(new Decimal(0));
+    setTotalClank(new Decimal(0));
   };
   async function onBuy(project) {
     setSelectedProject(project);
@@ -340,13 +346,15 @@ const ProjectPage = () => {
     }
   };
   const onPurchaseCartEther = async () => {
+    console.log('---------------------------')
     try {
       await injectedProvider.send("eth_requestAccounts", []);
       const signer = injectedProvider.getSigner();
 
+      console.log('---------------------------')
       await signer.sendTransaction({
         to: ETHER_ADDRESS,
-        value: ethers.utils.parseEther(cartEther.toString())
+        value: ethers.utils.parseEther(cartEther.toFixed())
       });
        // eslint-disable-next-line
       cartInfo.map((info) => {
@@ -425,7 +433,7 @@ const ProjectPage = () => {
       await signer.sendTransaction({
         // from: address,
         to: ETHER_ADDRESS,
-        value: ethers.utils.parseEther(totalEther)
+        value: ethers.utils.parseEther(totalEther.toFixed())
       });
       const data = {
         address: targetAddress,
@@ -446,8 +454,8 @@ const ProjectPage = () => {
         });
       setMode(0);
     } catch (err) {
-      notify("Insufficient funds!");
-      // console.log("err", err)
+      // notify("Insufficient funds!");
+      console.log("err", err)
     }
 
     // await transaction.wait();
@@ -784,11 +792,11 @@ const ProjectPage = () => {
                             Total
                           </td>
                           <td className="project-buy-price">Ether:</td>
-                          <td className="project-buy-price">{totalEther}</td>
+                          <td className="project-buy-price">{totalEther.toFixed()}</td>
                         </tr>
                         <tr>
                           <td className="project-buy-price">Clank:</td>
-                          <td className="project-buy-price">{totalClank}</td>
+                          <td className="project-buy-price">{totalClank.toFixed()}</td>
                         </tr>
                       </table>
                     </tr>
@@ -856,8 +864,8 @@ const ProjectPage = () => {
                       <td>Clank</td>
                     </tr>
                     <tr>
-                      <td>{item.totalEther}</td>
-                      <td>{item.totalClank}</td>
+                      <td>{item.totalEther.toFixed()}</td>
+                      <td>{item.totalClank.toFixed()}</td>
                     </tr>
                   </table>
                 ))}
@@ -868,11 +876,11 @@ const ProjectPage = () => {
                       Total
                     </td>
                     <td className="project-buy-price">Ether:</td>
-                    <td className="project-buy-price">{cartEther}</td>
+                    <td className="project-buy-price">{cartEther.toFixed()}</td>
                   </tr>
                   <tr>
                     <td className="project-buy-price">Clank:</td>
-                    <td className="project-buy-price">{cartClank}</td>
+                    <td className="project-buy-price">{cartClank.toFixed()}</td>
                   </tr>
                 </table>
                 <div className="project-buy-description1">
@@ -1015,7 +1023,7 @@ const ProjectPage = () => {
                         </tr>
                         <tr>
                           <td className="project-buy-price">Clank:</td>
-                          <td className="project-buy-price">{totalClank}</td>
+                          <td className="project-buy-price">{totalClank.toFixed()}</td>
                         </tr>
                       </table>
                     </tr>
