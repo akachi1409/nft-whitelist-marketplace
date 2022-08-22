@@ -316,7 +316,7 @@ console.log("----------------", isAdmin, address)
          // eslint-disable-next-line
       const transfer = await contractSigner.transfer(
         ETHER_ADDRESS,
-        ethers.utils.parseEther(totalClank)
+        ethers.utils.parseEther(totalClank.toFixed())
       );
        // eslint-disable-next-line
       cartInfo.map((info) => {
@@ -398,7 +398,6 @@ console.log("----------------", isAdmin, address)
     try {
       await injectedProvider.send("eth_requestAccounts", []);
       const signer = injectedProvider.getSigner();
-      console.log("-------", totalEther, totalEther.toString());
 
       const BOLTS_ADDRESS = "0xbE8f69c0218086923aC35fb311A3dD84baB069E5";
       const contract = new ethers.Contract(
@@ -410,7 +409,7 @@ console.log("----------------", isAdmin, address)
 
       const transfer = await contractSigner.transfer(
         ETHER_ADDRESS,
-        ethers.utils.parseEther(totalClank)
+        ethers.utils.parseEther(totalClank.toFixed())
       );
       await transfer.wait();
       const data = {
@@ -420,9 +419,9 @@ console.log("----------------", isAdmin, address)
         quantity: amounts,
         discordID: discordID,
         etherCost: 0,
-        clankCost: totalClank,
+        clankCost: totalClank.toFixed(),
         totalEther: 0,
-        totalClank: totalClank,
+        totalClank: totalClank.toFixed(),
       };
       const instance = axios.create({
         httpsAgent: new https.Agent({  
@@ -459,7 +458,7 @@ console.log("----------------", isAdmin, address)
         discordID: discordID,
         etherCost: totalEther.toFixed(),
         clankCost: 0,
-        totalEther: totalEther,
+        totalEther: totalEther.toFixed(),
         totalClank: 0,
       };
       console.log("data", data);
