@@ -8,6 +8,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import delay from "delay";
+import https from 'https';
 // import moment from "moment";
 import {Decimal} from 'decimal.js';
 import { connect, disconnect } from "../../redux/blockchain/blockchainActions";
