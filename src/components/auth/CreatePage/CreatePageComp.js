@@ -4,6 +4,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import https from 'https';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
@@ -90,7 +91,12 @@ function CreatePageComp() {
       filesTemp.append("description", description);
       // console.log("files:", moment(endTime).format('YYYY-MM-DD HH:MM:SS'));
       // filesTemp.append("", );
-      const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/project/insert`, filesTemp)
+      const instance = axios.create({
+        httpsAgent: new https.Agent({  
+          rejectUnauthorized: false
+        })
+      });
+      const res = await instance.post(`${process.env.REACT_APP_BACKEND_URL}/project/insert`, filesTemp)
       console.log("res", res);
       if (res.status === 200 && res.data.success===true){
         navigate("/")
