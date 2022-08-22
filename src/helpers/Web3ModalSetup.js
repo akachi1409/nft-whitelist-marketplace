@@ -18,7 +18,7 @@ const walletLinkProvider = walletLink.makeWeb3Provider(`https://eth-mainnet.alch
 **/
 const web3ModalSetup = () =>
   new Web3Modal({
-    network: "main", // Optional. If using WalletConnect on xDai, change network to "xdai" and add RPC info below for xDai chain.
+    network: "mainnet", // Optional. If using WalletConnect on xDai, change network to "xdai" and add RPC info below for xDai chain.
     cacheProvider: true, // optional
     theme: "dark", // optional. Change to "dark" for a dark theme.
     providerOptions: {

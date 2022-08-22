@@ -199,7 +199,7 @@ const ProjectPage = () => {
     }
     checkProjects();
   }, [blockchain]);
-
+console.log("----------------", isAdmin, address)
   useEffect(() => {
     async function getAddress() {
       if (userSigner) {
