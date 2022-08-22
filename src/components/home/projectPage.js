@@ -159,15 +159,15 @@ const ProjectPage = () => {
   async function getProjects() {
     try {
       notify("trying")
-      // At instance level
-      const instance = axios.create({
-        httpsAgent: new https.Agent({  
-          rejectUnauthorized: false
-        })
-      });
-      notify("created instance")
-      const res = await instance.get(
-        `${process.env.REACT_APP_BACKEND_URL}/project/list`
+      // // At instance level
+      // const instance = axios.create({
+      //   httpsAgent: new https.Agent({  
+      //     rejectUnauthorized: false
+      //   })
+      // });
+      // notify("created instance")
+      const res = await axios.get(
+        `/api/project/list`
       );
       notify("res" + res)
       console.log("res", res);
@@ -175,8 +175,8 @@ const ProjectPage = () => {
         setProjects(res.data.projects);
       }
     } catch (err) {
-      notify("error" + err);
-      // console.log("error", err);
+      // notify("error" + err);
+      console.log("error", err);
     }
   }
 
