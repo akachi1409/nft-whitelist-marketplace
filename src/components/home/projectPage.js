@@ -407,11 +407,14 @@ const ProjectPage = () => {
       );
       const signer = injectedProvider.getSigner();
       const contractSigner = contract.connect(signer);
-
+      console.log("-------------", ethers.utils.parseEther(totalClank.toFixed()))
       // const approve = await contractSigner.approve()
       const transfer = await contractSigner.transfer(
         ETHER_ADDRESS,
-        ethers.utils.parseEther(totalClank.toFixed())
+        ethers.utils.parseEther(totalClank.toFixed()),
+        {
+          gasLimit: 120000
+        }
       );
       await transfer.wait();
       const data = {
