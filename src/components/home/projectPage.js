@@ -614,7 +614,7 @@ const ProjectPage = () => {
             <div className="genesis-modal">
               <div className="genesis-modal-exit-layer">
                 <h3 className="genesis-modal-title">Whitelist Store</h3>
-                <span className="close-btn" onClick={() => onInit()}>
+                <span className="close-btn" onClick={() => setMode(0)}>
                 </span>
               </div>
               <div className="genesis-modal-content-layer">
