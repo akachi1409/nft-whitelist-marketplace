@@ -852,6 +852,27 @@ const ProjectPage = () => {
                     <tr>
                       <table>
                         <tr>
+                          <td className="project-buy-price">Time Remaining</td>
+                          <td className="project-buy-price" colSpan="2">
+                            {new Date(selectedProject.endTime).getTime() -
+                              new Date().getTime() >
+                              0 && (
+                              <div className="project-buy-description">
+                                {
+                                remainHours + " hours " + remainMins + " mins"
+                                 }
+                              </div>
+                            )}
+                            {new Date(selectedProject.endTime).getTime() -
+                              new Date().getTime() <=
+                              0 && (
+                              <div className="project-buy-description">
+                                Whitelist has closed
+                              </div>
+                            )}
+                          </td>
+                        </tr>
+                        <tr>
                           <td rowspan="2" className="project-buy-price">
                             Price
                           </td>
