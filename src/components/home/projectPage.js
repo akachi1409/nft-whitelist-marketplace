@@ -8,7 +8,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import delay from "delay";
-import https from 'https';
+// import https from 'https';
 // import moment from "moment";
 import {Decimal} from 'decimal.js';
 import { connect, disconnect } from "../../redux/blockchain/blockchainActions";
@@ -177,13 +177,20 @@ const ProjectPage = () => {
     }
   }
 
+  const onAddMore = () => {
+    setMode(2);
+    setSelectedProject("");
+    setAmounts(0);
+    setTotalEther(new Decimal(0));
+    setTotalClank(new Decimal(0));
+  }
   const onInit = () => {
-    // setQuantity(0);
     setMode(0);
     setSelectedProject("");
     setAmounts(0);
     setTotalEther(new Decimal(0));
     setTotalClank(new Decimal(0));
+    setCartInfo([])
   };
   async function onBuy(project) {
     setSelectedProject(project);
@@ -346,6 +353,7 @@ const ProjectPage = () => {
         .then((res) => {
           console.log(`Server response: ${JSON.stringify(res.data, null, 0)}`);
         });
+      onInit();
       setMode(0);
     } catch (err) {
       notify("Insufficient funds!");
@@ -389,6 +397,7 @@ const ProjectPage = () => {
         .then((res) => {
           console.log(`Server response: ${JSON.stringify(res.data, null, 0)}`);
         });
+      onInit();
       setMode(0);
     } catch (err) {
       notify("Insufficient funds!");
@@ -438,6 +447,7 @@ const ProjectPage = () => {
         .then((res) => {
           console.log(`Server response: ${JSON.stringify(res.data, null, 0)}`);
         });
+      onInit();
       setMode(0);
     } catch (err) {
       // notify("Insufficient funds!");
@@ -477,6 +487,7 @@ const ProjectPage = () => {
         .then((res) => {
           console.log(`Server response: ${JSON.stringify(res.data, null, 0)}`);
         });
+      onInit();
       setMode(0);
     } catch (err) {
       // notify("Insufficient funds!");
@@ -762,7 +773,7 @@ const ProjectPage = () => {
             <div className="project-buy-layout">
               <div className="project-buy-exit-layer">
                 <h3 className="project-buy-title">Shopping Cart</h3>
-                <span className="close-btn" onClick={() => setMode(0)}>
+                <span className="close-btn" onClick={() => onInit()}>
                 </span>
               </div>
               <div className="project-buy-content">
@@ -864,7 +875,7 @@ const ProjectPage = () => {
             <div className="project-buy-layout">
               <div className="project-buy-exit-layer">
                 <h3 className="project-buy-title">Check Out</h3>
-                <span className="close-btn" onClick={() => setMode(2)}>
+                <span className="close-btn" onClick={() => onAddMore()}>
                 </span>
               </div>
               <div className="project-buy-content">
@@ -954,7 +965,7 @@ const ProjectPage = () => {
                   >
                     Confirm Purchase with Clank
                   </div>
-                  <div className="project-buy-btn" onClick={() => onInit()}>
+                  <div className="project-buy-btn" onClick={() => onAddMore()}>
                     Add More
                   </div>
                 </div>
