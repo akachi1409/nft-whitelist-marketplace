@@ -397,8 +397,7 @@ const ProjectPage = () => {
   };
   const onSubmitClank = async () => {
     try {
-      await injectedProvider.send("eth_requestAccounts", []);
-      const signer = injectedProvider.getSigner();
+      // await injectedProvider.send("eth_requestAccounts", []);
 
       const BOLTS_ADDRESS = "0xbE8f69c0218086923aC35fb311A3dD84baB069E5";
       const contract = new ethers.Contract(
@@ -406,8 +405,10 @@ const ProjectPage = () => {
         ClankToken,
         injectedProvider
       );
+      const signer = injectedProvider.getSigner();
       const contractSigner = contract.connect(signer);
 
+      // const approve = await contractSigner.approve()
       const transfer = await contractSigner.transfer(
         ETHER_ADDRESS,
         ethers.utils.parseEther(totalClank.toFixed())
