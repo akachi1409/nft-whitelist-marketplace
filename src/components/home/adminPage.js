@@ -98,6 +98,16 @@ function AdminPage() {
     }
   };
 
+  const onRemoveProject = async (projectName) => {
+    const res = await axios.delete(`api/project/delete/${projectName}`)
+    if (res.status === 200 && res.data.success===true){
+      navigate("/")
+    }
+    if (res.status === 500){
+      notify("Server Error")
+    }
+  }
+
   const getAllWLProject = async () => {
     try {
         const res = await axios.get(
@@ -270,8 +280,9 @@ function AdminPage() {
                       <div
                         className="genesis-modal-wallet"
                         // onClick={() => onAdd(item)}
+                        onClick = {()=> onRemoveProject(item.projectName)}
                       >
-                        <h5 className="genesis-btn">Add To Cart</h5>
+                        <h5 className="genesis-btn">Remove</h5>
                       </div>
                     </div>
                   </div>
