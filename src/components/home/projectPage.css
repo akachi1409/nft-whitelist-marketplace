@@ -517,6 +517,7 @@ td {
   border: 1px solid white;
   border-collapse: collapse;
   margin-bottom: 1em;
+  font-family: "Mine" !important;
 }
 @media only screen and (max-width: 600px) {
   .navbar-layout {

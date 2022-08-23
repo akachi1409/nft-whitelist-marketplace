@@ -67,6 +67,7 @@ const ProjectPage = () => {
   const [cartEther, setCartEther] = useState(new Decimal (0));
   const [cartClank, setCartClank] = useState(new Decimal (0));
   const [isAdmin, setIsAdmin] = useState(false);
+  const [cartId, setCartId] = useState(0);
 
   const targetNetwork = NETWORKS[selectedNetwork];
 
@@ -238,10 +239,8 @@ const ProjectPage = () => {
       notify("There is only " + (selectedProject.wlLimit - selectedProject.listedWl) + " whitelist spot remain.")
       return;
     }
-    console.log("-----------", totalEther, selectedProject.etherPrice);
     const newEther = totalEther.plus(selectedProject.etherPrice);
     const newClank = totalClank.plus(selectedProject.clankPrice);
-    console.log("--------------------", newEther)
     setAmounts(amounts + 1);
     setTotalEther(newEther);
     setTotalClank(newClank);
@@ -261,7 +260,6 @@ const ProjectPage = () => {
     console.log("cartInfo", cartInfo)
      // eslint-disable-next-line
     cartInfo.map((info)=>{
-      console.log("-----------", info)
       remain -= info.quantity;
     })
     if (amounts === remain){
@@ -269,12 +267,14 @@ const ProjectPage = () => {
       return;
     }
     const newCartInfo = {
+      id: cartId,
       img: selectedProject.imageName,
       totalEther: totalEther,
       totalClank: totalClank,
       quantity: amounts,
       projectName: selectedProject.projectName,
     };
+    setCartId(cartId + 1);
     setCartEther(cartEther.plus(totalEther));
     setCartClank(cartClank.plus(totalClank));
     cartInfo.push(newCartInfo);
@@ -527,6 +527,23 @@ const ProjectPage = () => {
     setSelectedOrderId(orderID);
   };
 
+  const onRemoveCheck = (id) => {
+    var temp = [];
+    // eslint-disable-next-line 
+    cartInfo.map((info)=> {
+      console.log(info, id);
+      if (info.id !== id) {
+        temp.push(info);
+      }
+      else{
+        setCartEther(cartEther.minus(info.totalEther));
+        setCartClank(cartClank.minus(info.totalClank));
+      }
+    })
+    // console.log(temp);
+    setCartInfo (temp);
+    setFlag(!flag);
+  }
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
       <Navbar bg="transparent" variant="light" className="navbar-layout">
@@ -896,13 +913,19 @@ const ProjectPage = () => {
                       <td className="project-buy-title" colSpan="2">
                         Price
                       </td>
+                      <td>Update</td>
                     </tr>
                     <tr>
                       <td rowSpan="2">
-                        <h3>{item.projectName}</h3>
+                        <h4>{item.projectName}</h4>
                       </td>
                       <td>Ehter</td>
                       <td>Clank</td>
+                      <td rowSpan="2">
+                        <div className="project-buy-btn" style={{fontSize: "18px"}} onClick={() => onRemoveCheck(item.id)}>
+                          Remove
+                        </div>
+                      </td>
                     </tr>
                     <tr>
                       <td>{item.totalEther.toFixed()}</td>
