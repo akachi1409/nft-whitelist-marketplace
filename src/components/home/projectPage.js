@@ -178,7 +178,7 @@ const ProjectPage = () => {
     }
   }
 
-  const onAddMore = () => {
+  const onBack = () => {
     setMode(2);
     setSelectedProject("");
     setAmounts(0);
@@ -790,7 +790,7 @@ const ProjectPage = () => {
             <div className="project-buy-layout">
               <div className="project-buy-exit-layer">
                 <h3 className="project-buy-title">Shopping Cart</h3>
-                <span className="close-btn" onClick={() => onInit()}>
+                <span className="close-btn" onClick={() => onBack()}>
                 </span>
               </div>
               <div className="project-buy-content">
@@ -892,7 +892,7 @@ const ProjectPage = () => {
             <div className="project-buy-layout">
               <div className="project-buy-exit-layer">
                 <h3 className="project-buy-title">Check Out</h3>
-                <span className="close-btn" onClick={() => onAddMore()}>
+                <span className="close-btn" onClick={() => onBack()}>
                 </span>
               </div>
               <div className="project-buy-content">
@@ -988,7 +988,7 @@ const ProjectPage = () => {
                   >
                     Confirm Purchase with Clank
                   </div>
-                  <div className="project-buy-btn" onClick={() => onAddMore()}>
+                  <div className="project-buy-btn" onClick={() => onBack()}>
                     Add More
                   </div>
                 </div>
@@ -1000,7 +1000,7 @@ const ProjectPage = () => {
             <div className="project-buy-layout">
               <div className="project-buy-exit-layer">
                 <h3 className="project-buy-title">Check Out</h3>
-                <span className="close-btn" onClick={() => onInit()}>
+                <span className="close-btn" onClick={() => onBack()}>
                 </span>
               </div>
               <div className="project-buy-content">
@@ -1312,7 +1312,7 @@ const ProjectPage = () => {
                 <div className="project-buy-btn" onClick={() => onPurchase()}>
                   Confirm Purchase
                 </div>
-                <div className="project-buy-btn" onClick={() => onInit()}>
+                <div className="project-buy-btn" onClick={() => onBack()}>
                   Cancel
                 </div>
               </div>
