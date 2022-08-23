@@ -68,6 +68,8 @@ const ProjectPage = () => {
   const [cartClank, setCartClank] = useState(new Decimal (0));
   const [isAdmin, setIsAdmin] = useState(false);
   const [cartId, setCartId] = useState(0);
+  const [remainHours, setRemainHours] = useState(0)
+  const [remainMins, setRemainMins] = useState(0)
 
   const targetNetwork = NETWORKS[selectedNetwork];
 
@@ -159,18 +161,34 @@ const ProjectPage = () => {
 
   async function getProjects() {
     try {
-      // // At instance level
-      // const instance = axios.create({
-      //   httpsAgent: new https.Agent({  
-      //     rejectUnauthorized: false
-      //   })
-      // });
-      // notify("created instance")
       const res = await axios.get(
         `/api/project/list`
       );
       if (res.data.success) {
-        setProjects(res.data.projects);
+        const projects = []
+        res.data.projects.map((project)=>{
+          const diff = new Date(project.endTime).getTime() -new Date().getTime()
+          const hours = Math.floor(
+            (diff) /(1000 * 60 * 60)
+            )
+          const mins = Math.floor((diff - hours*(1000 * 60 * 60))/(1000*60))
+          // console.log("project", project, diff, hours, mins, diff>0)
+          const temp = {
+            projectName: project.projectName,
+            imgeName: project.imageName,
+            description: project.description,
+            listedWl: project.listedWl,
+            wlLimit: project.wlLimit,
+            hours: hours,
+            mins: mins,
+            diff: diff,
+            etherPrice: project.etherPrice,
+            clankPrice: project.clankPrice,
+            endTime: project.endTime
+          };
+          projects.push(temp);
+        })
+        setProjects(projects);
       }
     } catch (err) {
       // notify("error" + err);
@@ -195,8 +213,20 @@ const ProjectPage = () => {
   };
   async function onBuy(project) {
     setSelectedProject(project);
+    
     setMode(7);
   }
+
+  useEffect(() => {
+    const diff = new Date(selectedProject.endTime).getTime() -new Date().getTime()
+    const hours = Math.floor(
+      (diff) /(1000 * 60 * 60)
+      )
+    const mins = Math.floor((diff - hours*(1000 * 60 * 60))/(1000*60))
+    console.log("--", hours,mins, diff)
+    setRemainHours(hours)
+    setRemainMins(mins);
+  },[selectedProject])
 
   async function onAdd(project) {
     setSelectedProject(project);
@@ -544,6 +574,7 @@ const ProjectPage = () => {
     setCartInfo (temp);
     setFlag(!flag);
   }
+
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
       <Navbar bg="transparent" variant="light" className="navbar-layout">
@@ -637,6 +668,9 @@ const ProjectPage = () => {
                         </h3>
                       </td>
                       <td>
+                        <h3 className="genesis-modal-detail-title">Time Remaining</h3>
+                      </td>
+                      <td>
                         <h3 className="genesis-modal-detail-title">Stock</h3>
                       </td>
                       <td>
@@ -661,6 +695,13 @@ const ProjectPage = () => {
                       <td rowSpan="2" className="wordbreak">
                         {item.description}
                       </td>
+                      {
+                        item.diff>0 ?(
+                          <td rowSpan="2">{item.hours + ":" + item.mins}</td>
+                        ):(
+                          <td rowSpan="2">Closed</td>
+                        )
+                      }
                       <td rowSpan="2">
                         <p>
                           {item.listedWl}/{item.wlLimit}
@@ -1027,11 +1068,9 @@ const ProjectPage = () => {
                               new Date().getTime() >
                               0 && (
                               <div className="project-buy-description">
-                                {Math.floor(
-                                  (new Date(selectedProject.endTime).getTime() -
-                                    new Date().getTime()) /
-                                    (1000 * 60 * 60)
-                                ) + " hours"}
+                                {
+                                remainHours + " hours " + remainMins + " mins"
+                                 }
                               </div>
                             )}
                             {new Date(selectedProject.endTime).getTime() -
