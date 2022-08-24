@@ -2,72 +2,52 @@ import React, { Component } from "react";
 
 import "./footer.css";
 import { Container, Row } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 // import Mono_Logo from "../../assets/footer/Logo.png";
 import Facebook from "../../assets/footer/facebook.png";
 import Twitter from "../../assets/footer/twitter.png";
 import Google from "../../assets/footer/google.png";
 import Twitch from "../../assets/footer/twitter.png";
 
-class Footer extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: [
-        {
-          title: "My Account",
-          text: [
-            "Authors",
-            "Collection",
-            "Author Profile",
-            "Create Collection",
-          ],
-        },
-        {
-          title: "Resources",
-          text: ["Help & Support", "Live Auctions", "Item Details", "Activity"],
-        },
-        {
-          title: "Company",
-          text: ["About Us", "Contact Us", "Our Blog", "Discover"],
-        },
-      ],
-      isMobile: false,
-    };
-  }
-  render() {
+function Footer () {
+  let navigate = useNavigate();
+  const onNav = (url) => {
+    navigate(url);
+  };
     return (
       <div className="footer-container">
         <Container>
           <section className="footer-section1">
             <div className="footer-section1-layout">
-              <div className="footer-sectiion-icon">
+              <a className="footer-sectiion-icon" href="https://etherscan.io/address/0x436f6a8e71F0c26b1690360166f6270021343AAA#code">
                 <img
                   alt=""
                   src={Facebook}
                   className="footer-sectiion-icon-round"
                 />
-              </div>
-              <div className="footer-sectiion-icon">
-                <img
-                  alt=""
-                  src={Twitter}
-                  className="footer-sectiion-icon-round"
-                />
-              </div>
-              <div className="footer-sectiion-icon">
+              </a>
+              <a className="footer-sectiion-icon" href="https://etherscan.io/address/0xbE8f69c0218086923aC35fb311A3dD84baB069E5#code">
                 <img
                   alt=""
                   src={Google}
                   className="footer-sectiion-icon-round"
                 />
-              </div>
-              <div className="footer-sectiion-icon">
+              </a>
+              <a className="footer-sectiion-icon" href ="https://twitter.com/pxRobos">
+                <img
+                  alt=""
+                  src={Twitter}
+                  className="footer-sectiion-icon-round"
+                />
+              </a>
+              
+              <a className="footer-sectiion-icon" href="https://opensea.io/collection/robosnft">
                 <img
                   alt=""
                   src={Twitch}
                   className="footer-sectiion-icon-round"
                 />
-              </div>
+              </a>
             </div>
             <Row>
               <p className="footer-sectiion1-text">
@@ -85,7 +65,6 @@ class Footer extends Component {
         </Container>
       </div>
     );
-  }
 }
 
 export default Footer;

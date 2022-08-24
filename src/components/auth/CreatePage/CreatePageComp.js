@@ -87,19 +87,7 @@ function CreatePageComp() {
       return;
   }
     try {
-      // the configuration information is fetched from the .env file
-      //   const config = {
-      //     bucketName: process.env.AWS_S3_BUCKET_NAME,
-      //     region: process.env.REACT_APP_AWS_REGION,
-      //     accessKeyId: process.env.AWS_S3_ACCESS_KEY_ID,
-      //     secretAccessKey: process.env.AWS_S3_SECRET_ACCESS_KEY,
-      // }
-      // const ReactS3Client = new S3(config);
-      // the name of the file uploaded is used to upload it to S3
-      // ReactS3Client
-      // .uploadFile(files[fileName], fileName)
-      // .then(data => console.log(data.location))
-      // .catch(err => console.error(err))
+      
       var filesTemp = files;
       filesTemp.append("fileName", fileName);
       filesTemp.append("name", name);
@@ -108,11 +96,7 @@ function CreatePageComp() {
       filesTemp.append("clankPrice", clankPrice);
       filesTemp.append("endTime",  moment(endTime).format('YYYY-MM-DD HH:MM:SS'))
       filesTemp.append("description", description);
-      // const config = {
-      //   headers: {
-      //     'content-type': 'multipart/form-data',
-      //   },
-      // };
+      
       const res = await axios.post(`api/project/insert`, filesTemp)
       console.log("res", res);
       if (res.status === 200 && res.data.success===true){
