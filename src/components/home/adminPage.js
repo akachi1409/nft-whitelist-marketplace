@@ -244,10 +244,7 @@ function AdminPage() {
                   <div className="genesis-modal-content-row">
                     <img
                       className="genesis-img"
-                      src={
-                        `${process.env.REACT_APP_BACKEND_URL}/uploads/` +
-                        item.imageName
-                      }
+                      src={item.imageName}
                     />
                     <div className="genesis-modal-details">
                       <h3 className="genesis-modal-detail-title">

@@ -150,7 +150,7 @@ function UpdatePageComp(props) {
 
                 {currentImage !== null && (
                   <img
-                    src={`${process.env.REACT_APP_BACKEND_URL}/uploads/` +currentImage}
+                    src={currentImage}
                     alt="Current Image"
                     className="createPageComp-image"
                   />

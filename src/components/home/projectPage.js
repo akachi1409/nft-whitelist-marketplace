@@ -657,10 +657,7 @@ const ProjectPage = () => {
                         <img
                           className="genesis-img"
                           alt=""
-                          src={
-                            `${process.env.REACT_APP_BACKEND_URL}/uploads/` +
-                            item.imageName
-                          }
+                          src={item.imageName}
                         />
                       </td>
                       <td className="genesis-modal-details" style={{width: "50%"}}>
