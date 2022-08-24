@@ -279,10 +279,15 @@ function AdminPage() {
                       </div>
                       <div
                         className="genesis-modal-wallet"
-                        // onClick={() => onAdd(item)}
                         onClick = {()=> onRemoveProject(item.projectName)}
                       >
                         <h5 className="genesis-btn">Remove</h5>
+                      </div>
+                      <div
+                        className="genesis-modal-wallet"
+                        onClick = {()=> onNav("/update_project/" + item.projectName)}
+                      >
+                        <h5 className="genesis-btn">Update</h5>
                       </div>
                     </div>
                   </div>

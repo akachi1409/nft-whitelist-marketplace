@@ -166,6 +166,7 @@ const ProjectPage = () => {
       );
       if (res.data.success) {
         const projects = []
+         // eslint-disable-next-line
         res.data.projects.map((project)=>{
           const diff = new Date(project.endTime).getTime() -new Date().getTime()
           const hours = Math.floor(
@@ -190,10 +191,10 @@ const ProjectPage = () => {
         })
         setProjects(projects);
       }
-    } catch (err) {
-      // notify("error" + err);
-      console.log("error", err);
-    }
+      } catch (err) {
+        // notify("error" + err);
+        console.log("error", err);
+      }
   }
 
   const onBack = () => {

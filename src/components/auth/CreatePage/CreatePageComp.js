@@ -40,7 +40,6 @@ function CreatePageComp() {
   }, [firstLoad])
 
   const handleFile = (e) => {
-    console.log("e", e);
     if (e.target.files.length === 0) return;
     var file = e.target.files[0];
     var reader = new FileReader();
@@ -79,6 +78,10 @@ function CreatePageComp() {
       notify("You should input the price of Clank to submit the WL request.")
       return;
     }
+    if (fileName ===""){
+      notify("You should upload the image of project");
+      return;
+  }
     try {
       var filesTemp = files;
       filesTemp.append("fileName", fileName);
@@ -216,6 +219,7 @@ function CreatePageComp() {
                 placeholder="Description"
                 className="createPageComp-input"
                 value={description}
+                
                 onChange={(e) => setDescription(e.target.value)}
               />
             </Row>
@@ -224,6 +228,7 @@ function CreatePageComp() {
               <DatePicker 
               className="createPageComp-input" 
               selected={endTime} 
+              minDate = {new Date()}
               onChange={(date) => setEndTime(date)} />
             </Row>
             <Row>
