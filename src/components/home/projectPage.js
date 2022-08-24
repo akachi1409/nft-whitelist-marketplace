@@ -176,7 +176,7 @@ const ProjectPage = () => {
           // console.log("project", project, diff, hours, mins, diff>0)
           const temp = {
             projectName: project.projectName,
-            imgeName: project.imageName,
+            imageName: project.imageName,
             description: project.description,
             listedWl: project.listedWl,
             wlLimit: project.wlLimit,
