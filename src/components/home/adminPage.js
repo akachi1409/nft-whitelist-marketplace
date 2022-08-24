@@ -55,7 +55,31 @@ function AdminPage() {
       );
     //   console.log("res", res);
       if (res.data.success) {
-        setProjects(res.data.projects);
+        const projects = []
+         // eslint-disable-next-line
+        res.data.projects.map((project)=>{
+          const diff = new Date(project.endTime).getTime() -new Date().getTime()
+          const hours = Math.floor(
+            (diff) /(1000 * 60 * 60)
+            )
+          const mins = Math.floor((diff - hours*(1000 * 60 * 60))/(1000*60))
+          // console.log("project", project, diff, hours, mins, diff>0)
+          const temp = {
+            projectName: project.projectName,
+            imageName: project.imageName,
+            description: project.description,
+            listedWl: project.listedWl,
+            wlLimit: project.wlLimit,
+            hours: hours,
+            mins: mins,
+            diff: diff,
+            etherPrice: project.etherPrice,
+            clankPrice: project.clankPrice,
+            endTime: project.endTime
+          };
+          projects.push(temp);
+        })
+        setProjects(projects);
       }
     } catch (err) {
       console.log("error", err);
@@ -241,53 +265,131 @@ function AdminPage() {
                   <h5 className="genesis-btn">Download All Order History</h5>
                 </div>
                 {projects.map((item, index) => (
-                  <div className="genesis-modal-content-row">
-                    <img
-                      className="genesis-img"
-                      src={item.imageName}
-                    />
-                    <div className="genesis-modal-details">
-                      <h3 className="genesis-modal-detail-title">
-                        {item.projectName}
-                      </h3>
-                      {/* <div className="holding-bar"/> */}
-                      <p>{item.description}</p>
-                    </div>
-                    <div className="genesis-modal-description">
-                      <h3 className="genesis-modal-detail-title">Price</h3>
-                      {/* <div className="holding-bar"/> */}
-                      {/* <h4>{item.listedWl}/{item.wlLimit}</h4> */}
-                      <div className="genesis-modal-col">
+                  <table className="genesis-table">
+                    <tr>
+                      <td rowSpan="3">
+                        <img
+                          className="genesis-img"
+                          alt=""
+                          src={item.imageName}
+                        />
+                      </td>
+                      
+                      <td
+                        className="genesis-modal-details"
+                        style={{ width: "50%" }}
+                      >
+                        <h3 className="genesis-modal-detail-title">
+                          {item.projectName}
+                        </h3>
+                      </td>
+                      <td>
+                        <h3 className="genesis-modal-detail-title">
+                          Time Remaining
+                        </h3>
+                      </td>
+                      <td>
+                        <h3 className="genesis-modal-detail-title">Stock</h3>
+                      </td>
+                      <td>
+                        <h3 className="genesis-modal-detail-title">Price</h3>
+                      </td>
+                      <td rowSpan="3" style={{flexDirection: "column"}}>
+                        <div
+                          className="genesis-modal-wallet"
+                          onClick={() => getWLProject(item.projectName)}
+                        >
+                          <h5 className="genesis-btn">Download Orders</h5>
+                        </div>
+                        <div
+                          className="genesis-modal-wallet"
+                          onClick={() => onRemoveProject(item._id)}
+                        >
+                          <h5 className="genesis-btn">Remove</h5>
+                        </div>
+                        <div
+                          className="genesis-modal-wallet"
+                          onClick={() => onNav("/update_project/" + item._id)}
+                        >
+                          <h5 className="genesis-btn">Update</h5>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td rowSpan="2" className="wordbreak">
+                        {item.description}
+                      </td>
+                      {item.diff > 0 ? (
+                        <td rowSpan="2">{item.hours + ":" + item.mins}</td>
+                      ) : (
+                        <td rowSpan="2">Closed</td>
+                      )}
+                      <td rowSpan="2">
+                        <p>
+                          {item.listedWl}/{item.wlLimit}
+                        </p>
+                      </td>
+                      <td>
                         <h4 className="genesis-modal-detail-price">
                           {item.etherPrice + " "}Ether
                         </h4>
-                        <div className="holding-bar" />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
                         <h4 className="genesis-modal-detail-price">
                           {item.clankPrice + " "}Clank
                         </h4>
-                      </div>
-                    </div>
-                    <div className="genesis-modal-button">
-                      <div
-                        className="genesis-modal-wallet"
-                        onClick={() => getWLProject(item.projectName)}
-                      >
-                        <h5 className="genesis-btn">Download Orders</h5>
-                      </div>
-                      <div
-                        className="genesis-modal-wallet"
-                        onClick = {()=> onRemoveProject(item._id)}
-                      >
-                        <h5 className="genesis-btn">Remove</h5>
-                      </div>
-                      <div
-                        className="genesis-modal-wallet"
-                        onClick = {()=> onNav("/update_project/" + item._id)}
-                      >
-                        <h5 className="genesis-btn">Update</h5>
-                      </div>
-                    </div>
-                  </div>
+                      </td>
+                    </tr>
+                  </table>
+                  // <div className="genesis-modal-content-row">
+                  //   <img
+                  //     className="genesis-img"
+                  //     src={item.imageName}
+                  //   />
+                  //   <div className="genesis-modal-details">
+                  //     <h3 className="genesis-modal-detail-title">
+                  //       {item.projectName}
+                  //     </h3>
+                  //     {/* <div className="holding-bar"/> */}
+                  //     <p>{item.description}</p>
+                  //   </div>
+                  //   <div className="genesis-modal-description">
+                  //     <h3 className="genesis-modal-detail-title">Price</h3>
+                  //     {/* <div className="holding-bar"/> */}
+                  //     {/* <h4>{item.listedWl}/{item.wlLimit}</h4> */}
+                  //     <div className="genesis-modal-col">
+                  //       <h4 className="genesis-modal-detail-price">
+                  //         {item.etherPrice + " "}Ether
+                  //       </h4>
+                  //       <div className="holding-bar" />
+                  //       <h4 className="genesis-modal-detail-price">
+                  //         {item.clankPrice + " "}Clank
+                  //       </h4>
+                  //     </div>
+                  //   </div>
+                  //   <div className="genesis-modal-button">
+                  //     <div
+                  //       className="genesis-modal-wallet"
+                  //       onClick={() => getWLProject(item.projectName)}
+                  //     >
+                  //       <h5 className="genesis-btn">Download Orders</h5>
+                  //     </div>
+                  //     <div
+                  //       className="genesis-modal-wallet"
+                  //       onClick = {()=> onRemoveProject(item._id)}
+                  //     >
+                  //       <h5 className="genesis-btn">Remove</h5>
+                  //     </div>
+                  //     <div
+                  //       className="genesis-modal-wallet"
+                  //       onClick = {()=> onNav("/update_project/" + item._id)}
+                  //     >
+                  //       <h5 className="genesis-btn">Update</h5>
+                  //     </div>
+                  //   </div>
+                  // </div>
                 ))}
               </div>
             </div>
@@ -319,16 +421,40 @@ function AdminPage() {
                         Export to Excel
                       </button>
                     </GridToolbar>
-                    <GridColumn field="projectName" title="Project Name"  width="100px"  />
-                    <GridColumn field="walletAddress" title="Wallet Address"/>
-                    <GridColumn field="orderNumber" title="Order Number"/>
-                    <GridColumn field="totalEther" title="Total Ether" width="100px" />
-                    <GridColumn field="totalClank" title="Total Clank"  width="100px"  />
-                    <GridColumn field="discordID" title="Discord ID"/>
-                    <GridColumn field="clankCost" title="Clank Cost" width="100px" />
-                    <GridColumn field="etherCost" title="Ether Cost"  width="100px"  />
-                    <GridColumn field="quantity" title="Quantity" width="100px" />
-                    <GridColumn field="orderDate" title="Date"  width="100px" />
+                    <GridColumn
+                      field="projectName"
+                      title="Project Name"
+                      width="100px"
+                    />
+                    <GridColumn field="walletAddress" title="Wallet Address" />
+                    <GridColumn field="orderNumber" title="Order Number" />
+                    <GridColumn
+                      field="totalEther"
+                      title="Total Ether"
+                      width="100px"
+                    />
+                    <GridColumn
+                      field="totalClank"
+                      title="Total Clank"
+                      width="100px"
+                    />
+                    <GridColumn field="discordID" title="Discord ID" />
+                    <GridColumn
+                      field="clankCost"
+                      title="Clank Cost"
+                      width="100px"
+                    />
+                    <GridColumn
+                      field="etherCost"
+                      title="Ether Cost"
+                      width="100px"
+                    />
+                    <GridColumn
+                      field="quantity"
+                      title="Quantity"
+                      width="100px"
+                    />
+                    <GridColumn field="orderDate" title="Date" width="100px" />
                   </Grid>
                 </ExcelExport>
               </div>
