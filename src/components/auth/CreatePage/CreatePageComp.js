@@ -11,6 +11,9 @@ import moment from "moment";
 import { useSelector } from "react-redux";
 import { useNavigate} from 'react-router-dom';
 
+// installed using npm install buffer --save
+window.Buffer = window.Buffer || require("buffer").Buffer;
+
 function CreatePageComp() {
   const [files, setFiles] = useState(new FormData());
   const [image, setImage] = useState(null);
@@ -51,6 +54,7 @@ function CreatePageComp() {
       setFlag(!flag);
     };
     var filesTemp = files;
+    
     filesTemp.append(e.target.files[0].name, e.target.files[0]);
     setFiles(filesTemp);
     setFileName(e.target.files[0].name);
@@ -83,6 +87,19 @@ function CreatePageComp() {
       return;
   }
     try {
+      // the configuration information is fetched from the .env file
+      //   const config = {
+      //     bucketName: process.env.AWS_S3_BUCKET_NAME,
+      //     region: process.env.REACT_APP_AWS_REGION,
+      //     accessKeyId: process.env.AWS_S3_ACCESS_KEY_ID,
+      //     secretAccessKey: process.env.AWS_S3_SECRET_ACCESS_KEY,
+      // }
+      // const ReactS3Client = new S3(config);
+      // the name of the file uploaded is used to upload it to S3
+      // ReactS3Client
+      // .uploadFile(files[fileName], fileName)
+      // .then(data => console.log(data.location))
+      // .catch(err => console.error(err))
       var filesTemp = files;
       filesTemp.append("fileName", fileName);
       filesTemp.append("name", name);
@@ -90,15 +107,12 @@ function CreatePageComp() {
       filesTemp.append("etherPrice", etherPrice);
       filesTemp.append("clankPrice", clankPrice);
       filesTemp.append("endTime",  moment(endTime).format('YYYY-MM-DD HH:MM:SS'))
-      // filesTemp.append("endTime",  endTime)
       filesTemp.append("description", description);
-      // console.log("files:", moment(endTime).format('YYYY-MM-DD HH:MM:SS'));
-      // filesTemp.append("", );
-      // const instance = axios.create({
-      //   httpsAgent: new https.Agent({  
-      //     rejectUnauthorized: false
-      //   })
-      // });
+      // const config = {
+      //   headers: {
+      //     'content-type': 'multipart/form-data',
+      //   },
+      // };
       const res = await axios.post(`api/project/insert`, filesTemp)
       console.log("res", res);
       if (res.status === 200 && res.data.success===true){
