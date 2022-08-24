@@ -5,10 +5,11 @@ import { Container, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 // import Mono_Logo from "../../assets/footer/Logo.png";
 import Facebook from "../../assets/footer/facebook.png";
-import Twitter from "../../assets/footer/twitter.png";
+import Twitter from "../../assets/footer/twitter.webp";
 import Google from "../../assets/footer/google.png";
-import Twitch from "../../assets/footer/twitter.png";
-
+// import Twitch from "../../assets/footer/twitter.png";
+import Opensea from "../../assets/footer/opensea.webp"
+import Scan from "../../assets/footer/scan.webp"
 function Footer () {
   let navigate = useNavigate();
   const onNav = (url) => {
@@ -22,14 +23,14 @@ function Footer () {
               <a className="footer-sectiion-icon" href="https://etherscan.io/address/0x436f6a8e71F0c26b1690360166f6270021343AAA#code">
                 <img
                   alt=""
-                  src={Facebook}
+                  src={Scan}
                   className="footer-sectiion-icon-round"
                 />
               </a>
               <a className="footer-sectiion-icon" href="https://etherscan.io/address/0xbE8f69c0218086923aC35fb311A3dD84baB069E5#code">
                 <img
                   alt=""
-                  src={Google}
+                  src={Scan}
                   className="footer-sectiion-icon-round"
                 />
               </a>
@@ -44,7 +45,7 @@ function Footer () {
               <a className="footer-sectiion-icon" href="https://opensea.io/collection/robosnft">
                 <img
                   alt=""
-                  src={Twitch}
+                  src={Opensea}
                   className="footer-sectiion-icon-round"
                 />
               </a>

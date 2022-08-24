@@ -111,7 +111,7 @@ function AdminPage() {
   const getAllWLProject = async () => {
     try {
         const res = await axios.get(
-          `api/project/list/project`
+          `api/project/project`
         );
         const data = []
         res.data.orders.map((order) => {

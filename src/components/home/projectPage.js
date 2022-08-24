@@ -371,11 +371,6 @@ const ProjectPage = () => {
         cartInfo: cartInfo,
       };
       console.log("---------", data);
-      // const instance = axios.create({
-      //   httpsAgent: new https.Agent({  
-      //     rejectUnauthorized: false
-      //   })
-      // });
       axios
         .post(
           `api/user/address/insertCart`,
@@ -468,11 +463,7 @@ const ProjectPage = () => {
         totalEther: 0,
         totalClank: totalClank.toFixed(),
       };
-      // const instance = axios.create({
-      //   httpsAgent: new https.Agent({  
-      //     rejectUnauthorized: false
-      //   })
-      // });
+
       axios
         .post(`api/user/address/insert`, data)
         .then((res) => {
@@ -481,8 +472,7 @@ const ProjectPage = () => {
       onInit();
       setMode(0);
     } catch (err) {
-      // notify("Insufficient funds!");
-      console.log("err", err)
+      notify("Insufficient funds!");
     }
   };
   const onSubmitEther = async () => {
@@ -508,11 +498,6 @@ const ProjectPage = () => {
         totalClank: 0,
       };
       console.log("data", data);
-      // const instance = axios.create({
-      //   httpsAgent: new https.Agent({  
-      //     rejectUnauthorized: false
-      //   })
-      // });
       axios
         .post(`api/user/address/insert`, data)
         .then((res) => {
@@ -521,11 +506,9 @@ const ProjectPage = () => {
       onInit();
       setMode(0);
     } catch (err) {
-      // notify("Insufficient funds!");
-      console.log("err", err)
+      notify("Insufficient funds!");
+      // console.log("err", err)
     }
-
-    // await transaction.wait();
   };
 
   const onCart = () => {
@@ -841,7 +824,6 @@ const ProjectPage = () => {
                         alt=""
                           className="project-buy-img"
                           src={
-                            `${process.env.REACT_APP_BACKEND_URL}/uploads/` +
                             selectedProject.imageName
                           }
                         />
@@ -964,7 +946,6 @@ const ProjectPage = () => {
                         alt=""
                           className="project-buy-img"
                           src={
-                            `${process.env.REACT_APP_BACKEND_URL}/uploads/` +
                             item.img
                           }
                         />
@@ -1072,7 +1053,6 @@ const ProjectPage = () => {
                           alt=""
                           className="project-buy-img"
                           src={
-                            `${process.env.REACT_APP_BACKEND_URL}/uploads/` +
                             selectedProject.imageName
                           }
                         />
@@ -1305,7 +1285,6 @@ const ProjectPage = () => {
                                   alt=""
                                   className="project-order-img"
                                   src={
-                                    `${process.env.REACT_APP_BACKEND_URL}/uploads/` +
                                     wl.whitelistPicture
                                   }
                                 />
