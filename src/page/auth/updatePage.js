@@ -4,11 +4,11 @@ import UpdatePageComp from "../../components/auth/UpdatePage/updatePageComp"
 import { useParams } from "react-router-dom";
 
 function UpdatePage(){
-    const { projectName } = useParams();
+    const { projectID } = useParams();
 
     return(
         <div>
-            <UpdatePageComp projectName={projectName} />
+            <UpdatePageComp projectID={projectID} />
         </div>
     )
 }

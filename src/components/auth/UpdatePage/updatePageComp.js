@@ -29,10 +29,10 @@ function UpdatePageComp(props) {
     navigate(url);
   };
 
-  const getProjectDetail = async (projectName) => {
-    console.log("==", projectName);
+  const getProjectDetail = async (projectID) => {
+    console.log("==", projectID);
     try {
-      const res = await axios.get(`/api/project/${projectName}/`);
+      const res = await axios.get(`/api/project/${projectID}/`);
       console.log("-----", res);
       if (res.data.success) {
         console.log(res);
@@ -54,7 +54,7 @@ function UpdatePageComp(props) {
       if (blockchain.account === null) {
         navigate("/");
       }
-      getProjectDetail(props.projectName);
+      getProjectDetail(props.projectID);
       setFirstLoad(false);
     }
     /* eslint-disable */
@@ -105,7 +105,7 @@ function UpdatePageComp(props) {
     }
     try {
       var filesTemp = files;
-      filesTemp.append("original", props.projectName);
+      filesTemp.append("original", props.projectID);
       filesTemp.append("fileName", fileName);
       filesTemp.append("name", name);
       filesTemp.append("limit", limit);

@@ -98,8 +98,8 @@ function AdminPage() {
     }
   };
 
-  const onRemoveProject = async (projectName) => {
-    const res = await axios.delete(`api/project/delete/${projectName}`)
+  const onRemoveProject = async (projectID) => {
+    const res = await axios.delete(`api/project/delete/${projectID}`)
     if (res.status === 200 && res.data.success===true){
       navigate("/")
     }
@@ -279,13 +279,13 @@ function AdminPage() {
                       </div>
                       <div
                         className="genesis-modal-wallet"
-                        onClick = {()=> onRemoveProject(item.projectName)}
+                        onClick = {()=> onRemoveProject(item._id)}
                       >
                         <h5 className="genesis-btn">Remove</h5>
                       </div>
                       <div
                         className="genesis-modal-wallet"
-                        onClick = {()=> onNav("/update_project/" + item.projectName)}
+                        onClick = {()=> onNav("/update_project/" + item._id)}
                       >
                         <h5 className="genesis-btn">Update</h5>
                       </div>

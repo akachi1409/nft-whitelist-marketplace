@@ -20,7 +20,7 @@ function App() {
           <Route path="/project/:projectName" element={<Home/>}></Route>
           <Route path="/wllist/:projectName" element={<WlList/>}></Route>
           <Route path="/create_project" element={<CreateProject/>}></Route>
-          <Route path="/update_project/:projectName" element={<UpdatePage/>}></Route>
+          <Route path="/update_project/:projectID" element={<UpdatePage/>}></Route>
           <Route path="/" element={<ProjectList/>}></Route>
           <Route path="/admin" element={<Admin/>}></Route>
         </Routes>
