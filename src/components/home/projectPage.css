@@ -808,6 +808,7 @@ td {
   position: relative;
   padding-top: 0.3em;
   padding-bottom: 0.3em;
+  height: 10vh;
 }
 .footer-container .footer-section1{
   width: 100%;
@@ -912,6 +913,12 @@ td {
   margin-bottom: 0px !important;
 }
 
+.bg-class{
+  background-image: url("../../assets/bg.gif")!important;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  height: 90vh;
+}
 @media only screen and (max-width: 600px) {
   .footer-container .footer-section1 .footer-sectiion1-text{
     margin-bottom: 0px !important;

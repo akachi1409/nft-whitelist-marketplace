@@ -564,705 +564,641 @@ const ProjectPage = () => {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
-      <Navbar bg="transparent" variant="light" className="navbar-layout">
-        <Container>
-          <Navbar.Brand onClick={() => onNav("/")}>
-            <h2 className="navbar-home">Home</h2>
-          </Navbar.Brand>
+      <div className="bg-class">
+        <Navbar bg="transparent" variant="light" className="navbar-layout">
+          <Container>
+            <Navbar.Brand onClick={() => onNav("/")}>
+              <h2 className="navbar-home">Home</h2>
+            </Navbar.Brand>
 
-          <Nav></Nav>
+            <Nav></Nav>
 
-          {blockchain.account === null ? (
-            <Nav>
-              <Nav.Item className="nav-wallet-layout">
-                <Nav.Link className="nav-wallet" onClick={() => onConnect()}>
-                  Connect Wallet
-                </Nav.Link>
-              </Nav.Item>
-            </Nav>
-          ) : (
-            <Nav>
-              <Nav.Item className="nav-wallet-layout">
-                <Nav.Link className="nav-wallet" onClick={() => onOrder()}>
-                  Order History
-                </Nav.Link>
-              </Nav.Item>
-              <Nav.Item className="nav-wallet-layout">
-                <Nav.Link className="nav-wallet" onClick={() => onDisconnect()}>
-                  Disconnect Wallet
-                </Nav.Link>
-              </Nav.Item>
-              <Nav.Item className="nav-wallet-layout">
-                <Nav.Link className="nav-wallet" onClick={() => onCart()}>
-                  My Cart
-                </Nav.Link>
-              </Nav.Item>
-              {
-                isAdmin && (
-                  <Nav.Item className="nav-wallet-layout">
-                    <Nav.Link
-                      className="nav-wallet"
-                      onClick={() => onNav("/admin")}
-                    >
-                      ..
-                    </Nav.Link>
-                  </Nav.Item>
-                )
-              }
-              
-            </Nav>
-          )}
-        </Container>
-      </Navbar>
-      <div className="projectPage-layout">
-        <div className="projectList-layout">
-          {/* To be developed */}
-          {mode === 1 && (
-            <div className="genesis-modal">
-              <div className="genesis-modal-exit-layer">
-                <h3 className="genesis-modal-title">To be developed!</h3>
-                <span className="close-btn" onClick={() => setMode(0)}>
-                  &times;
-                </span>
+            {blockchain.account === null ? (
+              <Nav>
+                <Nav.Item className="nav-wallet-layout">
+                  <Nav.Link className="nav-wallet" onClick={() => onConnect()}>
+                    Connect Wallet
+                  </Nav.Link>
+                </Nav.Item>
+              </Nav>
+            ) : (
+              <Nav>
+                <Nav.Item className="nav-wallet-layout">
+                  <Nav.Link className="nav-wallet" onClick={() => onOrder()}>
+                    Order History
+                  </Nav.Link>
+                </Nav.Item>
+                <Nav.Item className="nav-wallet-layout">
+                  <Nav.Link className="nav-wallet" onClick={() => onDisconnect()}>
+                    Disconnect Wallet
+                  </Nav.Link>
+                </Nav.Item>
+                <Nav.Item className="nav-wallet-layout">
+                  <Nav.Link className="nav-wallet" onClick={() => onCart()}>
+                    My Cart
+                  </Nav.Link>
+                </Nav.Item>
+                {
+                  isAdmin && (
+                    <Nav.Item className="nav-wallet-layout">
+                      <Nav.Link
+                        className="nav-wallet"
+                        onClick={() => onNav("/admin")}
+                      >
+                        ..
+                      </Nav.Link>
+                    </Nav.Item>
+                  )
+                }
+                
+              </Nav>
+            )}
+          </Container>
+        </Navbar>
+        <div className="projectPage-layout">
+          <div className="projectList-layout">
+            {/* To be developed */}
+            {mode === 1 && (
+              <div className="genesis-modal">
+                <div className="genesis-modal-exit-layer">
+                  <h3 className="genesis-modal-title">To be developed!</h3>
+                  <span className="close-btn" onClick={() => setMode(0)}>
+                    &times;
+                  </span>
+                </div>
               </div>
-            </div>
-          )}
-          {/* Show the project list here */}
-          {mode === 2 && (
-            <div className="genesis-modal">
-              <div className="genesis-modal-exit-layer">
-                <h3 className="genesis-modal-title">Whitelist Store</h3>
-                <span className="close-btn" onClick={() => setMode(0)}>
-                </span>
-              </div>
-              <div className="genesis-modal-content-layer">
-                {projects.map((item, index) => (
-                  <table className="genesis-table">
-                    <tr>
-                      <td rowSpan="3">
-                        <img
-                          className="genesis-img"
-                          alt=""
-                          src={item.imageName}
-                        />
-                      </td>
-                      <td className="genesis-modal-details" style={{width: "50%"}}>
+            )}
+            {/* Show the project list here */}
+            {mode === 2 && (
+              <div className="genesis-modal">
+                <div className="genesis-modal-exit-layer">
+                  <h3 className="genesis-modal-title">Whitelist Store</h3>
+                  <span className="close-btn" onClick={() => setMode(0)}>
+                  </span>
+                </div>
+                <div className="genesis-modal-content-layer">
+                  {projects.map((item, index) => (
+                    <table className="genesis-table">
+                      <tr>
+                        <td rowSpan="3">
+                          <img
+                            className="genesis-img"
+                            alt=""
+                            src={item.imageName}
+                          />
+                        </td>
+                        <td className="genesis-modal-details" style={{width: "50%"}}>
+                          <h3 className="genesis-modal-detail-title">
+                            {item.projectName}
+                          </h3>
+                        </td>
+                        <td>
+                          <h3 className="genesis-modal-detail-title">Time Remaining</h3>
+                        </td>
+                        <td>
+                          <h3 className="genesis-modal-detail-title">Stock</h3>
+                        </td>
+                        <td>
+                          <h3 className="genesis-modal-detail-title">Price</h3>
+                        </td>
+                        <td rowSpan="3" className="genesis-modal-button">
+                          <div
+                            className="genesis-modal-wallet"
+                            onClick={() => onBuy(item)}
+                          >
+                            <h5 className="genesis-btn">Buy Now</h5>
+                          </div>
+                          <div
+                            className="genesis-modal-wallet"
+                            onClick={() => onAdd(item)}
+                          >
+                            <h5 className="genesis-btn">Add To Cart</h5>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td rowSpan="2" className="wordbreak">
+                          {item.description}
+                        </td>
+                        {
+                          item.diff>0 ?(
+                            <td rowSpan="2">{item.hours + ":" + item.mins}</td>
+                          ):(
+                            <td rowSpan="2">Closed</td>
+                          )
+                        }
+                        <td rowSpan="2">
+                          <p>
+                            {item.listedWl}/{item.wlLimit}
+                          </p>
+                        </td>
+                        <td>
+                          <h4 className="genesis-modal-detail-price">
+                            {item.etherPrice + " "}Ether
+                          </h4>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <h4 className="genesis-modal-detail-price">
+                            {item.clankPrice + " "}Clank
+                          </h4>
+                        </td>
+                      </tr>
+                    </table>
+                  ))}
+
+                  {/* {projects.map((item, index) => (
+                    <div className="genesis-modal-content-row">
+                      <img
+                        className="genesis-img"
+                        src={
+                          `${process.env.REACT_APP_BACKEND_URL}/uploads/` +
+                          item.imageName
+                        }
+                      />
+                      <div className="genesis-modal-details">
                         <h3 className="genesis-modal-detail-title">
                           {item.projectName}
                         </h3>
-                      </td>
-                      <td>
-                        <h3 className="genesis-modal-detail-title">Time Remaining</h3>
-                      </td>
-                      <td>
-                        <h3 className="genesis-modal-detail-title">Stock</h3>
-                      </td>
-                      <td>
+                        <p>{item.description}</p>
+                      </div>
+                      <div className="genesis-modal-details">
+                        <h3 className="genesis-modal-detail-title">
+                          Quantity
+                        </h3>
+                        <p>{item.listedWl}/{item.wlLimit}</p>
+                      </div>
+                      <div className="genesis-modal-description">
                         <h3 className="genesis-modal-detail-title">Price</h3>
-                      </td>
-                      <td rowSpan="3" className="genesis-modal-button">
+                        <div className="genesis-modal-col">
+                          <h4 className="genesis-modal-detail-price">
+                            {item.etherPrice + " "}Ether
+                          </h4>
+                          <div className="holding-bar" />
+                          <h4 className="genesis-modal-detail-price">
+                            {item.clankPrice + " "}Clank
+                          </h4>
+                        </div>
+                      </div>
+                      <div className="genesis-modal-button">
                         <div
                           className="genesis-modal-wallet"
-                          onClick={() => onBuy(item)}
                         >
                           <h5 className="genesis-btn">Buy Now</h5>
                         </div>
                         <div
                           className="genesis-modal-wallet"
-                          onClick={() => onAdd(item)}
                         >
                           <h5 className="genesis-btn">Add To Cart</h5>
                         </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td rowSpan="2" className="wordbreak">
-                        {item.description}
-                      </td>
-                      {
-                        item.diff>0 ?(
-                          <td rowSpan="2">{item.hours + ":" + item.mins}</td>
-                        ):(
-                          <td rowSpan="2">Closed</td>
-                        )
-                      }
-                      <td rowSpan="2">
-                        <p>
-                          {item.listedWl}/{item.wlLimit}
-                        </p>
-                      </td>
-                      <td>
-                        <h4 className="genesis-modal-detail-price">
-                          {item.etherPrice + " "}Ether
-                        </h4>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <h4 className="genesis-modal-detail-price">
-                          {item.clankPrice + " "}Clank
-                        </h4>
-                      </td>
-                    </tr>
-                  </table>
-                ))}
-
-                {/* {projects.map((item, index) => (
-                  <div className="genesis-modal-content-row">
-                    <img
-                      className="genesis-img"
-                      src={
-                        `${process.env.REACT_APP_BACKEND_URL}/uploads/` +
-                        item.imageName
-                      }
-                    />
-                    <div className="genesis-modal-details">
-                      <h3 className="genesis-modal-detail-title">
-                        {item.projectName}
-                      </h3>
-                      <p>{item.description}</p>
-                    </div>
-                    <div className="genesis-modal-details">
-                      <h3 className="genesis-modal-detail-title">
-                        Quantity
-                      </h3>
-                      <p>{item.listedWl}/{item.wlLimit}</p>
-                    </div>
-                    <div className="genesis-modal-description">
-                      <h3 className="genesis-modal-detail-title">Price</h3>
-                      <div className="genesis-modal-col">
-                        <h4 className="genesis-modal-detail-price">
-                          {item.etherPrice + " "}Ether
-                        </h4>
-                        <div className="holding-bar" />
-                        <h4 className="genesis-modal-detail-price">
-                          {item.clankPrice + " "}Clank
-                        </h4>
                       </div>
                     </div>
-                    <div className="genesis-modal-button">
-                      <div
-                        className="genesis-modal-wallet"
-                      >
-                        <h5 className="genesis-btn">Buy Now</h5>
-                      </div>
-                      <div
-                        className="genesis-modal-wallet"
-                      >
-                        <h5 className="genesis-btn">Add To Cart</h5>
-                      </div>
-                    </div>
-                  </div>
-                ))} */}
-              </div>
-            </div>
-          )}
-          {/* 6 categories */}
-          {mode === 0 && (
-            <div className="project-layout">
-              <img
-                src={GenesisImage}
-                alt=""
-                className="project-item"
-                onClick={() => {
-                  setMode(1);
-                }}
-              />
-              <img
-                src={WLImage}
-                alt=""
-                className="project-item"
-                onClick={() => {
-                  setMode(2);
-                }}
-              />
-              <img
-                src={RobosImage}
-                alt=""
-                className="project-item"
-                onClick={() => {
-                  setMode(1);
-                }}
-              />
-              <img
-                src={ClankImage}
-                alt=""
-                className="project-item"
-                onClick={() => {
-                  setMode(1);
-                }}
-              />
-              <img
-                src={MerchImage}
-                alt=""
-                className="project-item"
-                onClick={() => {
-                  setMode(1);
-                }}
-              />
-              <img
-                src={OtherImage}
-                alt=""
-                className="project-item"
-                onClick={() => {
-                  setMode(1);
-                }}
-              />
-            </div>
-          )}
-          {/* Show the selecting the number of wl to add cart */}
-          {mode === 6 && (
-            <div className="project-buy-layout">
-              <div className="project-buy-exit-layer">
-                <h3 className="project-buy-title">Shopping Cart</h3>
-                <span className="close-btn" onClick={() => onBack()}>
-                </span>
-              </div>
-              <div className="project-buy-content">
-                <div className="project-buy-row">
-                  <table className="project-buy-table">
-                    <tr>
-                      <td>
-                        <img
-                        alt=""
-                          className="project-buy-img"
-                          src={
-                            selectedProject.imageName
-                          }
-                        />
-                      </td>
-                    </tr>
-                    <tr>
-                      <table>
-                        <tr>
-                          <td className="project-buy-price">Time Remaining</td>
-                          <td className="project-buy-price" colSpan="2">
-                            {new Date(selectedProject.endTime).getTime() -
-                              new Date().getTime() >
-                              0 && (
-                              <div className="project-buy-description">
-                                {
-                                remainHours + " hours " + remainMins + " mins"
-                                 }
-                              </div>
-                            )}
-                            {new Date(selectedProject.endTime).getTime() -
-                              new Date().getTime() <=
-                              0 && (
-                              <div className="project-buy-description">
-                                Whitelist has closed
-                              </div>
-                            )}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td rowspan="2" className="project-buy-price">
-                            Price
-                          </td>
-                          <td className="project-buy-price">Ether:</td>
-                          <td className="project-buy-price">
-                            {selectedProject.etherPrice}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="project-buy-price">Clank:</td>
-                          <td className="project-buy-price">
-                            {selectedProject.clankPrice}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="project-buy-price">Quantity</td>
-                          <td className="project-buy-price" colspan="2">
-                            <div className="project-buy-row">
-                              <h5
-                                className="project-buy-sign"
-                                onClick={() => onMinus()}
-                              >
-                                -
-                              </h5>
-                              <h5 className="project-buy-price">{amounts}</h5>
-                              <h5
-                                className="project-buy-sign"
-                                onClick={() => onPlus()}
-                              >
-                                +
-                              </h5>
-                            </div>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td rowspan="2" className="project-buy-price">
-                            Total
-                          </td>
-                          <td className="project-buy-price">Ether:</td>
-                          <td className="project-buy-price">{totalEther.toFixed()}</td>
-                        </tr>
-                        <tr>
-                          <td className="project-buy-price">Clank:</td>
-                          <td className="project-buy-price">{totalClank.toFixed()}</td>
-                        </tr>
-                      </table>
-                    </tr>
-                    <tr>
-                      <div
-                        className="project-buy-btn"
-                        onClick={() => onAddItem()}
-                      >
-                        Add To Cart
-                      </div>
-                    </tr>
-                  </table>
-                  <table className="project-buy-table">
-                    <tr
-                      style={{ borderBottom: "1px solid white", height: "10%" }}
-                    >
-                      <td>
-                        <h3 className="project-buy-title">
-                          {selectedProject.projectName}
-                        </h3>
-                      </td>
-                    </tr>
-                    <tr>
-                      <div className="project-buy-description">
-                        {selectedProject.description}
-                      </div>
-                    </tr>
-                  </table>
+                  ))} */}
                 </div>
               </div>
-            </div>
-          )}
-          {/* Check out for add cart */}
-          {mode === 5 && (
-            <div className="project-buy-layout">
-              <div className="project-buy-exit-layer">
-                <h3 className="project-buy-title">Check Out</h3>
-                <span className="close-btn" onClick={() => onBack()}>
-                </span>
+            )}
+            {/* 6 categories */}
+            {mode === 0 && (
+              <div className="project-layout">
+                <img
+                  src={GenesisImage}
+                  alt=""
+                  className="project-item"
+                  onClick={() => {
+                    setMode(1);
+                  }}
+                />
+                <img
+                  src={WLImage}
+                  alt=""
+                  className="project-item"
+                  onClick={() => {
+                    setMode(2);
+                  }}
+                />
+                <img
+                  src={RobosImage}
+                  alt=""
+                  className="project-item"
+                  onClick={() => {
+                    setMode(1);
+                  }}
+                />
+                <img
+                  src={ClankImage}
+                  alt=""
+                  className="project-item"
+                  onClick={() => {
+                    setMode(1);
+                  }}
+                />
+                <img
+                  src={MerchImage}
+                  alt=""
+                  className="project-item"
+                  onClick={() => {
+                    setMode(1);
+                  }}
+                />
+                <img
+                  src={OtherImage}
+                  alt=""
+                  className="project-item"
+                  onClick={() => {
+                    setMode(1);
+                  }}
+                />
               </div>
-              <div className="project-buy-content">
-                {cartInfo.map((item, index) => (
-                  <table className="project-cart-table" key={index}>
-                    <tr>
-                      <td rowSpan="3">
-                        <img
-                        alt=""
-                          className="project-buy-img"
-                          src={
-                            item.img
-                          }
-                        />
-                      </td>
-                      <td className="project-buy-title">Project Name</td>
-                      <td className="project-buy-title" colSpan="2">
-                        Price
-                      </td>
-                      <td>Update</td>
-                    </tr>
-                    <tr>
-                      <td rowSpan="2">
-                        <h4>{item.projectName}</h4>
-                      </td>
-                      <td>Ehter</td>
-                      <td>Clank</td>
-                      <td rowSpan="2">
-                        <div className="project-buy-btn" style={{fontSize: "18px"}} onClick={() => onRemoveCheck(item.id)}>
-                          Remove
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>{item.totalEther.toFixed()}</td>
-                      <td>{item.totalClank.toFixed()}</td>
-                    </tr>
-                  </table>
-                ))}
-
-                <table className="project-cart-table">
-                  <tr>
-                    <td rowspan="2" className="project-buy-price">
-                      Total
-                    </td>
-                    <td className="project-buy-price">Ether:</td>
-                    <td className="project-buy-price">{cartEther.toFixed()}</td>
-                  </tr>
-                  <tr>
-                    <td className="project-buy-price">Clank:</td>
-                    <td className="project-buy-price">{cartClank.toFixed()}</td>
-                  </tr>
-                </table>
-                <div className="project-buy-description1">
-                  1. If you wish to allocate a different wallet address to the
-                  whitelist allocation, then please update the box below.
-                  <br />
-                  2. Please include your discord I.D as some projects require
-                  this to allocate the Whitelist.
-                  <br />
-                  3. We cannot update or amend the wallet address after
-                  purchase.
+            )}
+            {/* Show the selecting the number of wl to add cart */}
+            {mode === 6 && (
+              <div className="project-buy-layout">
+                <div className="project-buy-exit-layer">
+                  <h3 className="project-buy-title">Shopping Cart</h3>
+                  <span className="close-btn" onClick={() => onBack()}>
+                  </span>
                 </div>
-                <div className="project-buy-add-layout">
-                  <div className="project-buy-wallet-layout">
-                    <h5 className="project-buy-wallet-title">Wallet Address</h5>
-                    <input
-                      className="project-buy-wallet-input"
-                      value={targetAddress}
-                      onChange={(e) => setTargetAddress(e.target.value)}
-                    />
-                  </div>
-                  <div className="project-buy-wallet-layout">
-                    <h5 className="project-buy-wallet-title">Discord I.D.</h5>
-                    <input
-                      className="project-buy-wallet-input"
-                      value={discordID}
-                      onChange={(e) => setDiscordID(e.target.value)}
-                    />
-                  </div>
-                </div>
-                <div style={{ border: "1px solid white", padding: "1em" }}>
-                  <div
-                    className="project-buy-btn"
-                    onClick={() => onPurchaseCartEther()}
-                  >
-                    Confirm Purchase with Ether
-                  </div>
-                  <div
-                    className="project-buy-btn"
-                    onClick={() => onPurchaseCartClank()}
-                  >
-                    Confirm Purchase with Clank
-                  </div>
-                  <div className="project-buy-btn" onClick={() => onBack()}>
-                    Add More
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-          {/* Check Out for Buy Now */}
-          {mode === 7 && (
-            <div className="project-buy-layout">
-              <div className="project-buy-exit-layer">
-                <h3 className="project-buy-title">Check Out</h3>
-                <span className="close-btn" onClick={() => onBack()}>
-                </span>
-              </div>
-              <div className="project-buy-content">
-                <div className="project-buy-row">
-                  <table className="project-buy-table">
-                    <tr>
-                      <td>
-                        <img
+                <div className="project-buy-content">
+                  <div className="project-buy-row">
+                    <table className="project-buy-table">
+                      <tr>
+                        <td>
+                          <img
                           alt=""
-                          className="project-buy-img"
-                          src={
-                            selectedProject.imageName
-                          }
-                        />
-                      </td>
-                    </tr>
-                    <tr>
-                      <table>
-                        <tr>
-                          <td className="project-buy-price">Time Remaining</td>
-                          <td className="project-buy-price" colSpan="2">
-                            {new Date(selectedProject.endTime).getTime() -
-                              new Date().getTime() >
-                              0 && (
-                              <div className="project-buy-description">
-                                {
-                                remainHours + " hours " + remainMins + " mins"
-                                 }
-                              </div>
-                            )}
-                            {new Date(selectedProject.endTime).getTime() -
-                              new Date().getTime() <=
-                              0 && (
-                              <div className="project-buy-description">
-                                Whitelist has closed
-                              </div>
-                            )}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td rowspan="2" className="project-buy-price">
-                            Price
-                          </td>
-                          <td className="project-buy-price">Ether:</td>
-                          <td className="project-buy-price">
-                            {selectedProject.etherPrice}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="project-buy-price">Clank:</td>
-                          <td className="project-buy-price">
-                            {selectedProject.clankPrice}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="project-buy-price">Quantity</td>
-                          <td className="project-buy-price" colspan="2">
-                            <div className="project-buy-row">
-                              <h5
-                                className="project-buy-sign"
-                                onClick={() => onMinus()}
-                              >
-                                -
-                              </h5>
-                              <h5 className="project-buy-price">{amounts}</h5>
-                              <h5
-                                className="project-buy-sign"
-                                onClick={() => onPlus()}
-                              >
-                                +
-                              </h5>
-                            </div>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td rowspan="2" className="project-buy-price">
-                            Total
-                          </td>
-                          <td className="project-buy-price">Ether:</td>
-                          <td className="project-buy-price">{totalEther.toFixed()}</td>
-                        </tr>
-                        <tr>
-                          <td className="project-buy-price">Clank:</td>
-                          <td className="project-buy-price">{totalClank.toFixed()}</td>
-                        </tr>
-                      </table>
-                    </tr>
-                    {new Date(selectedProject.endTime).getTime() -
-                      new Date().getTime() >
-                      0 && (
-                      <tr>
-                        <div
-                          className="project-buy-btn"
-                          onClick={() => onBuyEther()}
-                        >
-                          Buy Now (Ether)
-                        </div>
-                      </tr>
-                    )}
-                    {new Date(selectedProject.endTime).getTime() -
-                      new Date().getTime() >
-                      0 && (
-                      <tr>
-                        <div
-                          className="project-buy-btn"
-                          onClick={() => onBuyClank()}
-                        >
-                          Buy Now (Clank)
-                        </div>
-                      </tr>
-                    )}
-                  </table>
-                  <table className="project-buy-table">
-                    <tr
-                      style={{ borderBottom: "1px solid white", height: "10%" }}
-                    >
-                      <td>
-                        <h3 className="project-buy-title">
-                          {selectedProject.projectName}
-                        </h3>
-                      </td>
-                    </tr>
-                    <tr>
-                      <div className="project-buy-description">
-                        {selectedProject.description}
-                      </div>
-                    </tr>
-                    <tr></tr>
-                  </table>
-                </div>
-              </div>
-            </div>
-          )}
-          {/* Show Order List */}
-          {mode === 8 && (
-            <div className="project-buy-layout">
-              <div className="project-buy-exit-layer">
-                <h3 className="project-buy-title">My Orders</h3>
-                <span className="close-btn" onClick={() => setMode(0)}>
-                </span>
-              </div>
-              <div className="project-order-layout">
-                {orderHistory.length > 0 &&
-                  orderHistory &&
-                  orderHistory.map((item, index) => (
-                    <table key={index} className="project-order-table">
-                      <tr>
-                        <td className="project-order-td">Order ID</td>
-                        <td className="project-order-td">{item._id}</td>
-                      </tr>
-                      <tr>
-                        <td className="project-order-td">Order Date</td>
-                        <td className="project-order-td">
-                          {item.orderDate.split("T")[0] +
-                            " " +
-                            item.orderDate.split("T")[1].split(".")[0]}
+                            className="project-buy-img"
+                            src={
+                              selectedProject.imageName
+                            }
+                          />
                         </td>
                       </tr>
                       <tr>
-                        <td className="project-order-td">ClankCost</td>
-                        <td className="project-order-td">{item.totalClank}</td>
+                        <table>
+                          <tr>
+                            <td className="project-buy-price">Time Remaining</td>
+                            <td className="project-buy-price" colSpan="2">
+                              {new Date(selectedProject.endTime).getTime() -
+                                new Date().getTime() >
+                                0 && (
+                                <div className="project-buy-description">
+                                  {
+                                  remainHours + " hours " + remainMins + " mins"
+                                  }
+                                </div>
+                              )}
+                              {new Date(selectedProject.endTime).getTime() -
+                                new Date().getTime() <=
+                                0 && (
+                                <div className="project-buy-description">
+                                  Whitelist has closed
+                                </div>
+                              )}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td rowspan="2" className="project-buy-price">
+                              Price
+                            </td>
+                            <td className="project-buy-price">Ether:</td>
+                            <td className="project-buy-price">
+                              {selectedProject.etherPrice}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className="project-buy-price">Clank:</td>
+                            <td className="project-buy-price">
+                              {selectedProject.clankPrice}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className="project-buy-price">Quantity</td>
+                            <td className="project-buy-price" colspan="2">
+                              <div className="project-buy-row">
+                                <h5
+                                  className="project-buy-sign"
+                                  onClick={() => onMinus()}
+                                >
+                                  -
+                                </h5>
+                                <h5 className="project-buy-price">{amounts}</h5>
+                                <h5
+                                  className="project-buy-sign"
+                                  onClick={() => onPlus()}
+                                >
+                                  +
+                                </h5>
+                              </div>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td rowspan="2" className="project-buy-price">
+                              Total
+                            </td>
+                            <td className="project-buy-price">Ether:</td>
+                            <td className="project-buy-price">{totalEther.toFixed()}</td>
+                          </tr>
+                          <tr>
+                            <td className="project-buy-price">Clank:</td>
+                            <td className="project-buy-price">{totalClank.toFixed()}</td>
+                          </tr>
+                        </table>
                       </tr>
                       <tr>
-                        <td className="project-order-td">Ether Cost</td>
-                        <td className="project-order-td">{item.totalEther}</td>
+                        <div
+                          className="project-buy-btn"
+                          onClick={() => onAddItem()}
+                        >
+                          Add To Cart
+                        </div>
+                      </tr>
+                    </table>
+                    <table className="project-buy-table">
+                      <tr
+                        style={{ borderBottom: "1px solid white", height: "10%" }}
+                      >
+                        <td>
+                          <h3 className="project-buy-title">
+                            {selectedProject.projectName}
+                          </h3>
+                        </td>
                       </tr>
                       <tr>
-                        <td colspan="2">
-                          <div
-                            className="project-buy-btn"
-                            onClick={() => onSelectOrder(item._id)}
-                          >
-                            View Order
+                        <div className="project-buy-description">
+                          {selectedProject.description}
+                        </div>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            )}
+            {/* Check out for add cart */}
+            {mode === 5 && (
+              <div className="project-buy-layout">
+                <div className="project-buy-exit-layer">
+                  <h3 className="project-buy-title">Check Out</h3>
+                  <span className="close-btn" onClick={() => onBack()}>
+                  </span>
+                </div>
+                <div className="project-buy-content">
+                  {cartInfo.map((item, index) => (
+                    <table className="project-cart-table" key={index}>
+                      <tr>
+                        <td rowSpan="3">
+                          <img
+                          alt=""
+                            className="project-buy-img"
+                            src={
+                              item.img
+                            }
+                          />
+                        </td>
+                        <td className="project-buy-title">Project Name</td>
+                        <td className="project-buy-title" colSpan="2">
+                          Price
+                        </td>
+                        <td>Update</td>
+                      </tr>
+                      <tr>
+                        <td rowSpan="2">
+                          <h4>{item.projectName}</h4>
+                        </td>
+                        <td>Ehter</td>
+                        <td>Clank</td>
+                        <td rowSpan="2">
+                          <div className="project-buy-btn" style={{fontSize: "18px"}} onClick={() => onRemoveCheck(item.id)}>
+                            Remove
                           </div>
                         </td>
                       </tr>
+                      <tr>
+                        <td>{item.totalEther.toFixed()}</td>
+                        <td>{item.totalClank.toFixed()}</td>
+                      </tr>
                     </table>
                   ))}
+
+                  <table className="project-cart-table">
+                    <tr>
+                      <td rowspan="2" className="project-buy-price">
+                        Total
+                      </td>
+                      <td className="project-buy-price">Ether:</td>
+                      <td className="project-buy-price">{cartEther.toFixed()}</td>
+                    </tr>
+                    <tr>
+                      <td className="project-buy-price">Clank:</td>
+                      <td className="project-buy-price">{cartClank.toFixed()}</td>
+                    </tr>
+                  </table>
+                  <div className="project-buy-description1">
+                    1. If you wish to allocate a different wallet address to the
+                    whitelist allocation, then please update the box below.
+                    <br />
+                    2. Please include your discord I.D as some projects require
+                    this to allocate the Whitelist.
+                    <br />
+                    3. We cannot update or amend the wallet address after
+                    purchase.
+                  </div>
+                  <div className="project-buy-add-layout">
+                    <div className="project-buy-wallet-layout">
+                      <h5 className="project-buy-wallet-title">Wallet Address</h5>
+                      <input
+                        className="project-buy-wallet-input"
+                        value={targetAddress}
+                        onChange={(e) => setTargetAddress(e.target.value)}
+                      />
+                    </div>
+                    <div className="project-buy-wallet-layout">
+                      <h5 className="project-buy-wallet-title">Discord I.D.</h5>
+                      <input
+                        className="project-buy-wallet-input"
+                        value={discordID}
+                        onChange={(e) => setDiscordID(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                  <div style={{ border: "1px solid white", padding: "1em" }}>
+                    <div
+                      className="project-buy-btn"
+                      onClick={() => onPurchaseCartEther()}
+                    >
+                      Confirm Purchase with Ether
+                    </div>
+                    <div
+                      className="project-buy-btn"
+                      onClick={() => onPurchaseCartClank()}
+                    >
+                      Confirm Purchase with Clank
+                    </div>
+                    <div className="project-buy-btn" onClick={() => onBack()}>
+                      Add More
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
-          )}
-          {/* Show One Order */}
-          {mode === 9 && (
-            <div className="project-buy-layout">
-              <div className="project-buy-exit-layer">
-                <h3 className="project-buy-title">My Order</h3>
-                <span className="close-btn" onClick={() => setMode(8)}>
-                </span>
+            )}
+            {/* Check Out for Buy Now */}
+            {mode === 7 && (
+              <div className="project-buy-layout">
+                <div className="project-buy-exit-layer">
+                  <h3 className="project-buy-title">Check Out</h3>
+                  <span className="close-btn" onClick={() => onBack()}>
+                  </span>
+                </div>
+                <div className="project-buy-content">
+                  <div className="project-buy-row">
+                    <table className="project-buy-table">
+                      <tr>
+                        <td>
+                          <img
+                            alt=""
+                            className="project-buy-img"
+                            src={
+                              selectedProject.imageName
+                            }
+                          />
+                        </td>
+                      </tr>
+                      <tr>
+                        <table>
+                          <tr>
+                            <td className="project-buy-price">Time Remaining</td>
+                            <td className="project-buy-price" colSpan="2">
+                              {new Date(selectedProject.endTime).getTime() -
+                                new Date().getTime() >
+                                0 && (
+                                <div className="project-buy-description">
+                                  {
+                                  remainHours + " hours " + remainMins + " mins"
+                                  }
+                                </div>
+                              )}
+                              {new Date(selectedProject.endTime).getTime() -
+                                new Date().getTime() <=
+                                0 && (
+                                <div className="project-buy-description">
+                                  Whitelist has closed
+                                </div>
+                              )}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td rowspan="2" className="project-buy-price">
+                              Price
+                            </td>
+                            <td className="project-buy-price">Ether:</td>
+                            <td className="project-buy-price">
+                              {selectedProject.etherPrice}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className="project-buy-price">Clank:</td>
+                            <td className="project-buy-price">
+                              {selectedProject.clankPrice}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className="project-buy-price">Quantity</td>
+                            <td className="project-buy-price" colspan="2">
+                              <div className="project-buy-row">
+                                <h5
+                                  className="project-buy-sign"
+                                  onClick={() => onMinus()}
+                                >
+                                  -
+                                </h5>
+                                <h5 className="project-buy-price">{amounts}</h5>
+                                <h5
+                                  className="project-buy-sign"
+                                  onClick={() => onPlus()}
+                                >
+                                  +
+                                </h5>
+                              </div>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td rowspan="2" className="project-buy-price">
+                              Total
+                            </td>
+                            <td className="project-buy-price">Ether:</td>
+                            <td className="project-buy-price">{totalEther.toFixed()}</td>
+                          </tr>
+                          <tr>
+                            <td className="project-buy-price">Clank:</td>
+                            <td className="project-buy-price">{totalClank.toFixed()}</td>
+                          </tr>
+                        </table>
+                      </tr>
+                      {new Date(selectedProject.endTime).getTime() -
+                        new Date().getTime() >
+                        0 && (
+                        <tr>
+                          <div
+                            className="project-buy-btn"
+                            onClick={() => onBuyEther()}
+                          >
+                            Buy Now (Ether)
+                          </div>
+                        </tr>
+                      )}
+                      {new Date(selectedProject.endTime).getTime() -
+                        new Date().getTime() >
+                        0 && (
+                        <tr>
+                          <div
+                            className="project-buy-btn"
+                            onClick={() => onBuyClank()}
+                          >
+                            Buy Now (Clank)
+                          </div>
+                        </tr>
+                      )}
+                    </table>
+                    <table className="project-buy-table">
+                      <tr
+                        style={{ borderBottom: "1px solid white", height: "10%" }}
+                      >
+                        <td>
+                          <h3 className="project-buy-title">
+                            {selectedProject.projectName}
+                          </h3>
+                        </td>
+                      </tr>
+                      <tr>
+                        <div className="project-buy-description">
+                          {selectedProject.description}
+                        </div>
+                      </tr>
+                      <tr></tr>
+                    </table>
+                  </div>
+                </div>
               </div>
-              <div className="project-order-layout">
-                {orderHistory.length > 0 &&
-                  orderHistory &&
-                  orderHistory.map((item, index) => {
-                     // eslint-disable-next-line
-                    if (item._id !== selectedOrderId) return;
-                    return (
+            )}
+            {/* Show Order List */}
+            {mode === 8 && (
+              <div className="project-buy-layout">
+                <div className="project-buy-exit-layer">
+                  <h3 className="project-buy-title">My Orders</h3>
+                  <span className="close-btn" onClick={() => setMode(0)}>
+                  </span>
+                </div>
+                <div className="project-order-layout">
+                  {orderHistory.length > 0 &&
+                    orderHistory &&
+                    orderHistory.map((item, index) => (
                       <table key={index} className="project-order-table">
                         <tr>
                           <td className="project-order-td">Order ID</td>
-                          <td className="project-order-td" colSpan="2">
-                            {item._id}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="project-order-td">Wsllet Address</td>
-                          <td className="project-order-td" colSpan="2">
-                            {item.walletAddress}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="project-order-td">Discord ID</td>
-                          <td className="project-order-td" colSpan="2">
-                            {item.discordID}
-                          </td>
+                          <td className="project-order-td">{item._id}</td>
                         </tr>
                         <tr>
                           <td className="project-order-td">Order Date</td>
-                          <td className="project-order-td" colSpan="2">
+                          <td className="project-order-td">
                             {item.orderDate.split("T")[0] +
                               " " +
                               item.orderDate.split("T")[1].split(".")[0]}
@@ -1270,96 +1206,164 @@ const ProjectPage = () => {
                         </tr>
                         <tr>
                           <td className="project-order-td">ClankCost</td>
-                          <td className="project-order-td" colSpan="2">
-                            {item.totalClank}
-                          </td>
+                          <td className="project-order-td">{item.totalClank}</td>
                         </tr>
                         <tr>
                           <td className="project-order-td">Ether Cost</td>
-                          <td className="project-order-td" colSpan="2">
-                            {item.totalEther}
+                          <td className="project-order-td">{item.totalEther}</td>
+                        </tr>
+                        <tr>
+                          <td colspan="2">
+                            <div
+                              className="project-buy-btn"
+                              onClick={() => onSelectOrder(item._id)}
+                            >
+                              View Order
+                            </div>
                           </td>
                         </tr>
-                        {item.whitelist.map((wl, index) => (
-                          <>
-                            <tr key={index}>
-                              <td rowSpan="2" className="project-order-td">
-                                <img
-                                  alt=""
-                                  className="project-order-img"
-                                  src={
-                                    wl.whitelistPicture
-                                  }
-                                />
-                              </td>
-                              <td className="project-order-td" colSpan="2">
-                                {wl.whitelistName}
-                              </td>
-                            </tr>
-                            <tr>
-                              <td className="project-order-td">Quantity</td>
-                              <td>{wl.quantity}</td>
-                            </tr>
-                          </>
-                        ))}
                       </table>
-                    );
-                  })}
-              </div>
-            </div>
-          )}
-          {/* Buy now */}
-          {mode === 10 && (
-            <div className="project-buy-layout">
-              <div className="project-buy-exit-layer">
-                {/* <h3 className="project-buy-title">{selectedProject.projectName}</h3> */}
-                {/* <span className="close-btn" onClick={() => setMode(0)}>
-                  &times;
-                </span> */}
-              </div>
-              <div className="project-buy-content">
-                {/* <div className="project-buy-description1">
-                  {selectedProject.description}
-                </div> */}
-                <div className="project-buy-description1">
-                  1. If you wish to allocate a different wallet address to the
-                  whitelist allocation, then please update the box below.
-                  <br />
-                  2. Please include your discord I.D as some projects require
-                  this to allocate the Whitelist.
-                  <br />
-                  3. We cannot update or amend the wallet address after
-                  purchase.
+                    ))}
                 </div>
-                <div className="project-buy-add-layout">
-                  <div className="project-buy-wallet-layout">
-                    <h5 className="project-buy-wallet-title">Wallet Address</h5>
-                    <input
-                      className="project-buy-wallet-input"
-                      value={targetAddress}
-                      onChange={(e) => setTargetAddress(e.target.value)}
-                    />
+              </div>
+            )}
+            {/* Show One Order */}
+            {mode === 9 && (
+              <div className="project-buy-layout">
+                <div className="project-buy-exit-layer">
+                  <h3 className="project-buy-title">My Order</h3>
+                  <span className="close-btn" onClick={() => setMode(8)}>
+                  </span>
+                </div>
+                <div className="project-order-layout">
+                  {orderHistory.length > 0 &&
+                    orderHistory &&
+                    orderHistory.map((item, index) => {
+                      // eslint-disable-next-line
+                      if (item._id !== selectedOrderId) return;
+                      return (
+                        <table key={index} className="project-order-table">
+                          <tr>
+                            <td className="project-order-td">Order ID</td>
+                            <td className="project-order-td" colSpan="2">
+                              {item._id}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className="project-order-td">Wsllet Address</td>
+                            <td className="project-order-td" colSpan="2">
+                              {item.walletAddress}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className="project-order-td">Discord ID</td>
+                            <td className="project-order-td" colSpan="2">
+                              {item.discordID}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className="project-order-td">Order Date</td>
+                            <td className="project-order-td" colSpan="2">
+                              {item.orderDate.split("T")[0] +
+                                " " +
+                                item.orderDate.split("T")[1].split(".")[0]}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className="project-order-td">ClankCost</td>
+                            <td className="project-order-td" colSpan="2">
+                              {item.totalClank}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className="project-order-td">Ether Cost</td>
+                            <td className="project-order-td" colSpan="2">
+                              {item.totalEther}
+                            </td>
+                          </tr>
+                          {item.whitelist.map((wl, index) => (
+                            <>
+                              <tr key={index}>
+                                <td rowSpan="2" className="project-order-td">
+                                  <img
+                                    alt=""
+                                    className="project-order-img"
+                                    src={
+                                      wl.whitelistPicture
+                                    }
+                                  />
+                                </td>
+                                <td className="project-order-td" colSpan="2">
+                                  {wl.whitelistName}
+                                </td>
+                              </tr>
+                              <tr>
+                                <td className="project-order-td">Quantity</td>
+                                <td>{wl.quantity}</td>
+                              </tr>
+                            </>
+                          ))}
+                        </table>
+                      );
+                    })}
+                </div>
+              </div>
+            )}
+            {/* Buy now */}
+            {mode === 10 && (
+              <div className="project-buy-layout">
+                <div className="project-buy-exit-layer">
+                  {/* <h3 className="project-buy-title">{selectedProject.projectName}</h3> */}
+                  {/* <span className="close-btn" onClick={() => setMode(0)}>
+                    &times;
+                  </span> */}
+                </div>
+                <div className="project-buy-content">
+                  {/* <div className="project-buy-description1">
+                    {selectedProject.description}
+                  </div> */}
+                  <div className="project-buy-description1">
+                    1. If you wish to allocate a different wallet address to the
+                    whitelist allocation, then please update the box below.
+                    <br />
+                    2. Please include your discord I.D as some projects require
+                    this to allocate the Whitelist.
+                    <br />
+                    3. We cannot update or amend the wallet address after
+                    purchase.
                   </div>
-                  <div className="project-buy-wallet-layout">
-                    <h5 className="project-buy-wallet-title">Discord I.D.</h5>
-                    <input
-                      className="project-buy-wallet-input"
-                      value={discordID}
-                      onChange={(e) => setDiscordID(e.target.value)}
-                    />
+                  <div className="project-buy-add-layout">
+                    <div className="project-buy-wallet-layout">
+                      <h5 className="project-buy-wallet-title">Wallet Address</h5>
+                      <input
+                        className="project-buy-wallet-input"
+                        value={targetAddress}
+                        onChange={(e) => setTargetAddress(e.target.value)}
+                      />
+                    </div>
+                    <div className="project-buy-wallet-layout">
+                      <h5 className="project-buy-wallet-title">Discord I.D.</h5>
+                      <input
+                        className="project-buy-wallet-input"
+                        value={discordID}
+                        onChange={(e) => setDiscordID(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                  <div className="project-buy-btn" onClick={() => onPurchase()}>
+                    Confirm Purchase
+                  </div>
+                  <div className="project-buy-btn" onClick={() => onBack()}>
+                    Cancel
                   </div>
                 </div>
-                <div className="project-buy-btn" onClick={() => onPurchase()}>
-                  Confirm Purchase
-                </div>
-                <div className="project-buy-btn" onClick={() => onBack()}>
-                  Cancel
-                </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
+      
+      
       <div className="footer-container">
         <Container>
           <section className="footer-section1">
