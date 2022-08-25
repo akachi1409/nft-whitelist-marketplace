@@ -806,8 +806,8 @@ td {
 .footer-container{
   background-color: black;
   position: relative;
-  padding-top: 1em;
-  padding-bottom: 1em;
+  padding-top: 0.3em;
+  padding-bottom: 0.3em;
 }
 .footer-container .footer-section1{
   width: 100%;
@@ -821,12 +821,12 @@ td {
   margin: auto;
 }
 .footer-container .footer-section1 .footer-sectiion1-text{
-  font-family: 'Lexend Deca';
+  font-family: 'Mine';
   font-style: normal;
+  margin-bottom: 0px !important;
   font-weight: 400;
-  font-size: 18px;
+  font-size: 16px;
   line-height: 22px;
-  /* identical to box height */
   color: #FFFFFF;
   text-align: center;
 }
@@ -836,14 +836,14 @@ td {
 }
 .footer-container .footer-section1  .footer-sectiion-icon{
   background-color: transparent;
-  height:40px;
-  width: 40px;
+  height:30px;
+  width: 30px;
   margin-right: 2em;
   border-radius: 10%
 }
 .footer-container .footer-section1  .footer-sectiion-icon .footer-sectiion-icon-round{
   height: 30px;
-  margin: 5px;
+  width: 30px;
 }
 
 .footer-container .footer-section1  .footer-section1-col{
@@ -861,8 +861,8 @@ td {
 
 .footer-section1  .footer-section1-col .footer-section1-col-wrap .footer-section1-col-title{
   color: #FFFFFF;
-  font-family: "Helvetica", Sans-serif;
-  font-size: 1.4rem;
+  font-family: "Mine", Sans-serif;
+  font-size: 16px;
   font-weight: 600;
   text-transform: uppercase;
   line-height: 1.2em;
@@ -903,10 +903,20 @@ td {
 }
 .footer-container .footer-copyright .footer-copyright-text{
   color: #A1A9BA;
-  font-family: "Helvetica", Sans-serif;
-  font-size: 0.8rem;
+  font-family: "Mine", Sans-serif;
+  font-size: 14px;
   font-weight: normal;
   text-transform: capitalize;
-  line-height: 1.5em;
+  line-height: 1em;
   text-align: center;
+  margin-bottom: 0px !important;
+}
+
+@media only screen and (max-width: 600px) {
+  .footer-container .footer-section1 .footer-sectiion1-text{
+    margin-bottom: 0px !important;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 20px;
+  }
 }
