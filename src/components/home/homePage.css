@@ -152,14 +152,13 @@
     color: blue!important;
 }
 
-.navbar-layout .navbar-home{
+/* .navbar-layout .navbar-home{
     font-family: 'Lexend Deca';
     font-style: normal;
     font-weight: 600;
     font-size: 35px;
     line-height: 44px;
-    /* identical to box height */
     color: #FFFFFF;
     cursor: pointer;
     flex: 2;
-}
+} */

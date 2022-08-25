@@ -7,7 +7,16 @@
   display: flex;
   color: white;
 }
-
+.navbar-home{
+  font-size: 25px;
+  font-family: "Mine";
+  color: white;
+}
+.nav-wallet.nav-link{
+  font-size: 25px!important;
+  font-family: "Mine";
+  color: white;
+}
 .navbar-layout {
   font-family: "Mine";
   font-style: normal;
@@ -704,6 +713,11 @@ td {
   .genesis-img{
     width: 60px;
     height: 60px;
+  }
+  .nav-wallet.nav-link{
+    font-size: 16px!important;
+    font-family: "Mine";
+    color: white;
   }
 }
 
