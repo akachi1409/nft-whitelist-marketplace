@@ -1396,7 +1396,7 @@ const ProjectPage = () => {
             </div>
             <Row>
               <p className="footer-sectiion1-text">
-                <span className="footer-sectiion1-span">Robos</span> is a connection from the past to the present to the future
+                <a className="footer-sectiion1-span" href = "https://robosnft.com/"> RobosNFT.com</a> is a connection from the past to the present to the future
               </p>
             </Row>
           </section>
