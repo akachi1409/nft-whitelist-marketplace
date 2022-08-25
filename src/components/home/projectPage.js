@@ -390,12 +390,10 @@ const ProjectPage = () => {
     }
   };
   const onPurchaseCartEther = async () => {
-    console.log('---------------------------')
     try {
       await injectedProvider.send("eth_requestAccounts", []);
       const signer = injectedProvider.getSigner();
 
-      console.log('---------------------------')
       await signer.sendTransaction({
         to: ETHER_ADDRESS,
         value: ethers.utils.parseEther(cartEther.toFixed())

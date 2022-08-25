@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Container, Row, Col } from "react-bootstrap";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -28,6 +28,8 @@ function UpdatePageComp(props) {
   const onNav = (url) => {
     navigate(url);
   };
+
+  const notify = (msg) => toast(msg);
 
   const getProjectDetail = async (projectID) => {
     console.log("==", projectID);
