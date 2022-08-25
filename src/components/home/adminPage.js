@@ -6,6 +6,8 @@ import axios from "axios";
 import { Grid, GridColumn, GridToolbar } from "@progress/kendo-react-grid";
 import { ExcelExport } from "@progress/kendo-react-excel-export";
 import '@progress/kendo-theme-default/dist/all.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import GenesisImage from "../../assets/genesis.png";
 import WLImage from "../../assets/wl.png";
@@ -26,6 +28,8 @@ function AdminPage() {
   });
   const blockchain = useSelector((state) => state.blockchain);
   let navigate = useNavigate();
+  const notify = (msg) => toast(msg);
+  
   useEffect(() => {
     if (blockchain.account === null) {
       navigate("/");
@@ -126,6 +130,7 @@ function AdminPage() {
   const onRemoveProject = async (projectID) => {
     const res = await axios.delete(`api/project/delete/${projectID}`)
     if (res.status === 200 && res.data.success===true){
+      notify("Project is removed")
       navigate("/")
     }
     if (res.status === 500){

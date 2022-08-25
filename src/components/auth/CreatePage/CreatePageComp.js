@@ -61,7 +61,7 @@ function CreatePageComp() {
   };
 
   const onSubmit = async () => {
-    console.log('---')
+    notify("Wait please, the project"+ name + " is being created")
     if (name ===""){
       notify("You should input the name of project.")
       return;
