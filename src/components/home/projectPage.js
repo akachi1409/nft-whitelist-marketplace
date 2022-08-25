@@ -1362,8 +1362,6 @@ const ProjectPage = () => {
           </div>
         </div>
       </div>
-      
-      
       <div className="footer-container">
         <Container>
           <section className="footer-section1">

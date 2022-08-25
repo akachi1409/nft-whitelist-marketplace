@@ -164,7 +164,7 @@ function AdminPage() {
       }
   }
   return (
-    <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
+    <div style={{ display: "flex", flexDirection: "column", height: "100vh" }} className="adminPage">
       <Navbar bg="transparent" variant="light" className="navbar-layout">
         <Container>
           <Navbar.Brand onClick={() => onNav("/")}>

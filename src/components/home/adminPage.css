@@ -1,3 +1,9 @@
+.adminPage{
+  background-image: url("../../assets/bg.gif")!important;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  height: 100vh;
+}
 .adminPage-layout {
   background-color: transparent;
   text-align: center;
@@ -25,7 +31,7 @@
   background-repeat: no-repeat;
   background-size: 100% 100%;
   width: 90%;
-  height: 70%;
+  height: 80vh;
   padding: 2em;
   display: flex;
   flex-direction: column;
