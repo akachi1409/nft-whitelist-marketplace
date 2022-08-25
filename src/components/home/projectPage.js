@@ -569,7 +569,7 @@ const ProjectPage = () => {
       <div className="bg-class">
         <Navbar bg="transparent" variant="light" className="navbar-layout">
           <Container>
-            <Navbar.Brand onClick={() => onNav("/")}>
+            <Navbar.Brand className="nav-wallet-layout" onClick={() => onNav("/")}>
               <h2 className="navbar-home">Home</h2>
             </Navbar.Brand>
 
