@@ -75,7 +75,8 @@ function AdminPage() {
             diff: diff,
             etherPrice: project.etherPrice,
             clankPrice: project.clankPrice,
-            endTime: project.endTime
+            endTime: project.endTime,
+            projectID: project._id
           };
           projects.push(temp);
         })
@@ -303,13 +304,13 @@ function AdminPage() {
                         </div>
                         <div
                           className="genesis-modal-wallet"
-                          onClick={() => onRemoveProject(item._id)}
+                          onClick={() => onRemoveProject(item.projectID)}
                         >
                           <h5 className="genesis-btn">Remove</h5>
                         </div>
                         <div
                           className="genesis-modal-wallet"
-                          onClick={() => onNav("/update_project/" + item._id)}
+                          onClick={() => onNav("/update_project/" + item.projectID)}
                         >
                           <h5 className="genesis-btn">Update</h5>
                         </div>
@@ -343,53 +344,6 @@ function AdminPage() {
                       </td>
                     </tr>
                   </table>
-                  // <div className="genesis-modal-content-row">
-                  //   <img
-                  //     className="genesis-img"
-                  //     src={item.imageName}
-                  //   />
-                  //   <div className="genesis-modal-details">
-                  //     <h3 className="genesis-modal-detail-title">
-                  //       {item.projectName}
-                  //     </h3>
-                  //     {/* <div className="holding-bar"/> */}
-                  //     <p>{item.description}</p>
-                  //   </div>
-                  //   <div className="genesis-modal-description">
-                  //     <h3 className="genesis-modal-detail-title">Price</h3>
-                  //     {/* <div className="holding-bar"/> */}
-                  //     {/* <h4>{item.listedWl}/{item.wlLimit}</h4> */}
-                  //     <div className="genesis-modal-col">
-                  //       <h4 className="genesis-modal-detail-price">
-                  //         {item.etherPrice + " "}Ether
-                  //       </h4>
-                  //       <div className="holding-bar" />
-                  //       <h4 className="genesis-modal-detail-price">
-                  //         {item.clankPrice + " "}Clank
-                  //       </h4>
-                  //     </div>
-                  //   </div>
-                  //   <div className="genesis-modal-button">
-                  //     <div
-                  //       className="genesis-modal-wallet"
-                  //       onClick={() => getWLProject(item.projectName)}
-                  //     >
-                  //       <h5 className="genesis-btn">Download Orders</h5>
-                  //     </div>
-                  //     <div
-                  //       className="genesis-modal-wallet"
-                  //       onClick = {()=> onRemoveProject(item._id)}
-                  //     >
-                  //       <h5 className="genesis-btn">Remove</h5>
-                  //     </div>
-                  //     <div
-                  //       className="genesis-modal-wallet"
-                  //       onClick = {()=> onNav("/update_project/" + item._id)}
-                  //     >
-                  //       <h5 className="genesis-btn">Update</h5>
-                  //     </div>
-                  //   </div>
-                  // </div>
                 ))}
               </div>
             </div>
