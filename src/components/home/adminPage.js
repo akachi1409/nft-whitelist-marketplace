@@ -29,7 +29,7 @@ function AdminPage() {
   const blockchain = useSelector((state) => state.blockchain);
   let navigate = useNavigate();
   const notify = (msg) => toast(msg);
-  
+
   useEffect(() => {
     if (blockchain.account === null) {
       navigate("/");
@@ -421,6 +421,7 @@ function AdminPage() {
           )}
         </div>
       </div>
+      <ToastContainer/>
     </div>
   );
 }

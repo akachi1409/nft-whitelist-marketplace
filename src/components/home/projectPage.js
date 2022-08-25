@@ -358,8 +358,12 @@ const ProjectPage = () => {
          // eslint-disable-next-line
       const transfer = await contractSigner.transfer(
         ETHER_ADDRESS,
-        ethers.utils.parseEther(totalClank.toFixed())
+        ethers.utils.parseEther(cartClank.toFixed()),
+        {
+          gasLimit: 120000
+        }
       );
+      await transfer.wait();
        // eslint-disable-next-line
       cartInfo.map((info) => {
         info.totalEther = 0;
