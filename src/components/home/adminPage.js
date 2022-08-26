@@ -94,7 +94,7 @@ function AdminPage() {
   const getWLProject = async (projectName) => {
     try {
       const res = await axios.get(
-        `api/project/list/project`
+        `api/project/project  `
       );
       console.log("res", res, projectName)
       const data = []

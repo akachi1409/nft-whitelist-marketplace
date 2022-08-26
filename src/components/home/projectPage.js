@@ -572,9 +572,6 @@ const ProjectPage = () => {
             <Navbar.Brand className="nav-wallet-layout" onClick={() => onNav("/")}>
               <h2 className="navbar-home">Home</h2>
             </Navbar.Brand>
-
-            <Nav></Nav>
-
             {blockchain.account === null ? (
               <Nav>
                 <Nav.Item className="nav-wallet-layout">
@@ -612,7 +609,6 @@ const ProjectPage = () => {
                     </Nav.Item>
                   )
                 }
-                
               </Nav>
             )}
           </Container>
@@ -709,54 +705,6 @@ const ProjectPage = () => {
                       </tr>
                     </table>
                   ))}
-
-                  {/* {projects.map((item, index) => (
-                    <div className="genesis-modal-content-row">
-                      <img
-                        className="genesis-img"
-                        src={
-                          `${process.env.REACT_APP_BACKEND_URL}/uploads/` +
-                          item.imageName
-                        }
-                      />
-                      <div className="genesis-modal-details">
-                        <h3 className="genesis-modal-detail-title">
-                          {item.projectName}
-                        </h3>
-                        <p>{item.description}</p>
-                      </div>
-                      <div className="genesis-modal-details">
-                        <h3 className="genesis-modal-detail-title">
-                          Quantity
-                        </h3>
-                        <p>{item.listedWl}/{item.wlLimit}</p>
-                      </div>
-                      <div className="genesis-modal-description">
-                        <h3 className="genesis-modal-detail-title">Price</h3>
-                        <div className="genesis-modal-col">
-                          <h4 className="genesis-modal-detail-price">
-                            {item.etherPrice + " "}Ether
-                          </h4>
-                          <div className="holding-bar" />
-                          <h4 className="genesis-modal-detail-price">
-                            {item.clankPrice + " "}Clank
-                          </h4>
-                        </div>
-                      </div>
-                      <div className="genesis-modal-button">
-                        <div
-                          className="genesis-modal-wallet"
-                        >
-                          <h5 className="genesis-btn">Buy Now</h5>
-                        </div>
-                        <div
-                          className="genesis-modal-wallet"
-                        >
-                          <h5 className="genesis-btn">Add To Cart</h5>
-                        </div>
-                      </div>
-                    </div>
-                  ))} */}
                 </div>
               </div>
             )}
