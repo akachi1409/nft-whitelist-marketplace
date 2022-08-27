@@ -35,6 +35,7 @@ import ClankToken from "../../contracts/ClankToken.json";
 import Opensea from "../../assets/footer/opensea.webp"
 import Scan from "../../assets/footer/scan.webp"
 import Twitter from "../../assets/footer/twitter.webp";
+import music from "../../assets/bg.wav"
 const { ethers } = require("ethers");
 const initialNetwork = NETWORKS.mainnet;
 // const NETWORKCHECK = true;
@@ -73,11 +74,13 @@ const ProjectPage = () => {
   const [cartId, setCartId] = useState(0);
   const [remainHours, setRemainHours] = useState(0)
   const [remainMins, setRemainMins] = useState(0)
-
+  const [audio] = useState(new Audio(music))
+  const [playing, setPlaying] = useState(false);
   const targetNetwork = NETWORKS[selectedNetwork];
 
   // const blockExplorer = targetNetwork.blockExplorer;
 
+  
   // load all your providers
   const localProvider = useStaticJsonRPC([
     process.env.REACT_APP_PROVIDER
@@ -371,6 +374,7 @@ const ProjectPage = () => {
       setCartInfo(cartInfo);
 
       const data = {
+        owner: address,
         address: targetAddress,
         discordID: discordID,
         etherCost: 0,
@@ -408,6 +412,7 @@ const ProjectPage = () => {
       });
       setCartInfo(cartInfo);
       const data = {
+        owner: address,
         address: targetAddress,
         discordID: discordID,
         etherCost: cartEther,
@@ -415,11 +420,6 @@ const ProjectPage = () => {
         cartInfo: cartInfo,
       };
       console.log("---------", data);
-      // const instance = axios.create({
-      //   httpsAgent: new https.Agent({  
-      //     rejectUnauthorized: false
-      //   })
-      // });
       axios
         .post(
           `api/user/address/insertCart`,
@@ -437,8 +437,6 @@ const ProjectPage = () => {
   };
   const onSubmitClank = async () => {
     try {
-      // await injectedProvider.send("eth_requestAccounts", []);
-
       const BOLTS_ADDRESS = "0xbE8f69c0218086923aC35fb311A3dD84baB069E5";
       const contract = new ethers.Contract(
         BOLTS_ADDRESS,
@@ -448,7 +446,6 @@ const ProjectPage = () => {
       const signer = injectedProvider.getSigner();
       const contractSigner = contract.connect(signer);
       console.log("-------------", ethers.utils.parseEther(totalClank.toFixed()))
-      // const approve = await contractSigner.approve()
       const transfer = await contractSigner.transfer(
         ETHER_ADDRESS,
         ethers.utils.parseEther(totalClank.toFixed()),
@@ -458,6 +455,7 @@ const ProjectPage = () => {
       );
       await transfer.wait();
       const data = {
+        owner: address,
         address: targetAddress,
         project: selectedProject.projectName,
         image: selectedProject.imageName,
@@ -468,7 +466,6 @@ const ProjectPage = () => {
         totalEther: 0,
         totalClank: totalClank.toFixed(),
       };
-
       axios
         .post(`api/user/address/insert`, data)
         .then((res) => {
@@ -492,6 +489,7 @@ const ProjectPage = () => {
         value: ethers.utils.parseEther(totalEther.toFixed())
       });
       const data = {
+        owner: address,
         address: targetAddress,
         project: selectedProject.projectName,
         image: selectedProject.imageName,
@@ -563,6 +561,14 @@ const ProjectPage = () => {
     setCartInfo (temp);
     setFlag(!flag);
   }
+
+  const toggle = () => setPlaying(!playing);
+
+  useEffect(() => {
+    playing ? audio.play() : audio.pause();
+  },
+  [playing]
+);
 
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
@@ -1345,6 +1351,14 @@ const ProjectPage = () => {
                   className="footer-sectiion-icon-round"
                 />
               </a>
+
+              <div className="footer-sectiion-icon" href="https://opensea.io/collection/robosnft">
+                <img
+                  alt=""
+                  src={Opensea}
+                  className="footer-sectiion-icon-round"
+                />
+              </div>
             </div>
             <Row>
               <p className="footer-sectiion1-text">

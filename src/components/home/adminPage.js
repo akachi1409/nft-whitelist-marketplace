@@ -102,6 +102,7 @@ function AdminPage() {
         order.whitelist.map((wl) =>{
             if (wl.whitelistName === projectName){
                 const temp = {
+                  owner: order.owner,
                     orderNumber: order.orderNumber,
                     totalEther: order.totalEther,
                     totalClank: order.totalClank,
@@ -115,8 +116,6 @@ function AdminPage() {
                 };
                 data.push(temp)
             }
-            
-            
         })
       })
       console.log("data", data);
@@ -146,7 +145,9 @@ function AdminPage() {
         const data = []
         res.data.orders.map((order) => {
           order.whitelist.map((wl) =>{
+            console.log("order", order);
                 const temp = {
+                    
                     orderNumber: order.orderNumber,
                     totalEther: order.totalEther,
                     totalClank: order.totalClank,
@@ -385,7 +386,8 @@ function AdminPage() {
                       title="Project Name"
                       width="100px"
                     />
-                    <GridColumn field="walletAddress" title="Wallet Address" />
+                    <GridColumn field="walletAddress" title="Purchase Wallet Address" />
+                    <GridColumn field="owner" title="Whitelist Allocation" />
                     <GridColumn field="orderNumber" title="Order Number" />
                     <GridColumn
                       field="totalEther"
