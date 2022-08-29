@@ -35,6 +35,7 @@ import ClankToken from "../../contracts/ClankToken.json";
 import Opensea from "../../assets/footer/opensea.webp"
 import Scan from "../../assets/footer/scan.webp"
 import Twitter from "../../assets/footer/twitter.webp";
+import MusicImg from "../../assets/footer/music.png"
 import music from "../../assets/bg.wav"
 const { ethers } = require("ethers");
 const initialNetwork = NETWORKS.mainnet;
@@ -297,9 +298,12 @@ const ProjectPage = () => {
     console.log("cartInfo", cartInfo)
      // eslint-disable-next-line
     cartInfo.map((info)=>{
-      remain -= info.quantity;
+      if (info.projectName === selectedProject.projectName){
+        remain -= info.quantity;
+      }
+      
     })
-    if (amounts === remain){
+    if (amounts > remain){
       notify("There is only " + (selectedProject.wlLimit - selectedProject.listedWl) + " whitelist spot remain.")
       return;
     }
@@ -1351,11 +1355,10 @@ const ProjectPage = () => {
                   className="footer-sectiion-icon-round"
                 />
               </a>
-
-              <div className="footer-sectiion-icon" href="https://opensea.io/collection/robosnft">
+              <div className="footer-sectiion-icon" onClick={() => toggle()}>
                 <img
                   alt=""
-                  src={Opensea}
+                  src={MusicImg}
                   className="footer-sectiion-icon-round"
                 />
               </div>
