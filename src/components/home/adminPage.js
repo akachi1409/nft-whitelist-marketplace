@@ -147,7 +147,7 @@ function AdminPage() {
           order.whitelist.map((wl) =>{
             console.log("order", order);
                 const temp = {
-                    
+                    owner: order.owner,
                     orderNumber: order.orderNumber,
                     totalEther: order.totalEther,
                     totalClank: order.totalClank,
