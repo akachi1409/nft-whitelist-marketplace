@@ -35,7 +35,8 @@ import ClankToken from "../../contracts/ClankToken.json";
 import Opensea from "../../assets/footer/opensea.webp"
 import Scan from "../../assets/footer/scan.webp"
 import Twitter from "../../assets/footer/twitter.webp";
-import MusicImg from "../../assets/footer/music.png"
+import MuteImg from "../../assets/footer/mute.jpg"
+import UnmuteImg from "../../assets/footer/unmute.jpg"
 import music from "../../assets/bg.wav"
 const { ethers } = require("ethers");
 const initialNetwork = NETWORKS.mainnet;
@@ -582,7 +583,7 @@ const ProjectPage = () => {
     setFlag(!flag);
   }
 
-  const toggle = () => setPlaying(!playing);
+  const toggle = (flag) => setPlaying(flag);
 
   useEffect(() => {
     playing ? audio.play() : audio.pause();
@@ -1371,13 +1372,26 @@ const ProjectPage = () => {
                   className="footer-sectiion-icon-round"
                 />
               </a>
-              <div className="footer-sectiion-icon" onClick={() => toggle()}>
-                <img
-                  alt=""
-                  src={MusicImg}
-                  className="footer-sectiion-icon-round"
-                />
-              </div>
+              {
+                playing ? (
+                  <div className="footer-sectiion-icon" onClick={() => toggle(false)}>
+                    <img
+                      alt=""
+                      src={MuteImg}
+                      className="footer-sectiion-icon-round"
+                    />
+                  </div>
+                ):(
+                  <div className="footer-sectiion-icon" onClick={() => toggle(true)}>
+                    <img
+                      alt=""
+                      src={UnmuteImg}
+                      className="footer-sectiion-icon-round"
+                    />
+                  </div>
+                )
+              }
+              
             </div>
             <Row>
               <p className="footer-sectiion1-text">
