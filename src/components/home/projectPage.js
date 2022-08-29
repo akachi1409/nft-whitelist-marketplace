@@ -274,6 +274,10 @@ const ProjectPage = () => {
   }, [userSigner]);
 
   const onPlus = () => {
+    if (amounts>0){
+      notify("The maximum whitelist spot is 1 for this project");
+      return;
+    }
     if (amounts>= (selectedProject.wlLimit - selectedProject.listedWl)) {
       notify("There is only " + (selectedProject.wlLimit - selectedProject.listedWl) + " whitelist spot remain.")
       return;
@@ -973,8 +977,7 @@ const ProjectPage = () => {
                     1. If you wish to allocate a different wallet address to the
                     whitelist allocation, then please update the box below.
                     <br />
-                    2. Please include your discord I.D as some projects require
-                    this to allocate the Whitelist.
+                    2. A Discord I.D is mandatory. Additionally if you buy multiples of the same Whitelist, then a different Discord I.D must be used each time.
                     <br />
                     3. We cannot update or amend the wallet address after
                     purchase.
