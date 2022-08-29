@@ -351,6 +351,10 @@ const ProjectPage = () => {
   };
 
   const onPurchaseCartClank = async () => {
+    if (discordID === ""){
+      notify("You should input the discord id.");
+      return;
+    }
     try {
       await injectedProvider.send("eth_requestAccounts", []);
       const signer = injectedProvider.getSigner();
@@ -402,6 +406,10 @@ const ProjectPage = () => {
     }
   };
   const onPurchaseCartEther = async () => {
+    if (discordID === ""){
+      notify("You should input the discord id.");
+      return;
+    }
     try {
       await injectedProvider.send("eth_requestAccounts", []);
       const signer = injectedProvider.getSigner();
@@ -440,6 +448,10 @@ const ProjectPage = () => {
     }
   };
   const onSubmitClank = async () => {
+    if (discordID === ""){
+      notify("You should input the discord id.");
+      return;
+    }
     try {
       const BOLTS_ADDRESS = "0xbE8f69c0218086923aC35fb311A3dD84baB069E5";
       const contract = new ethers.Contract(
@@ -482,6 +494,10 @@ const ProjectPage = () => {
     }
   };
   const onSubmitEther = async () => {
+    if (discordID === ""){
+      notify("You should input the discord id.");
+      return;
+    }
     try {
       await injectedProvider.send("eth_requestAccounts", []);
       const signer = injectedProvider.getSigner();
