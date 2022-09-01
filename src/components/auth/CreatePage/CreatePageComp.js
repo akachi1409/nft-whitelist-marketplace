@@ -4,9 +4,11 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-// import https from 'https';
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+// import DatePicker from "react-datepicker";
+import DateTimePicker from 'react-datetime-picker';
+import "react-datetime-picker/dist/DateTimePicker.css";
+import "react-calendar/dist/Calendar.css";
+import "react-clock/dist/Clock.css"
 import moment from "moment";
 import { useSelector } from "react-redux";
 import { useNavigate} from 'react-router-dom';
@@ -26,6 +28,7 @@ function CreatePageComp() {
   const [fileName, setFileName] = useState("");
   const [description, setDescription] = useState("");
   const [endTime, setEndTime] = useState(new Date())
+  // const [timeValue, setTimeValue] = useState('10:00');
 
   const blockchain = useSelector((state) => state.blockchain);
   let navigate = useNavigate();
@@ -87,7 +90,7 @@ function CreatePageComp() {
       return;
   }
     try {
-      
+      console.log(endTime, moment(endTime).format('YYYY-MM-DD HH:MM:SS'))
       var filesTemp = files;
       filesTemp.append("fileName", fileName);
       filesTemp.append("name", name);
@@ -223,12 +226,14 @@ function CreatePageComp() {
             </Row>
             <h2 className="createPageComp-title">Project End Date</h2>
             <Row>
-              <DatePicker 
+              <DateTimePicker 
               className="createPageComp-input" 
-              selected={endTime} 
+              value={endTime} 
               minDate = {new Date()}
               onChange={(date) => setEndTime(date)} />
+
             </Row>
+
             <Row>
               <button
                 className="createPageComp-submit"

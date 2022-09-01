@@ -162,3 +162,7 @@
     height: 260px;
     margin-top: 3em;
 }
+
+.react-datetime-picker__inputGroup__input {
+    color: white;
+}

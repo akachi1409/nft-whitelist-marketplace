@@ -592,6 +592,7 @@ const ProjectPage = () => {
   useEffect(() => {
     playing ? audio.play() : audio.pause();
   },
+   // eslint-disable-next-line
   [playing]
 );
 
