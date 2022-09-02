@@ -683,7 +683,7 @@ const ProjectPage = () => {
                           </h3>
                         </td>
                         <td>
-                          <h3 className="genesis-modal-detail-title">Time Remaining</h3>
+                          <h3 className="genesis-modal-detail-title">Expiring (Hr:Min)</h3>
                         </td>
                         <td>
                           <h3 className="genesis-modal-detail-title">Stock</h3>
@@ -719,7 +719,7 @@ const ProjectPage = () => {
                         }
                         <td rowSpan="2">
                           <p>
-                            {item.listedWl}/{item.wlLimit}
+                            {item.wlLimit-item.listedWl}/{item.wlLimit}
                           </p>
                         </td>
                         <td>
@@ -818,7 +818,7 @@ const ProjectPage = () => {
                       <tr>
                         <table>
                           <tr>
-                            <td className="project-buy-price">Time Remaining</td>
+                            <td className="project-buy-price">Expiring (Hr:Min)</td>
                             <td className="project-buy-price" colSpan="2">
                               {new Date(selectedProject.endTime).getTime() -
                                 new Date().getTime() >
@@ -1046,7 +1046,7 @@ const ProjectPage = () => {
                       <tr>
                         <table>
                           <tr>
-                            <td className="project-buy-price">Time Remaining</td>
+                            <td className="project-buy-price">Expiring (Hr:Min)</td>
                             <td className="project-buy-price" colSpan="2">
                               {new Date(selectedProject.endTime).getTime() -
                                 new Date().getTime() >
