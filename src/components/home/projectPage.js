@@ -361,31 +361,11 @@ const ProjectPage = () => {
       return;
     }
     try {
-      await injectedProvider.send("eth_requestAccounts", []);
-      const signer = injectedProvider.getSigner();
-
-      const BOLTS_ADDRESS = "0xbE8f69c0218086923aC35fb311A3dD84baB069E5";
-      const contract = new ethers.Contract(
-        BOLTS_ADDRESS,
-        ClankToken,
-        injectedProvider
-      );
-      const contractSigner = contract.connect(signer);
-         // eslint-disable-next-line
-      const transfer = await contractSigner.transfer(
-        ETHER_ADDRESS,
-        ethers.utils.parseEther(cartClank.toFixed()),
-        {
-          gasLimit: 120000
-        }
-      );
-      await transfer.wait();
-       // eslint-disable-next-line
+      // eslint-disable-next-line
       cartInfo.map((info) => {
         info.totalEther = 0;
       });
       setCartInfo(cartInfo);
-
       const data = {
         owner: address,
         address: targetAddress,
@@ -395,14 +375,31 @@ const ProjectPage = () => {
         cartInfo: cartInfo,
       };
       console.log("---------", data);
-      axios
-        .post(
+      const res = await axios.post(
           `api/user/address/insertCart`,
           data
         )
-        .then((res) => {
-          console.log(`Server response: ${JSON.stringify(res.data, null, 0)}`);
-        });
+      if (res.data.success){
+        await injectedProvider.send("eth_requestAccounts", []);
+        const signer = injectedProvider.getSigner();
+
+        const BOLTS_ADDRESS = "0xbE8f69c0218086923aC35fb311A3dD84baB069E5";
+        const contract = new ethers.Contract(
+          BOLTS_ADDRESS,
+          ClankToken,
+          injectedProvider
+        );
+        const contractSigner = contract.connect(signer);
+          // eslint-disable-next-line
+        const transfer = await contractSigner.transfer(
+          ETHER_ADDRESS,
+          ethers.utils.parseEther(res.data.usedClank.toFixed()),
+          {
+            gasLimit: 120000
+          }
+        );
+        await transfer.wait();
+      }
       onInit();
       setMode(0);
     } catch (err) {
@@ -416,14 +413,7 @@ const ProjectPage = () => {
       return;
     }
     try {
-      await injectedProvider.send("eth_requestAccounts", []);
-      const signer = injectedProvider.getSigner();
-
-      await signer.sendTransaction({
-        to: ETHER_ADDRESS,
-        value: ethers.utils.parseEther(cartEther.toFixed())
-      });
-       // eslint-disable-next-line
+      // eslint-disable-next-line
       cartInfo.map((info) => {
         info.totalClank = 0;
       });
@@ -437,14 +427,22 @@ const ProjectPage = () => {
         cartInfo: cartInfo,
       };
       console.log("---------", data);
-      axios
+      const res = await axios
         .post(
           `api/user/address/insertCart`,
           data
         )
-        .then((res) => {
-          console.log(`Server response: ${JSON.stringify(res.data, null, 0)}`);
+      if (res.data.success){
+        await injectedProvider.send("eth_requestAccounts", []);
+        const signer = injectedProvider.getSigner();
+
+        await signer.sendTransaction({
+          to: ETHER_ADDRESS,
+          value: ethers.utils.parseEther(res.data.usedEther.toFixed())
         });
+      }
+      
+       
       onInit();
       setMode(0);
     } catch (err) {
