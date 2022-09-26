@@ -1231,7 +1231,7 @@ const ProjectPage = () => {
                             </td>
                           </tr>
                           <tr>
-                            <td className="project-order-td">Wsllet Address</td>
+                            <td className="project-order-td">Wallet Address</td>
                             <td className="project-order-td" colSpan="2">
                               {item.walletAddress}
                             </td>
