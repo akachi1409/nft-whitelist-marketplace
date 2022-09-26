@@ -386,8 +386,8 @@ function AdminPage() {
                       title="Project Name"
                       width="100px"
                     />
-                    <GridColumn field="walletAddress" title="Purchase Wallet Address" />
-                    <GridColumn field="owner" title="Whitelist Allocation" />
+                    <GridColumn field="walletAddress" title="Whitelist Allocation" />
+                    <GridColumn field="owner" title="Purchase Wallet Address" />
                     <GridColumn field="orderNumber" title="Order Number" />
                     <GridColumn
                       field="totalEther"
