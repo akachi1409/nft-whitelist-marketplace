@@ -312,17 +312,20 @@ const ProjectPage = () => {
       notify("There is only " + (selectedProject.wlLimit - selectedProject.listedWl) + " whitelist spot remain.")
       return;
     }
+
     const newCartInfo = {
       id: cartId,
       img: selectedProject.imageName,
-      totalEther: totalEther,
-      totalClank: totalClank,
+      totalEther: totalEther.toFixed(),
+      totalClank: totalClank.toFixed(),
       quantity: amounts,
       projectName: selectedProject.projectName,
     };
+    console.log("newCartInfo", newCartInfo)
     setCartId(cartId + 1);
     setCartEther(cartEther.plus(totalEther));
     setCartClank(cartClank.plus(totalClank));
+    console.log("--", cartEther, cartClank)
     cartInfo.push(newCartInfo);
     setCartInfo(cartInfo);
     setFlag(!flag);
@@ -371,7 +374,7 @@ const ProjectPage = () => {
         address: targetAddress,
         discordID: discordID,
         etherCost: 0,
-        clankCost: cartClank,
+        clankCost: cartClank.toFixed(),
         cartInfo: cartInfo,
       };
       console.log("---------", data);
@@ -953,8 +956,8 @@ const ProjectPage = () => {
                         </td>
                       </tr>
                       <tr>
-                        <td>{item.totalEther.toFixed()}</td>
-                        <td>{item.totalClank.toFixed()}</td>
+                        <td>{item.totalEther}</td>
+                        <td>{item.totalClank}</td>
                       </tr>
                     </table>
                   ))}
